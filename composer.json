@@ -1,0 +1,22 @@
+{
+  "name"       : "kangourouge/easyadmin-extension-bundle",
+  "description": "Kangourouge EasyAdmin Extension Bundle",
+  "type"       : "symfony-bundle",
+  "license"    : "MIT",
+  "authors"    : [
+    {
+      "name" : "Chafiq El Mechrafi",
+      "email": "chafiq.elmechrafi@gmail.com"
+    }
+  ],
+  "require"    : {
+    "php"                     : "7.*",
+    "symfony/framework-bundle": "~2.1|~3.0"
+  },
+  "autoload"   : {
+    "psr-0": {
+      "KRG\\EasyAdminExtensionBundle": ""
+    }
+  },
+  "target-dir" : "KRG/EasyAdminExtensionBundle"
+}
