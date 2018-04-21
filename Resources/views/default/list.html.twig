@@ -1,0 +1,39 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function (event) {
+            var element = document.querySelector('#main .table-responsive > table > tbody');
+            var sortable = new Sortable(element, {
+                animation: 250,
+                draggable: 'tr',
+                onEnd: function (event) {
+                    let url = event.item.querySelector('td.actions > a.action-sortable').href;
+                    fetch(url + '&relativePosition=' + (event.newIndex - event.oldIndex), {credentials : 'same-origin'})
+                        .then(function(response){
+                            if (response.status === 200) {
+                                sortable.option('disabled', false);
+                                return true;
+                            }
+                            window.location.reload();
+                        });
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    <style type="text/css">
+        #main .table-responsive > table > tbody > tr {
+            cursor: move;
+        }
+        .sortable-ghost {
+            background: #e0e0e0 !important;
+        }
+    </style>
+{% endblock %}
