@@ -11,22 +11,6 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('krg_easy_admin_extension');
-        $rootNode
-            ->children()
-                ->arrayNode('dashboard')
-                    ->children()
-                        ->arrayNode('widgets')
-                            ->arrayPrototype()
-                                ->children()
-                                    ->scalarNode('name')->end()
-                                    ->scalarNode('route')->end()
-                                    ->arrayNode('params')->scalarPrototype()->defaultValue([])->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
 
         return $treeBuilder;
     }
