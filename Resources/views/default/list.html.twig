@@ -10,15 +10,16 @@
             var sortable = new Sortable(element, {
                 animation: 250,
                 draggable: 'tr',
+                handle: ".action-sort",
                 onEnd: function (event) {
-                    let url = event.item.querySelector('td.actions > a.action-sortable').href;
+                    let url = event.item.querySelector('td.actions > a.btn-sort').href;
                     fetch(url + '&relativePosition=' + (event.newIndex - event.oldIndex), {credentials : 'same-origin'})
                         .then(function(response){
                             if (response.status === 200) {
                                 sortable.option('disabled', false);
                                 return true;
                             }
-                            window.location.reload();
+                            // window.location.reload();
                         });
                 }
             });
@@ -29,7 +30,10 @@
 {% block main %}
     {{ parent() }}
     <style type="text/css">
-        #main .table-responsive > table > tbody > tr {
+        .btn-success {
+            background-color: #5cb85c;
+        }
+        .action-sort {
             cursor: move;
         }
         .sortable-ghost {

@@ -2,36 +2,53 @@
 
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
+use KRG\EasyAdminExtensionBundle\Widget\WidgetInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminController extends BaseAdminController
+class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController
 {
     /**
-     * Replace list template if Sortable action activated
-     *
-     * @return Response
+     * @var array
      */
-    protected function listAction()
-    {
-        if (isset($this->entity['list']['actions']['sortable'])) {
-            $this->entity['templates']['list'] = 'KRGEasyAdminExtensionBundle:default:list.html.twig';
-        }
+    protected $dashboardWidgets;
 
-        return parent::listAction();
+    /**
+     * AdminController constructor.
+     *
+     * @param array $dashboardWidgets
+     */
+    public function __construct(array $dashboardWidgets = [])
+    {
+        $this->dashboardWidgets = $dashboardWidgets;
     }
+
+    public function addWidget(WidgetInterface $widget) {
+        $this->dashboardWidgets[] = $widget;
+    }
+
+    /**
+     * @Route("/dashboard", name="admin_dashboard")
+     */
+    public function dashboardAction() {
+        return $this->render('KRGEasyAdminExtensionBundle:default:dashboard.html.twig', [
+            'config' => $this->config,
+            'widgets' => $this->dashboardWidgets
+        ]);
+    }
+
 
     /**
      * Handle ajax Sortable action
      *
      * @return Response
      */
-    protected function sortableAction()
+    protected function sortAction()
     {
         $id = $this->request->query->get('id');
         $relativePosition = $this->request->query->get('relativePosition');
-        $field = $this->entity['list']['actions']['sortable']['field'];
+        $field = 'position';
         $getter = 'get'.ucfirst($field);
         $setter = 'set'.ucfirst($field);
 

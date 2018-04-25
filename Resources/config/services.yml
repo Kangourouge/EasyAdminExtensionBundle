@@ -2,4 +2,20 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        public: false
+
+    KRG\EasyAdminExtensionBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
         public: true
+
+    KRG\EasyAdminExtensionBundle\Widget\:
+        resource: '../../Widget'
+        tags: ['krg.easyadmin.widget']
+        public: true
+
+    KRG\EasyAdminExtensionBundle\Configuration\ClassMetadataConfigPass:
+        tags: [{name: 'easyadmin.config_pass', priority: 1000}]
+
+    KRG\EasyAdminExtensionBundle\Configuration\ActionConfigPass:
+        tags: [{name: 'easyadmin.config_pass', priority: 0}]

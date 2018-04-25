@@ -2,4 +2,12 @@ easy_admin:
     design:
         menu:
             - label: 'Front'
-            - { label: 'Homepage', route: 'homepage' }
+            - { label: 'Homepage', route: 'homepage', icon: 'home', target: '_blank' }
+            - { label: 'Dashboard', route: 'admin_dashboard', default: true }
+    list:
+        actions:
+            - { name: 'sort', icon: 'arrows', label: '', css_class: 'btn-sort' }
+            - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary' }
+            - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger' }
+            - { name: 'show', icon: 'info-circle', css_class: 'btn btn-info' }
+            - { name: 'new', icon: 'plus', css_class: 'btn btn-primary' }

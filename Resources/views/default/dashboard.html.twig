@@ -1,0 +1,7 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block main %}
+    {% for widget in widgets %}
+        {{ widget.render|raw }}
+    {% endfor %}
+{% endblock %}
