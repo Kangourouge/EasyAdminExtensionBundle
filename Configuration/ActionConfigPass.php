@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use KRG\DoctrineExtensionBundle\Entity\Sortable\SortableInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class ActionConfigPass implements ConfigPassInterface
 {
@@ -49,9 +50,16 @@ class ActionConfigPass implements ConfigPassInterface
         }
         unset($config);
 
-        $this->checkSecurity($backendConfig['entities']);
-        $this->checkSecurity($backendConfig['list']['actions']);
-        $this->checkSecurity($backendConfig['design']['menu']);
+        try {
+            $this->checkSecurity($backendConfig['entities']);
+            $this->checkSecurity($backendConfig['list']['actions']);
+            $this->checkSecurity($backendConfig['design']['menu']);
+        } catch (AuthenticationCredentialsNotFoundException $exception) {
+            if (php_sapi_name() !== 'cli') {
+                throw $exception;
+            }
+            error_log('Skip AuthenticationCredentialsNotFoundException');
+        }
 
         return $backendConfig;
     }
