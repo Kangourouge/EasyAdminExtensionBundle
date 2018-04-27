@@ -10,22 +10,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundE
 
 class ActionConfigPass implements ConfigPassInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
-    /**
-     * @var AuthorizationCheckerInterface
-     */
+    /** @var AuthorizationCheckerInterface */
     private $authorizationChecker;
 
-    /**
-     * ActionConfigPass constructor.
-     *
-     * @param EntityManagerInterface $entityManager
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(EntityManagerInterface $entityManager, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->entityManager = $entityManager;
@@ -34,6 +24,7 @@ class ActionConfigPass implements ConfigPassInterface
 
     public function process(array $backendConfig)
     {
+        // Auto configurated sortable action depending on SortableInterface implementation
         foreach ($backendConfig['entities'] as &$config) {
             $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
             if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
@@ -50,6 +41,10 @@ class ActionConfigPass implements ConfigPassInterface
         }
         unset($config);
 
+        if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
+            return $backendConfig;
+        }
+
         try {
             $this->checkSecurity($backendConfig['entities']);
             $this->checkSecurity($backendConfig['list']['actions']);
@@ -64,8 +59,9 @@ class ActionConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function checkSecurity(array &$config) {
-        foreach($config as $idx => &$_config) {
+    private function checkSecurity(array &$config)
+    {
+        foreach ($config as $idx => &$_config) {
             if (isset($_config['roles']) && is_array($_config['roles']) && count($_config['roles']) > 0 && !$this->authorizationChecker->isGranted($_config['roles'])) {
                 unset($config[$idx]);
                 continue;
