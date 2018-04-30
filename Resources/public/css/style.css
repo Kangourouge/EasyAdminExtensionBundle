@@ -1,3 +1,141 @@
 .form-control {
     height: auto;
 }
+
+.content-wrapper {
+    background: #fcfcfc;
+}
+
+/* LIST */
+
+body.list .table-responsive table {
+    border: 0;
+}
+
+body.list .table-responsive table tbody {
+    border: 0;
+}
+
+body.list .table-responsive table tbody td {
+    font-size: 14px;
+    color: #4c4c4c;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 16px 15px;
+    white-space: nowrap;
+    text-align: left;
+}
+
+body.list .table-responsive table thead th {
+    color: #788195;
+    font-size: 13px;
+    background-color: #f1f3f6;
+    border-bottom: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+body.list .table-responsive table thead th.sorted,
+body.list .table-responsive table thead tr th:first-child.sorted,
+body.list .table-responsive table thead th.sorted a {
+    border: 0;
+    background: #e4e6ea;
+}
+
+body.list .table-responsive table thead th a,
+body.list .table-responsive table thead th span {
+    color: #788195;
+    padding: 16px 15px;
+    text-align: left;
+}
+
+body.list .table-responsive table thead th a:hover {
+    background: #e4e6ea;
+}
+
+/* BTN */
+
+body.list table tbody td.actions a,
+body.list table tbody td.actions a:hover,
+body.list table tbody td.actions a:active,
+body.list table tbody td.actions a:active:hover {
+    font-size: 12px;
+    padding: 6px 10px 5px;
+    margin-right: 0;
+}
+
+body.list table tbody td.actions a i.fa {
+    font-size: 12px;
+}
+
+.toggle-group .btn-danger,
+.toggle-group .btn-danger:hover,
+.toggle.btn-danger {
+    background: #b2b2b2;
+    border-color: #9b9b9b;
+}
+
+.toggle-group .btn-success,
+.toggle.btn-success {
+    background: #42a65d;
+    border-color: #348b5e;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:active:hover,
+.btn-primary:focus,
+.label-primary,
+.label-primary:hover,
+.label-primary:active,
+.label-primary:focus {
+    background-color: #273162;
+}
+
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:active:hover,
+.btn-secondary:focus,
+.label-secondary,
+.label-secondary:hover,
+.label-secondary:active,
+.label-secondary:focus {
+    background: none;
+    border: 1px dashed #d8d8d8;
+    color: #717171;
+    text-decoration: none;
+}
+
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:active:hover,
+.btn-danger:focus,
+.label-danger,
+.label-danger:hover,
+.label-danger:active,
+.label-danger:focus {
+    background-color: #DF3A4A;
+}
+
+.btn-info,
+.btn-info:hover,
+.btn-info:active,
+.btn-info:active:hover,
+.btn-info:focus,
+.label-info,
+.label-info:hover,
+.label-info:active,
+.label-info:focus {
+    background-color: #4482FF;
+}
+
+/* FORM */
+
+.form-control, .form-inline .form-control {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    box-shadow: none;
+    padding: 9px 12px;
+}

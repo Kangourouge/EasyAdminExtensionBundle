@@ -1,1 +1,10 @@
 Homepage: Page d'accueil
+action:
+  new: Créer
+  edit: Editer
+  delete: Suppr.
+  search: Rechercher
+  save: Sauvegarder
+  list: Retour à la liste
+  show: Afficher
+  clone: Cloner

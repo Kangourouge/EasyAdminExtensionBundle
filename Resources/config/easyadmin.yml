@@ -7,7 +7,7 @@ easy_admin:
     list:
         actions:
             - { name: 'sort', icon: 'arrows', label: '', css_class: 'btn-sort' }
-            - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary' }
+            - { name: 'edit', icon: 'pencil', css_class: 'btn btn-primary' }
             - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger' }
-            - { name: 'show', icon: 'info-circle', css_class: 'btn btn-info' }
+            - { name: 'show', icon: 'eye', css_class: 'btn btn-info' }
             - { name: 'new', icon: 'plus', css_class: 'btn btn-primary' }
