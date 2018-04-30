@@ -132,6 +132,13 @@ body.list table tbody td.actions a i.fa {
     color: #fff !important;
 }
 
+.btn-group .btn-secondary,
+.btn-group .btn-secondary:hover,
+.btn-group .btn-secondary:active,
+.btn-group .btn-secondary:hover:active {
+    border: 1px transparent solid;
+}
+
 /* FORM */
 
 .form-control, .form-inline .form-control {
