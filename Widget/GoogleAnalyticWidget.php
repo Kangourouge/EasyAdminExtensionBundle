@@ -30,6 +30,9 @@ class GoogleAnalyticWidget implements WidgetInterface
 
     public function render()
     {
+        if($this->googleAnalyticsId === null || strlen($this->googleAnalyticsId) === 0) {
+            return null ;
+        }
         return $this->templating->render('KRGEasyAdminExtensionBundle:widget:google_analytics.html.twig', [
             'clientId' => $this->googleAnalyticsId
         ]);
