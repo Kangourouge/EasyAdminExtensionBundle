@@ -13,19 +13,25 @@ class GoogleAnalyticWidget implements WidgetInterface
     protected $templating;
 
     /**
+     * @var string
+     */
+    protected $googleAnalyticsId;
+
+    /**
      * GoogleAnalytics constructor.
      *
      * @param EngineInterface $templating
      */
-    public function __construct(EngineInterface $templating)
+    public function __construct(EngineInterface $templating, $googleAnalyticsId)
     {
         $this->templating = $templating;
+        $this->googleAnalyticsId = $googleAnalyticsId;
     }
 
     public function render()
     {
         return $this->templating->render('KRGEasyAdminExtensionBundle:widget:google_analytics.html.twig', [
-            'clientId' => sha1(rand())
+            'clientId' => $this->googleAnalyticsId
         ]);
     }
 }

@@ -8,3 +8,14 @@ action:
   list: Retour à la liste
   show: Afficher
   clone: Cloner
+create: créer
+remove: supprimer
+update: Mettre à jour
+User: Utilisateur
+Sessions: Sessions
+Top Browsers (by pageview): Principaux navigateurs (par page vue)
+Page Tracking: Suivi de page
+Time on page: Temps passé sur la page
+Top Countries (by sessions): Top Pays (par sessions)
+Visitors: Visiteurs
+Loggable: Journal des actions

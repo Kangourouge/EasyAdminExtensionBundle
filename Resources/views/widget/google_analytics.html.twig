@@ -1,68 +1,296 @@
+<header>
+    <div id="embed-api-auth-container"></div>
+    <div class="hidden"><div id="view-selector-container"></div></div>
+</header>
 
-<!-- Step 1: Create the containing elements. -->
+{#<div class="row">#}
+    {#<div class="col-lg-3 col-xs-6">#}
+        {#<!-- small box -->#}
+        {#<div class="small-box bg-aqua">#}
+            {#<div class="inner">#}
+                {#<h3>150</h3>#}
 
-<section id="auth-button"></section>
-<section id="view-selector"></section>
-<section id="timeline"></section>
+                {#<p>New Orders</p>#}
+            {#</div>#}
+            {#<div class="icon">#}
+                {#<i class="ion ion-bag"></i>#}
+            {#</div>#}
+            {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!-- ./col -->#}
+    {#<div class="col-lg-3 col-xs-6">#}
+        {#<!-- small box -->#}
+        {#<div class="small-box bg-green">#}
+            {#<div class="inner">#}
+                {#<h3>53<sup style="font-size: 20px">%</sup></h3>#}
 
-<!-- Step 2: Load the library. -->
+                {#<p>Bounce Rate</p>#}
+            {#</div>#}
+            {#<div class="icon">#}
+                {#<i class="ion ion-stats-bars"></i>#}
+            {#</div>#}
+            {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!-- ./col -->#}
+    {#<div class="col-lg-3 col-xs-6">#}
+        {#<!-- small box -->#}
+        {#<div class="small-box bg-yellow">#}
+            {#<div class="inner">#}
+                {#<h3>44</h3>#}
+
+                {#<p>User Registrations</p>#}
+            {#</div>#}
+            {#<div class="icon">#}
+                {#<i class="ion ion-person-add"></i>#}
+            {#</div>#}
+            {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!-- ./col -->#}
+    {#<div class="col-lg-3 col-xs-6">#}
+        {#<!-- small box -->#}
+        {#<div class="small-box bg-red">#}
+            {#<div class="inner">#}
+                {#<h3>65</h3>#}
+
+                {#<p>Unique Visitors</p>#}
+            {#</div>#}
+            {#<div class="icon">#}
+                {#<i class="ion ion-pie-graph"></i>#}
+            {#</div>#}
+            {#<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!-- ./col -->#}
+{#</div>#}
+
+<div class="row">
+
+    <section class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Sessions{% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div id="chart-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="col-lg-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Top Browsers (by pageview){% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div id="chart-2-container"></div>
+            </div>
+        </div>
+    </section>
+    <section class="col-lg-6">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Page Tracking{% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div id="chart-5-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="col-lg-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Time on page{% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div id="chart-4-container"></div>
+            </div>
+        </div>
+    </section>
+    <section class="col-lg-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Top Countries (by sessions){% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div id="chart-1-container"></div>
+            </div>
+        </div>
+    </section>
+    <section class="col-lg-4">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans %}Visitors{% endtrans %}</h3>
+            </div>
+            <div class="box-body">
+                <div class="chart">
+                    <div id="chart-3-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 <script>
-    (function(w,d,s,g,js,fjs){
-        g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(cb){this.q.push(cb)}};
-        js=d.createElement(s);fjs=d.getElementsByTagName(s)[0];
+    (function(w,d,s,g,js,fs){
+        g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(f){this.q.push(f);}};
+        js=d.createElement(s);fs=d.getElementsByTagName(s)[0];
         js.src='https://apis.google.com/js/platform.js';
-        fjs.parentNode.insertBefore(js,fjs);js.onload=function(){g.load('analytics')};
+        fs.parentNode.insertBefore(js,fs);js.onload=function(){g.load('analytics');};
     }(window,document,'script'));
 </script>
 
 <script>
+
     gapi.analytics.ready(function() {
 
-        // Step 3: Authorize the user.
-
-        var CLIENT_ID = 'Insert your client ID here';
-
         gapi.analytics.auth.authorize({
-            container: 'auth-button',
-            clientid: CLIENT_ID,
+            container: 'embed-api-auth-container',
+            clientid: "{{ clientId }}"
         });
 
-        // Step 4: Create the view selector.
+
 
         var viewSelector = new gapi.analytics.ViewSelector({
-            container: 'view-selector'
+            container: 'view-selector-container'
         });
 
-        // Step 5: Create the timeline chart.
+        viewSelector.execute();
 
-        var timeline = new gapi.analytics.googleCharts.DataChart({
-            reportType: 'ga',
+        var dataChart = new gapi.analytics.googleCharts.DataChart({
             query: {
-                'dimensions': 'ga:date',
-                'metrics': 'ga:sessions',
+                metrics: 'ga:sessions',
+                dimensions: 'ga:date',
                 'start-date': '30daysAgo',
-                'end-date': 'yesterday',
+                'end-date': 'yesterday'
             },
             chart: {
+                container: 'chart-container',
                 type: 'LINE',
-                container: 'timeline'
+                language: 'fr',
+                options: {
+                    width: '100%'
+                }
             }
-        });
-
-        // Step 6: Hook up the components to work together.
-
-        gapi.analytics.auth.on('success', function(response) {
-            viewSelector.execute();
         });
 
         viewSelector.on('change', function(ids) {
-            var newIds = {
-                query: {
-                    ids: ids
+            dataChart.set({query: {ids: ids}}).execute();
+        });
+
+
+        var dataChart1 = new gapi.analytics.googleCharts.DataChart({
+            query: {
+                metrics: 'ga:sessions',
+                dimensions: 'ga:country',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday',
+                sort: '-ga:sessions'
+            },
+            chart: {
+                container: 'chart-1-container',
+                type: 'GEO',
+                options: {
+                    width: '100%',
+                    pieHole: 4 / 9
                 }
             }
-            timeline.set(newIds).execute();
+        });
+
+        viewSelector.on('change', function (ids) {
+            dataChart1.set({query: {ids: ids}}).execute();
+        });
+
+        var dataChart2 = new gapi.analytics.googleCharts.DataChart({
+            query: {
+                metrics: 'ga:sessions',
+                dimensions: 'ga:browser',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday',
+                sort: '-ga:sessions'
+            },
+            chart: {
+                container: 'chart-2-container',
+                type: 'TABLE',
+                options: {
+                    width: '100%',
+                    pieHole: 4 / 9
+                }
+            }
+        });
+
+        viewSelector.on('change', function (ids) {
+            dataChart2.set({query: {ids: ids}}).execute();
+        });
+
+
+        var dataChart3 = new gapi.analytics.googleCharts.DataChart({
+            query: {
+                metrics: 'ga:users',
+                dimensions: 'ga:userType',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday'
+            },
+            chart: {
+                container: 'chart-3-container',
+                type: 'PIE',
+                options: {
+                    width: '100%',
+                    pieHole: 4 / 9
+                }
+            }
+        });
+
+        viewSelector.on('change', function (ids) {
+            dataChart3.set({query: {ids: ids}}).execute();
+        });
+
+
+        var dataChart4 = new gapi.analytics.googleCharts.DataChart({
+            query: {
+                metrics: 'ga:timeOnPage',
+                dimensions: 'ga:date',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday'
+            },
+            chart: {
+                container: 'chart-4-container',
+                type: 'LINE',
+                options: {
+                    width: '100%',
+                    pieHole: 4 / 9
+                }
+            }
+        });
+
+        viewSelector.on('change', function (ids) {
+            dataChart4.set({query: {ids: ids}}).execute();
+        });
+
+        var dataChart5 = new gapi.analytics.googleCharts.DataChart({
+            query: {
+                metrics: 'ga:users',
+                dimensions: 'ga:pagePath',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday',
+                'max-results': 8
+            },
+            chart: {
+                container: 'chart-5-container',
+                type: 'TABLE',
+                options: {
+                    width: '100%',
+                    pieHole: 4 / 9
+                }
+            }
+        });
+
+        viewSelector.on('change', function (ids) {
+            dataChart5.set({query: {ids: ids}}).execute();
         });
     });
 </script>
+

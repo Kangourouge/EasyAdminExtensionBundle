@@ -3,6 +3,8 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
@@ -19,3 +21,4 @@ services:
 
     KRG\EasyAdminExtensionBundle\Configuration\ActionConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 0}]
+
