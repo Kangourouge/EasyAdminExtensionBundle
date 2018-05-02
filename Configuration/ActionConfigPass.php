@@ -41,10 +41,6 @@ class ActionConfigPass implements ConfigPassInterface
         }
         unset($config);
 
-        if ($this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')) {
-            return $backendConfig;
-        }
-
         try {
             $this->checkSecurity($backendConfig['entities']);
             $this->checkSecurity($backendConfig['list']['actions']);
@@ -53,7 +49,6 @@ class ActionConfigPass implements ConfigPassInterface
             if (php_sapi_name() !== 'cli') {
                 throw $exception;
             }
-            error_log('Skip AuthenticationCredentialsNotFoundException');
         }
 
         return $backendConfig;
