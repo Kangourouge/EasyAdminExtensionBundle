@@ -19,8 +19,10 @@ class KRGEasyAdminExtensionExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('krg_easyadmin_dashboard_widgets', $config['dashboard']['widgets']);
-        $container->setParameter('krg_easyadmin_google_analytics_id', $config['google_analytics']['client_id']);
+        if (isset($config['dashboard']['widgets'])) {
+            $container->setParameter('krg_easyadmin_dashboard_widgets', $config['dashboard']['widgets']);
+        }
 
+        $container->setParameter('krg_easyadmin_google_analytics_id', $config['google_analytics']['client_id']);
     }
 }

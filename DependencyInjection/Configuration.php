@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('google_analytics')
+                ->arrayNode('google_analytics')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('client_id')->end()
                     ->end()
