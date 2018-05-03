@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('google_analytics')->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('client_id')->end()
+                        ->scalarNode('client_id')->defaultNull()->end()
                     ->end()
                 ->end()
             ->end()
