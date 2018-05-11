@@ -1,21 +1,23 @@
-Homepage: Page d'accueil
-action:
-  new: Créer
-  edit: Editer
-  delete: Suppr.
-  search: Rechercher
-  save: Sauvegarder
-  list: Retour à la liste
-  show: Afficher
-  clone: Cloner
+Homepage: 'Page d''accueil'
 create: créer
 remove: supprimer
-update: Mettre à jour
+update: 'Mettre à jour'
 User: Utilisateur
 Sessions: Sessions
-Top Browsers (by pageview): Principaux navigateurs (par page vue)
-Page Tracking: Suivi de page
-Time on page: Temps passé sur la page
-Top Countries (by sessions): Top Pays (par sessions)
+'Top Browsers (by pageview)': 'Principaux navigateurs (par page vue)'
+'Page Tracking': 'Suivi de page'
+'Time on page': 'Temps passé sur la page'
+'Top Countries (by sessions)': 'Top Pays (par sessions)'
 Visitors: Visiteurs
-Loggable: Journal des actions
+Loggable: 'Journal des actions'
+action.new: Créer
+action.edit: Editer
+action.delete: Suppr.
+action.search: Rechercher
+action.save: Sauvegarder
+action.list: 'Retour à la liste'
+action.show: Afficher
+action.clone: Cloner
+Action: Action
+Entity: Entity
+Date: Date
