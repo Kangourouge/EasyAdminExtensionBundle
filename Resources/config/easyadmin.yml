@@ -4,6 +4,7 @@ easy_admin:
             - label: 'Front'
             - { label: 'Homepage', route: 'homepage', icon: 'home', target: '_blank' }
             - { label: 'Dashboard', route: 'admin_dashboard', default: true }
+            - { label: 'Cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
     list:
         actions:
             - { name: 'sort', icon: 'arrows', label: '', css_class: 'btn-sort' }

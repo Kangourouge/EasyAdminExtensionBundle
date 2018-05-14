@@ -5,11 +5,16 @@ services:
         public: false
         bind:
             $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
+            $cacheDir: '%kernel.cache_dir%'
+            $webDir: '%kernel.root_dir%/web'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
         public: true
+
+    KRG\EasyAdminExtensionBundle\Cache\:
+        resource: '../../Cache'
 
     KRG\EasyAdminExtensionBundle\Widget\:
         resource: '../../Widget'

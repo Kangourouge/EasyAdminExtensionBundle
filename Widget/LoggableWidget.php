@@ -5,7 +5,6 @@ namespace KRG\EasyAdminExtensionBundle\Widget;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
 
 class LoggableWidget implements WidgetInterface

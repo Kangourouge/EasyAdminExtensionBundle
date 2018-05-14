@@ -4,8 +4,6 @@ namespace KRG\EasyAdminExtensionBundle\Configuration;
 
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use KRG\DoctrineExtensionBundle\Entity\Sortable\SortableInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ClassMetadataConfigPass implements ConfigPassInterface
 {

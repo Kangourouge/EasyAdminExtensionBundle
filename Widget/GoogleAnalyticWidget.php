@@ -2,7 +2,6 @@
 
 namespace KRG\EasyAdminExtensionBundle\Widget;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
 
 class GoogleAnalyticWidget implements WidgetInterface
