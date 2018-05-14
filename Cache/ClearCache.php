@@ -54,16 +54,16 @@ class ClearCache
         foreach ($types as $_type => $dir) {
             if ($type === 0 || ($type & $_type)) {
                 if ($_type === self::TYPE_ROUTING) {
-                    $this->flashBag->add('notice', 'Remove routing cache');
                     foreach (['matcher_cache_class', 'generator_cache_class'] as $option) {
                         $className = $this->router->getOption($option);
                         $cacheFile = sprintf('%s/%s.php', $this->cacheDir, $className);
                         $filesystem->remove($cacheFile);
                     }
+                    $this->flashBag->add('success', 'Remove routing cache');
                 }
                 else {
-                    $this->flashBag->add('success', sprintf('Remove cache %s', $dir));
                     $filesystem->remove($dir);
+                    $this->flashBag->add('success', sprintf('Remove cache %s', $dir));
                 }
             }
         }
