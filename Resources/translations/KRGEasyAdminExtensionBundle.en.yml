@@ -1,0 +1,10 @@
+All: All
+Twig: Twig templates
+Intl: Translations
+Liip: Liip images media cache
+Routing: Routing
+KrgAll: Kangourouge / All
+KrgTwig: Kangourouge / Twig templates
+KrgIntl: Kangourouge / Translations
+KrgData: Kangourouge / Data
+Clear: Clear Cache

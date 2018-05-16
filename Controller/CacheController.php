@@ -38,19 +38,15 @@ class CacheController extends Controller
 
         $form = $this->createFormBuilder()
                         ->add('type', ChoiceType::class, [
-                            'choices' => [
-                                'All' => ClearCache::TYPE_ALL,
-                                'Twig' => ClearCache::TYPE_TWIG,
-                                'Translations' => ClearCache::TYPE_INTL,
-                                'Media' => ClearCache::TYPE_LIIP,
-                                'KRG All' => ClearCache::TYPE_KRG_ALL,
-                                'KRG Twig' => ClearCache::TYPE_KRG_TWIG,
-                                'KRG Translations' => ClearCache::TYPE_KRG_INTL
-                            ],
+                            'choices' => array_flip(ClearCache::$types),
+                            'choice_translation_domain' => 'KRGEasyAdminExtensionBundle',
                             'expanded' => true,
                             'multiple' => true
                         ])
-                        ->add('action.clear', SubmitType::class)
+                        ->add('Clear', SubmitType::class, [
+                            'attr' => ['class' => 'btn btn-danger'],
+                            'translation_domain' => 'KRGEasyAdminExtensionBundle'
+                        ])
                         ->getForm();
 
 
@@ -58,7 +54,7 @@ class CacheController extends Controller
         if ($form->isValid() && $form->isSubmitted()) {
             $types = $form->get('type')->getData();
             foreach ($types as $type) {
-                $this->clearCache->warmup((int) $type);
+                $this->clearCache->remove((int) $type);
             }
         }
 

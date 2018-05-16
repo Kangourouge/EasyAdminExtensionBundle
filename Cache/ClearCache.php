@@ -2,21 +2,35 @@
 
 namespace KRG\EasyAdminExtensionBundle\Cache;
 
+use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class ClearCache
+class ClearCache implements EventSubscriberInterface
 {
     const TYPE_ALL = 0;
     const TYPE_TWIG = 1;
     const TYPE_INTL = 2;
     const TYPE_LIIP = 4;
     const TYPE_ROUTING = 8;
-    const TYPE_KRG_ALL = 16|32|64;
     const TYPE_KRG_TWIG = 16;
     const TYPE_KRG_INTL = 32;
-    const TYPE_KRG_SEO = 64;
+    const TYPE_KRG_DATA = 64;
+    const TYPE_KRG_ALL = self::TYPE_KRG_INTL|self::TYPE_KRG_TWIG|self::TYPE_KRG_DATA;
+
+    public static $types = [
+        self::TYPE_ALL => 'All',
+        self::TYPE_TWIG => 'Twig',
+        self::TYPE_INTL => 'Intl',
+        self::TYPE_LIIP => 'Liip',
+        self::TYPE_ROUTING => 'Routing',
+        self::TYPE_KRG_ALL => 'KrgAll',
+        self::TYPE_KRG_TWIG => 'KrgTwig',
+        self::TYPE_KRG_INTL => 'KrgIntl',
+        self::TYPE_KRG_DATA => 'KrgData',
+    ];
 
     /** @var RouterInterface */
     private $router;
@@ -38,7 +52,34 @@ class ClearCache
         $this->webDir = $webDir;
     }
 
-    public function warmup($type) {
+    public function __call($name, $arguments)
+    {
+        if (substr($name, 0, 6) === 'remove' && ($type = array_search(substr($name, 6), self::$types)) > -1) {
+            return $this->remove($type);
+        }
+        return null;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        $events = [
+            'cache:clear' => 'onRemove'
+        ];
+
+        foreach (self::$types as $type) {
+            $_type = strtolower(preg_replace('/(?<!^)[A-Z]/', ':$0', $type));
+            $events['cache:clear:' . $_type] = 'remove' . $type;
+        }
+
+        return $events;
+    }
+
+    public function onRemove(Event $event) {
+        $event->stopPropagation();
+        $this->remove();
+    }
+
+    public function remove($type = self::TYPE_ALL) {
         $types = [
             self::TYPE_TWIG => sprintf('%s/twig', $this->cacheDir),
             self::TYPE_INTL => sprintf('%s/translations', $this->cacheDir),
@@ -46,7 +87,7 @@ class ClearCache
             self::TYPE_ROUTING => null,
             self::TYPE_KRG_TWIG => sprintf('%s/krg/twig', $this->cacheDir),
             self::TYPE_KRG_INTL => sprintf('%s/krg/translations', $this->cacheDir),
-            self::TYPE_KRG_SEO => sprintf('%s/krg/seo', $this->cacheDir),
+            self::TYPE_KRG_DATA => sprintf('%s/krg/data', $this->cacheDir),
         ];
 
         $filesystem = new Filesystem();
@@ -59,6 +100,7 @@ class ClearCache
                         $cacheFile = sprintf('%s/%s.php', $this->cacheDir, $className);
                         $filesystem->remove($cacheFile);
                     }
+                    $this->router->warmUp($this->cacheDir);
                     $this->flashBag->add('success', 'Remove routing cache');
                 }
                 else {

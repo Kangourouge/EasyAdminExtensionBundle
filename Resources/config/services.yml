@@ -15,6 +15,7 @@ services:
 
     KRG\EasyAdminExtensionBundle\Cache\:
         resource: '../../Cache'
+        tags: ['kernek.event_suscriber']
 
     KRG\EasyAdminExtensionBundle\Widget\:
         resource: '../../Widget'
@@ -26,4 +27,3 @@ services:
 
     KRG\EasyAdminExtensionBundle\Configuration\ActionConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 0}]
-
