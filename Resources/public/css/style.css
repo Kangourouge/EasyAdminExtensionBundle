@@ -149,6 +149,18 @@ body.list table tbody td.actions a i.fa {
     padding: 4px 12px 5px;
 }
 
+.form-group .form-group .col-sm-2:empty {
+    display: none;
+}
+
+.form-group .form-group .col-sm-2:empty + .col-sm-10 {
+    width: 100%;
+}
+
+.nav-tabs>li {
+    margin-bottom: -2px;
+}
+
 /* BLOCK */
 
 .field-group .box {
