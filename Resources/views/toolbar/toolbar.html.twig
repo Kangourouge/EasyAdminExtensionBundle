@@ -1,0 +1,98 @@
+{% if blocks|length > 0 %}
+    <div id="krg-toolbar">
+        {% for block in blocks if block is not null %}
+            {{ block|raw }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% spaceless %}
+    <style type="text/css">
+        #krg-toolbar {
+            z-index: 1000;
+            padding: 0;
+            color: rgba(255, 255, 255, 0.75);
+            background-color: #24292e;
+            font-size: 12px;
+        }
+
+        .krg-toolbar-block > a {
+            display: inline-block;
+            color: rgba(255, 255, 255, 0.75);
+            padding: 12px 10px 11px;
+            font-weight: bold;
+            border-right: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .krg-toolbar-block > a:hover {
+            opacity: 0.66;
+        }
+
+        .krg-toolbar-block > a:last-child(not:first-child) {
+            border-right: 0;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info {
+            background-color: #444;
+            top: 40px;
+            color: #F5F5F5;
+            display: none;
+            padding: 9px 0;
+            position: absolute;
+        }
+
+        .krg-toolbar-block {
+            display: inline-block;
+        }
+
+        .krg-toolbar-block:hover {
+            position: relative;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info {
+            border-collapse: collapse;
+            z-index: 100000;
+        }
+
+        .krg-toolbar-block:hover .krg-toolbar-info {
+            display: block;
+            padding: 10px;
+            min-width: 250px;
+            max-width: 480px;
+            max-height: 480px;
+            word-wrap: break-word;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info-group {
+            margin-bottom: 4px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #333333;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info-group:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info-piece {
+            border-bottom: solid transparent 3px;
+            display: table-row;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info-piece b {
+            vertical-align: top;
+            color: #AAA;
+            display: table-cell;
+            font-size: 11px;
+            padding: 4px 8px 4px 0;
+        }
+
+        .krg-toolbar-block .krg-toolbar-info-piece span {
+            color: #F5F5F5;
+            display: inline-block;
+        }
+    </style>
+{% endspaceless %}

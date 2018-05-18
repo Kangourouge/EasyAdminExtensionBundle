@@ -22,6 +22,15 @@ services:
         tags: ['krg.easyadmin.widget']
         public: true
 
+    KRG\EasyAdminExtensionBundle\Toolbar\:
+        resource: '../../Toolbar'
+        tags: ['krg.easyadmin.toolbar']
+        public: true
+
+    KRG\EasyAdminExtensionBundle\Twig\:
+        resource: '../../Twig/*'
+        tags: [twig.extension]
+
     KRG\EasyAdminExtensionBundle\Configuration\ClassMetadataConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 1000}]
 
