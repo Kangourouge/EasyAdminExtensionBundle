@@ -24,7 +24,7 @@ services:
 
     KRG\EasyAdminExtensionBundle\Toolbar\:
         resource: '../../Toolbar'
-        tags: ['krg.easyadmin.toolbar']
+        tags: [{name: 'krg.easyadmin.toolbar', priority: 1000}]
         public: true
 
     KRG\EasyAdminExtensionBundle\Twig\:
