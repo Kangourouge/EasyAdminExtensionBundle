@@ -72,6 +72,7 @@
             padding: 9px 0;
             color: #f5f5f5;
             background-color: #444;
+            border-radius: 0 0 3px 3px;
         }
 
         .krg-toolbar-block {
@@ -91,9 +92,9 @@
             display: block;
             overflow: hidden;
             overflow-y: auto;
-            min-width: 250px;
+            min-width: 300px;
             max-width: 480px;
-            max-height: 480px;
+            max-height: 400px;
             padding: 10px;
             word-wrap: break-word;
         }
@@ -124,7 +125,7 @@
         }
 
         .krg-toolbar-block .krg-toolbar-info-piece span {
-            display: inline-block;
+            display: table-cell;
             padding: 4px 0;
             color: #f5f5f5;
         }
@@ -144,6 +145,13 @@
         #krg-toolbar .hide-button svg {
             max-height: 18px;
             margin-top: 9px;
+        }
+
+        #krg-toolbar .krg-toolbar-dump {
+            background: #000;
+            padding: 10px;
+            border-radius: 3px;
+            width: 100%;
         }
     </style>
 
