@@ -42,3 +42,11 @@ KRG\EasyAdminExtensionBundle\Toolbar\:
     ...
 </body>
 ```
+
+
+## Configuration
+
+``yaml
+krg_easy_admin_extension:
+    debug: true
+```

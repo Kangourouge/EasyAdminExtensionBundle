@@ -7,6 +7,7 @@ services:
             $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
             $cacheDir: '%kernel.cache_dir%'
             $webDir: '%kernel.root_dir%/web'
+            $debug: '%krg_easyadmin_debug%'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'

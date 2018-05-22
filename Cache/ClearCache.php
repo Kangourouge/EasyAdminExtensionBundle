@@ -10,23 +10,23 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ClearCache implements EventSubscriberInterface
 {
-    const TYPE_ALL = 0;
-    const TYPE_TWIG = 1;
-    const TYPE_INTL = 2;
-    const TYPE_LIIP = 4;
-    const TYPE_ROUTING = 8;
+    const TYPE_ALL      = 0;
+    const TYPE_TWIG     = 1;
+    const TYPE_INTL     = 2;
+    const TYPE_LIIP     = 4;
+    const TYPE_ROUTING  = 8;
     const TYPE_KRG_TWIG = 16;
     const TYPE_KRG_INTL = 32;
     const TYPE_KRG_DATA = 64;
-    const TYPE_KRG_ALL = self::TYPE_KRG_INTL|self::TYPE_KRG_TWIG|self::TYPE_KRG_DATA;
+    const TYPE_KRG_ALL  = self::TYPE_KRG_INTL | self::TYPE_KRG_TWIG | self::TYPE_KRG_DATA;
 
     public static $types = [
-        self::TYPE_ALL => 'All',
-        self::TYPE_TWIG => 'Twig',
-        self::TYPE_INTL => 'Intl',
-        self::TYPE_LIIP => 'Liip',
-        self::TYPE_ROUTING => 'Routing',
-        self::TYPE_KRG_ALL => 'KrgAll',
+        self::TYPE_ALL      => 'All',
+        self::TYPE_TWIG     => 'Twig',
+        self::TYPE_INTL     => 'Intl',
+        self::TYPE_LIIP     => 'Liip',
+        self::TYPE_ROUTING  => 'Routing',
+        self::TYPE_KRG_ALL  => 'KrgAll',
         self::TYPE_KRG_TWIG => 'KrgTwig',
         self::TYPE_KRG_INTL => 'KrgIntl',
         self::TYPE_KRG_DATA => 'KrgData',
@@ -44,12 +44,16 @@ class ClearCache implements EventSubscriberInterface
     /** @var string */
     private $webDir;
 
-    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir)
+    /** @var bool */
+    private $debug;
+
+    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir, bool $debug)
     {
         $this->router = $router;
         $this->flashBag = $flashBag;
         $this->cacheDir = $cacheDir;
         $this->webDir = $webDir;
+        $this->debug = $debug;
     }
 
     public function __call($name, $arguments)
@@ -57,41 +61,43 @@ class ClearCache implements EventSubscriberInterface
         if (substr($name, 0, 6) === 'remove' && ($type = array_search(substr($name, 6), self::$types)) > -1) {
             return $this->remove($type);
         }
+
         return null;
     }
 
     public static function getSubscribedEvents()
     {
         $events = [
-            'cache:clear' => 'onRemove'
+            'cache:clear' => 'onRemove',
         ];
 
         foreach (self::$types as $type) {
             $_type = strtolower(preg_replace('/(?<!^)[A-Z]/', ':$0', $type));
-            $events['cache:clear:' . $_type] = 'remove' . $type;
+            $events['cache:clear:'.$_type] = 'remove'.$type;
         }
 
         return $events;
     }
 
-    public function onRemove(Event $event) {
+    public function onRemove(Event $event)
+    {
         $event->stopPropagation();
         $this->remove();
     }
 
-    public function remove($type = self::TYPE_ALL) {
+    public function remove($type = self::TYPE_ALL)
+    {
         $types = [
-            self::TYPE_TWIG => sprintf('%s/twig', $this->cacheDir),
-            self::TYPE_INTL => sprintf('%s/translations', $this->cacheDir),
-            self::TYPE_LIIP => sprintf('%s/media/cache', $this->webDir),
-            self::TYPE_ROUTING => null,
+            self::TYPE_TWIG     => sprintf('%s/twig', $this->cacheDir),
+            self::TYPE_INTL     => sprintf('%s/translations', $this->cacheDir),
+            self::TYPE_LIIP     => sprintf('%s/media/cache', $this->webDir),
+            self::TYPE_ROUTING  => null,
             self::TYPE_KRG_TWIG => sprintf('%s/krg/twig', $this->cacheDir),
             self::TYPE_KRG_INTL => sprintf('%s/krg/translations', $this->cacheDir),
             self::TYPE_KRG_DATA => sprintf('%s/krg/data', $this->cacheDir),
         ];
 
         $filesystem = new Filesystem();
-
         foreach ($types as $_type => $dir) {
             if ($type === 0 || ($type & $_type)) {
                 if ($_type === self::TYPE_ROUTING) {
@@ -101,11 +107,15 @@ class ClearCache implements EventSubscriberInterface
                         $filesystem->remove($cacheFile);
                     }
                     $this->router->warmUp($this->cacheDir);
-                    $this->flashBag->add('success', 'Remove routing cache');
-                }
-                else {
+                    if ($this->debug) {
+                        $this->flashBag->add('success', 'Remove routing cache');
+                    }
+                } else {
                     $filesystem->remove($dir);
-                    $this->flashBag->add('success', sprintf('Remove cache %s', $dir));
+
+                    if ($this->debug) {
+                        $this->flashBag->add('success', sprintf('Remove cache %s', $dir));
+                    }
                 }
             }
         }

@@ -14,6 +14,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('debug')->defaultFalse()->end()
+            ->end()
+        ;
+
+        $rootNode
+            ->children()
                 ->arrayNode('dashboard')
                     ->children()
                         ->arrayNode('widgets')
