@@ -2,8 +2,10 @@
 
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
+use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
 use KRG\EasyAdminExtensionBundle\Widget\WidgetInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController
@@ -72,5 +74,14 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
             'id'     => $clone->getId(),
             'entity' => $this->request->query->get('entity'),
         ]);
+    }
+
+    protected function renderTemplate($actionName, $templatePath, array $parameters = array())
+    {
+        if (    ($actionName === 'list' || $actionName === 'search')
+            &&  ($filterForm = $this->get(FilterListener::class)->getForm()) instanceof FormInterface) {
+            $parameters['form_filter'] = $filterForm->createView();
+        }
+        return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 }

@@ -181,3 +181,41 @@ body.list table tbody td.actions a i.fa {
     font-weight: 400;
     line-height: 1.2;
 }
+
+
+main.flex {
+    display: flex;
+}
+
+main.flex > section {
+    width: 100%;
+}
+
+main.flex > aside.filter-sidebar {
+    margin-left: 10px;
+}
+
+main.flex > aside.filter-sidebar > section {
+    padding: 10px;
+    width: 230px;
+    height: calc(100vh - 50px);
+}
+
+main.flex > aside.filter-sidebar > section legend,
+main.flex > aside.filter-sidebar > section label {
+    border: none;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+main.flex > aside.filter-sidebar > section .filter-sidebar-close {
+    color: white;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+#flash-messages {
+    padding: 15px;
+}

@@ -27,9 +27,9 @@ class ActionConfigPass implements ConfigPassInterface
         // Auto configurated sortable action depending on SortableInterface implementation
         foreach ($backendConfig['entities'] as &$config) {
             $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
+            $config['templates']['list'] = 'KRGEasyAdminExtensionBundle:default:list.html.twig';
             if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
                 $config['sort'] = ['position' => 'ASC'];
-                $config['templates']['list'] = 'KRGEasyAdminExtensionBundle:default:list.html.twig';
             } else {
                 foreach ($config['list']['actions'] as $idx => &$action) {
                     if ($action['name'] === 'sort') {

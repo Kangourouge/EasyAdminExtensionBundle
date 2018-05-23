@@ -2,7 +2,7 @@
 
 {% block body_javascript %}
     {{ parent() }}
-    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js" xmlns="http://www.w3.org/1999/html"></script>
 
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function (event) {
@@ -13,8 +13,8 @@
                 handle: ".action-sort",
                 onEnd: function (event) {
                     let url = event.item.querySelector('td.actions > a.btn-sort').href;
-                    fetch(url + '&relativePosition=' + (event.newIndex - event.oldIndex), {credentials : 'same-origin'})
-                        .then(function(response){
+                    fetch(url + '&relativePosition=' + (event.newIndex - event.oldIndex), {credentials: 'same-origin'})
+                        .then(function (response) {
                             if (response.status === 200) {
                                 sortable.option('disabled', false);
                                 return true;
@@ -25,17 +25,57 @@
             });
         });
     </script>
+
+    {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
+{% endblock %}
+
+{% block new_action %}
+    {{ parent() }}
+    {% if form_filter is defined %}
+        <div class="button-action">
+            <button class="btn btn-default" data-target="#{{ form_filter.vars.id }}_filter" data-toggle="collapse" aria-expanded="false">
+                <i class="fa fa-filter"></i> {{ 'Filter'|trans({}, 'KRGEasyAdminExtensionBundle') }}
+            </button>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block main %}
-    {{ parent() }}
+    <main class="flex">
+        <section class="box box-info">
+            {{ parent() }}
+        </section>
+        {% if form_filter is defined %}
+            <aside id="{{ form_filter.vars.id }}_filter" class="filter-sidebar collapse">
+                <section class="box box-warning sidebar">
+                    <header class="btn-header with-border">
+                        <h4>
+                            <i class="fa fa-filter"></i> {{ 'Filter'|trans({}, 'KRGEasyAdminExtensionBundle') }}
+                        </h4>
+                    </header>
+                    <div class="box-body">
+                        {{ form_start(form_filter) }}
+                        {{ form_errors(form_filter) }}
+                        {% for key, value in app.request.query %}
+                            {% if not (key starts with 'filter_') %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                        {{ form_end(form_filter) }}
+                    </div>
+                </section>
+            </aside>
+        {% endif %}
+    </main>
     <style type="text/css">
         .btn-success {
             background-color: #5cb85c;
         }
+
         .action-sort {
             cursor: move;
         }
+
         .sortable-ghost {
             background: #e0e0e0 !important;
         }

@@ -18,6 +18,10 @@ services:
         resource: '../../Cache'
         tags: ['kernek.event_suscriber']
 
+    KRG\EasyAdminExtensionBundle\Form\Type\:
+        resource: '../../Form/Type'
+        tags: ['form.type']
+
     KRG\EasyAdminExtensionBundle\Widget\:
         resource: '../../Widget'
         tags: ['krg.easyadmin.widget']
@@ -32,8 +36,13 @@ services:
         resource: '../../Twig/*'
         tags: [twig.extension]
 
+    KRG\EasyAdminExtensionBundle\Configuration\:
+        resource: '../../Configuration'
+        tags: ['easyadmin.config_pass']
+
+    KRG\EasyAdminExtensionBundle\Filter\:
+        resource: '../../Filter'
+        tags: ['kernel.event_suscriber']
+
     KRG\EasyAdminExtensionBundle\Configuration\ClassMetadataConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 1000}]
-
-    KRG\EasyAdminExtensionBundle\Configuration\ActionConfigPass:
-        tags: [{name: 'easyadmin.config_pass', priority: 0}]
