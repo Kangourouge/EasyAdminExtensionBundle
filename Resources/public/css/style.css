@@ -253,10 +253,9 @@ main.flex .box {
     margin: 15px;
 }
 
-/* */
-
-.main-sidebar > .sidebar > .sidebar-menu > li:first-child {
+body:not(.sidebar-collapse) .sidebar > .sidebar-menu > li:first-child {
     margin: 10px;
     background: rgba(0, 0, 0, 0.07);
     border-radius: 3px;
 }
+
