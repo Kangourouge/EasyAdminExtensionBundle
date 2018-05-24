@@ -65,16 +65,39 @@ body.list table tbody td.actions a i.fa {
 .toggle-group .btn-danger,
 .toggle-group .btn-danger:hover,
 .toggle-group .btn-danger:active,
-.toggle-group .btn-danger:hover:active,
-.toggle.btn-danger {
-    background: #b2b2b2;
+.toggle-group .btn-danger:active:hover,
+.toggle-group .btn-danger:focus,
+.toggle.btn-danger,
+.toggle.btn-danger:hover,
+.toggle.btn-danger:active,
+.toggle.btn-danger:active:hover,
+.toggle.btn-danger:focus {
+    background-color: #b2b2b2;
     border-color: #9b9b9b;
 }
 
 .toggle-group .btn-success,
-.toggle.btn-success {
+.toggle.btn-success
+{
     background: #42a65d;
     border-color: #348b5e;
+}
+
+.label:not([class*=label-]) {
+    background: #dadada;
+    color: #565656;
+    font-weight: normal;
+    padding: 6px 6px 5px;
+}
+
+.label.label-success {
+    padding: 6px 9px;
+    border-radius: 3px;
+    border: 1px solid #348a5e;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #42a65d !important;
 }
 
 .btn-primary,
@@ -230,3 +253,10 @@ main.flex .box {
     margin: 15px;
 }
 
+/* */
+
+.main-sidebar > .sidebar > .sidebar-menu > li:first-child {
+    margin: 10px;
+    background: rgba(0, 0, 0, 0.07);
+    border-radius: 3px;
+}
