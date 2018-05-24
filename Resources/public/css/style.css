@@ -216,6 +216,17 @@ main.flex > aside.filter-sidebar > section .filter-sidebar-close {
     font-size: 20px;
 }
 
-#flash-messages {
-    padding: 15px;
+main.flex .box {
+    border-top: 0;
+    box-shadow: none;
+    background: transparent;
 }
+
+#flash-messages {
+    padding-top: 5px;
+}
+
+#flash-messages .alert {
+    margin: 15px;
+}
+
