@@ -24,20 +24,11 @@ class ActionConfigPass implements ConfigPassInterface
 
     public function process(array $backendConfig)
     {
-        // Auto configurated sortable action depending on SortableInterface implementation
         foreach ($backendConfig['entities'] as &$config) {
-            $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
-            $config['templates']['list'] = 'KRGEasyAdminExtensionBundle:default:list.html.twig';
-            if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
-                $config['sort'] = ['position' => 'ASC'];
-            } else {
-                foreach ($config['list']['actions'] as $idx => &$action) {
-                    if ($action['name'] === 'sort') {
-                        unset($config['list']['actions'][$idx]);
-                    }
-                }
-                unset($action);
-            }
+            $config['templates']['list'] = '@KRGEasyAdminExtension/default/list.html.twig';
+
+            $config = $this->processSort($config);
+            $config = $this->processGlobalActions($config);
         }
         unset($config);
 
@@ -52,6 +43,32 @@ class ActionConfigPass implements ConfigPassInterface
         }
 
         return $backendConfig;
+    }
+
+    private function processSort($config)
+    {
+        // Auto configurated sortable action depending on SortableInterface implementation
+        $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
+
+        if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
+            $config['sort'] = ['position' => 'ASC'];
+        } else {
+            foreach ($config['list']['actions'] as $idx => &$action) {
+                if ($action['name'] === 'sort') {
+                    unset($config['list']['actions'][$idx]);
+                }
+            }
+            unset($action);
+        }
+
+        return $config;
+    }
+
+    private function processGlobalActions($config)
+    {
+
+
+        return $config;
     }
 
     private function checkSecurity(array &$config)

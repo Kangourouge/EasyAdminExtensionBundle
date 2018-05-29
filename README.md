@@ -65,3 +65,16 @@ easy_admin:
                     - { label: 'Action 2.1', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
                     - { label: 'Action 2.2', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
 ```
+
+## EasyAdmin custom global action
+
+Simplistic implementation : one button, one label, one route
+
+```yaml
+easy_admin:
+    entities:
+        example:
+            list:
+                global_actions:
+                    - { label: 'Action', route: 'route_name' }
+```
