@@ -3,7 +3,6 @@
 {% block body_javascript %}
     {{ parent() }}
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.6.1/Sortable.min.js" xmlns="http://www.w3.org/1999/html"></script>
-
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function (event) {
             var element = document.querySelector('#main .table-responsive > table > tbody');
@@ -67,17 +66,14 @@
             </aside>
         {% endif %}
     </main>
-    <style type="text/css">
-        .btn-success {
-            background-color: #5cb85c;
-        }
-
-        .action-sort {
-            cursor: move;
-        }
-
-        .sortable-ghost {
-            background: #e0e0e0 !important;
-        }
-    </style>
 {% endblock %}
+
+{% block item_actions %}
+    {{ include('@KRGEasyAdminExtension/default/includes/_actions.html.twig', {
+        actions: _list_item_actions,
+        request_parameters: _request_parameters,
+        translation_domain: _entity_config.translation_domain,
+        trans_parameters: _trans_parameters,
+        item_id: _item_id
+    }, with_context = false) }}
+{% endblock item_actions %}

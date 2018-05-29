@@ -6,7 +6,7 @@ easy_admin:
             - { label: 'Cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
     list:
         actions:
-            - { name: 'sort', icon: 'arrows', label: '', css_class: 'btn-sort' }
+            - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort' }
             - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary' }
             - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger' }
             - { name: 'show', icon: 'info-circle', css_class: 'btn btn-info' }

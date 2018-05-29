@@ -50,3 +50,18 @@ KRG\EasyAdminExtensionBundle\Toolbar\:
 krg_easy_admin_extension:
     debug: true
 ```
+
+## EasyAdmin menu action dropdown
+
+```yaml
+easy_admin:
+    entities:
+        example:
+            list:
+                actions:
+                    - { label: 'Action', name: 'action', menu_dropdown: true } # [↓]
+                    - { label: 'Action 1.1', name: 'test', menu_dropdown: 'Group 1' } # [Group 1 ↓]
+                    - { label: 'Action 1.2', name: 'test', menu_dropdown: 'Group 1' } # [Group 1 ↓]
+                    - { label: 'Action 2.1', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
+                    - { label: 'Action 2.2', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
+```

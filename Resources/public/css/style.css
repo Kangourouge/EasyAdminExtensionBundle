@@ -62,6 +62,50 @@ body.list table tbody td.actions a i.fa {
     font-size: 12px;
 }
 
+body.list td.actions .btn.btn-default.dropdown-toggle {
+    padding: 4px 11px;
+    background: #f1f3f6;
+    color: #788094;
+}
+
+body.list table tbody td.actions .open > .dropdown-toggle {
+    border-color: transparent;
+}
+
+body.list table tbody td.actions .dropdown-menu {
+    box-shadow: 0 3px 15px rgba(0,0,0,0.3);
+    padding: 0;
+    border: 0;
+}
+
+body.list table tbody td.actions .dropdown-menu a {
+    display: block;
+    padding: 12px;
+    border-bottom: 1px solid #fefefe;
+    color: #333;
+}
+
+body.list table tbody td.actions .dropdown-menu a:hover {
+    background: #f1f3f6;
+}
+
+body.list table tbody td.actions .dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.sortable-ghost {
+    background: #e0e0e0 !important;
+}
+
+body.list table tbody td.actions .btn-sort,
+body.list table tbody td.actions .btn-sort:hover,
+body.list table tbody td.actions .btn-sort:active,
+body.list table tbody td.actions .btn-sort:hover:active {
+    padding-left: 0;
+    cursor: row-resize;
+    color: #333;
+}
+
 .toggle-group .btn-danger,
 .toggle-group .btn-danger:hover,
 .toggle-group .btn-danger:active,
