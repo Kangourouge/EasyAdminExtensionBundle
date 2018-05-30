@@ -1,5 +1,13 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
+{% form_theme form with easyadmin_config('design.form_theme') %}
+
+{% block content_title %}Gestion du cache{% endblock %}
+
 {% block main %}
-    {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form.type) }}
+    {{ form_widget(form.clear) }}
+    {{ form_end(form) }}
 {% endblock %}
+
