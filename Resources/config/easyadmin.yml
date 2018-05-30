@@ -5,7 +5,9 @@ easy_admin:
             - { label: 'Dashboard', route: 'admin_dashboard', default: true }
             -
                 label: 'System'
+                group: 'System'
                 roles: ['ROLE_SUPER_ADMIN']
+                children:
                     - { label: 'Cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
     list:
         actions:

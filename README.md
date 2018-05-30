@@ -66,15 +66,15 @@ easy_admin:
                     - { label: 'Action 2.2', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
 ```
 
-## EasyAdmin custom global action
+## EasyAdmin custom menu groups
 
-Simplistic implementation : one button, one label, one route
+All menu children from different files with the same group will be merge into one.
 
 ```yaml
 easy_admin:
-    entities:
-        example:
-            list:
-                global_actions:
-                    - { label: 'Action', route: 'route_name' }
+    design:
+        menu:
+            -
+                label: 'System'
+                group: 'System'
 ```
