@@ -78,3 +78,15 @@ easy_admin:
                 label: 'System'
                 group: 'System'
 ```
+
+## EasyAdmin custom menu priority
+
+All menu children from different files with the same group will be merge into one, applies only on level 1.
+The priority value is optional and defaults to 0. The higher the priority, the sooner it gets executed.
+
+```yaml
+easy_admin:
+    design:
+        menu:
+            - { label: 'Homepage', priority: 9999 }
+```

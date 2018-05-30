@@ -8,7 +8,27 @@ class MenuConfigPass implements ConfigPassInterface
 {
     public function process(array $backendConfig)
     {
-        // Merge group menu
+        $backendConfig = $this->processPriorty($backendConfig);
+        $backendConfig = $this->processGroups($backendConfig);
+
+        return $backendConfig;
+    }
+
+    /**
+     * Sort menu by priority
+     */
+    protected function processPriorty(array $backendConfig)
+    {
+        usort($backendConfig['design']['menu'], [$this, 'sortByPriority']);
+
+        return $backendConfig;
+    }
+
+    /**
+     * Merge menu groups
+     */
+    protected function processGroups(array $backendConfig)
+    {
         $groups = [];
         foreach ($backendConfig['design']['menu'] as $i => $itemConfig) {
             if (empty($itemConfig['children']) || !isset($itemConfig['group'])) {
@@ -27,5 +47,17 @@ class MenuConfigPass implements ConfigPassInterface
         }
 
         return $backendConfig;
+    }
+
+    static function sortByPriority($a, $b)
+    {
+        $a = $a['priority'] ?? 0;
+        $b = $b['priority'] ?? 0;
+
+        if ($a == $b) {
+            return 0;
+        }
+
+        return ($a > $b) ? -1 : 1;
     }
 }
