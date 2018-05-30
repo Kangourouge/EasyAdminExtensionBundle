@@ -31,16 +31,6 @@
 {% block new_action %}
     {{ parent() }}
 
-    {% set _global_actions = _entity_config.list.global_actions is defined ? _entity_config.list.global_actions : null %}
-    {% for _global_action in _global_actions if _global_action.route is defined %}
-        <div class="button-action">
-            <a class="btn btn-default" href="{{ path(_global_action.route) }}">
-                {% if _global_action.icon is defined and not _global_action.icon is empty %}<i class="fa fa-{{ _global_action.icon }}"></i>{% endif %}
-                {{ _global_action.label is defined and not _global_action.label is empty ? _global_action.label|trans(_trans_parameters) }}
-            </a>
-        </div>
-    {% endfor %}
-
     {% if form_filter is defined %}
         <div class="button-action">
             <button class="btn btn-default" data-target="#{{ form_filter.vars.id }}_filter" data-toggle="collapse" aria-expanded="false">
