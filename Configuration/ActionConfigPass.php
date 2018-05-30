@@ -27,8 +27,7 @@ class ActionConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as &$config) {
             $config['templates']['list'] = '@KRGEasyAdminExtension/default/list.html.twig';
 
-            $config = $this->processSort($config);
-            $config = $this->processGlobalActions($config);
+            $this->processSort($config);
         }
         unset($config);
 
@@ -45,7 +44,7 @@ class ActionConfigPass implements ConfigPassInterface
         return $backendConfig;
     }
 
-    private function processSort($config)
+    private function processSort(&$config)
     {
         // Auto configurated sortable action depending on SortableInterface implementation
         $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
@@ -60,13 +59,6 @@ class ActionConfigPass implements ConfigPassInterface
             }
             unset($action);
         }
-
-        return $config;
-    }
-
-    private function processGlobalActions($config)
-    {
-
 
         return $config;
     }
