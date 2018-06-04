@@ -8,29 +8,60 @@ class MenuConfigPass implements ConfigPassInterface
 {
     public function process(array $backendConfig)
     {
-        $backendConfig = $this->processPriorty($backendConfig);
-        $backendConfig = $this->processGroups($backendConfig);
+        $menuConfig = $backendConfig['design']['menu'];
+
+        $menuConfig = $this->processPriority($menuConfig);
+        $menuConfig = $this->processGroups($menuConfig);
+        $menuConfig = $this->processMenuIndex($menuConfig);
+
+        foreach ($backendConfig['design']['menu'] as $i => $itemConfig) {
+            $itemConfig['menu_index'] = $i;
+
+            if (empty($itemConfig['children'])) {
+                continue;
+            }
+
+            $submenuConfig = $itemConfig['children'];
+            $submenuConfig = $this->processMenuIndex($submenuConfig, $i);
+            $backendConfig['design']['menu'][$i]['children'] = $submenuConfig;
+        }
+
+        $backendConfig['design']['menu'] = $menuConfig;
 
         return $backendConfig;
+    }
+
+    /**
+     * Reorder menu_index and submenu_index
+     */
+    protected function processMenuIndex(array $menuConfig, $parentItemIndex = -1)
+    {
+        foreach ($menuConfig as $i => $itemConfig) {
+            $itemConfig['menu_index'] = ($parentItemIndex === -1) ? $i : $parentItemIndex;
+            $itemConfig['submenu_index'] = ($parentItemIndex === -1) ? -1 : $i;
+            $menuConfig[$i] = $itemConfig;
+        }
+
+        return $menuConfig;
     }
 
     /**
      * Sort menu by priority
      */
-    protected function processPriorty(array $backendConfig)
+    protected function processPriority(array $menuConfig)
     {
-        usort($backendConfig['design']['menu'], [$this, 'sortByPriority']);
+        usort($menuConfig, [$this, 'sortByPriority']);
 
-        return $backendConfig;
+        return $menuConfig;
     }
 
     /**
      * Merge menu groups
      */
-    protected function processGroups(array $backendConfig)
+    protected function processGroups(array $menuConfig)
     {
         $groups = [];
-        foreach ($backendConfig['design']['menu'] as $i => $itemConfig) {
+        foreach ($menuConfig as $i => $itemConfig) {
             if (empty($itemConfig['children']) || !isset($itemConfig['group'])) {
                 continue;
             }
@@ -42,11 +73,11 @@ class MenuConfigPass implements ConfigPassInterface
                 foreach ($itemConfig['children'] as $child) { // Add similar group child to parent children
                     $backendConfig['design']['menu'][$key]['children'][] = $child;
                 }
-                unset($backendConfig['design']['menu'][$i]);
+                unset($menuConfig[$i]);
             }
         }
 
-        return $backendConfig;
+        return $menuConfig;
     }
 
     static function sortByPriority($a, $b)
