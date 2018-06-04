@@ -1,0 +1,35 @@
+
+.main-sidebar {
+    background: #262b35;
+}
+
+body:not(.sidebar-collapse) .sidebar > .sidebar-menu > li:first-child {
+    margin: 10px;
+    background: #1d212c;
+    border-radius: 3px;
+}
+
+.sidebar-menu > li > a,
+.sidebar-menu .treeview-menu > li > a:hover {
+    color: #fff;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    color: #7B8895;
+}
+
+.sidebar-menu > li:hover > a, .sidebar-menu .treeview-menu > li:hover > a, .sidebar-menu > li.active > a, .sidebar-menu .treeview-menu > li.active > a, .sidebar-collapse .sidebar-menu > li.active.submenu-active > a, .sidebar-collapse .sidebar-menu > li:hover .treeview-menu > li.active > a {
+    background: #1d212c;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    background: #1d212c;
+}
+
+.sidebar-collapse .sidebar-menu > li:hover > a, .sidebar-collapse .sidebar-menu .treeview-menu > li:hover > a, .sidebar-menu > li.active.submenu-active > a, .sidebar-collapse .sidebar-menu > li.active.submenu-active:hover > a {
+    background: #1d212c;
+}
+
+.sidebar-menu > li:hover > a, .sidebar-menu .treeview-menu > li:hover > a, .sidebar-menu > li.active > a, .sidebar-menu .treeview-menu > li.active > a, .sidebar-collapse .sidebar-menu > li.active.submenu-active > a, .sidebar-collapse .sidebar-menu > li:hover .treeview-menu > li.active > a {
+    color: #fff;
+}

@@ -296,10 +296,3 @@ main.flex .box {
 #flash-messages .alert {
     margin: 15px;
 }
-
-body:not(.sidebar-collapse) .sidebar > .sidebar-menu > li:first-child {
-    margin: 10px;
-    background: rgba(0, 0, 0, 0.07);
-    border-radius: 3px;
-}
-
