@@ -14,7 +14,7 @@ class MenuConfigPass implements ConfigPassInterface
         $menuConfig = $this->processGroups($menuConfig);
         $menuConfig = $this->processMenuIndex($menuConfig);
 
-        foreach ($backendConfig['design']['menu'] as $i => $itemConfig) {
+        foreach ($menuConfig as $i => $itemConfig) {
             $itemConfig['menu_index'] = $i;
 
             if (empty($itemConfig['children'])) {
@@ -23,7 +23,7 @@ class MenuConfigPass implements ConfigPassInterface
 
             $submenuConfig = $itemConfig['children'];
             $submenuConfig = $this->processMenuIndex($submenuConfig, $i);
-            $backendConfig['design']['menu'][$i]['children'] = $submenuConfig;
+            $menuConfig[$i]['children'] = $submenuConfig;
         }
 
         $backendConfig['design']['menu'] = $menuConfig;
