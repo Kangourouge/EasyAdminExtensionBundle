@@ -95,6 +95,7 @@ body.list table tbody td.actions .dropdown-menu a {
 
 body.list table tbody td.actions .dropdown-menu a:hover {
     background: #f1f3f6;
+    border-radius: 3px;
 }
 
 body.list table tbody td.actions .dropdown-menu a:last-child {
