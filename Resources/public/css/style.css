@@ -4,18 +4,18 @@
 
 /* LIST */
 
-body.list .table-responsive table {
+body.list table {
     border: 0;
 }
 
-body.list .table-responsive table tbody {
+body.list table tbody {
     border: 0;
 }
 
-body.list .table-responsive table tbody td {
+body.list table tbody td {
     font-size: 14px;
     color: #4c4c4c;
-    border-bottom: 1px solid #e9e9e9;
+    border-top: 1px solid #e9e9e9;
     padding: 11px 15px;
     white-space: nowrap;
 }
@@ -36,6 +36,10 @@ body.list .table-responsive table thead th.sorted a {
     background: #e4e6ea;
 }
 
+body.list .table-responsive table tbody td.sorted {
+    border-color: #e9e9e9;
+}
+
 body.list .table-responsive table thead th a,
 body.list .table-responsive table thead th span {
     color: #788195;
@@ -45,6 +49,10 @@ body.list .table-responsive table thead th span {
 
 body.list .table-responsive table thead th a:hover {
     background: #e4e6ea;
+}
+
+body.list .table tbody {
+    border-bottom: 0;
 }
 
 /* BTN */
@@ -106,11 +114,11 @@ body.list table tbody td.actions .btn-sort:hover:active {
     color: #333;
 }
 
-.toggle-group .btn-danger,
-.toggle-group .btn-danger:hover,
-.toggle-group .btn-danger:active,
-.toggle-group .btn-danger:active:hover,
-.toggle-group .btn-danger:focus,
+.toggle-group .toggle-off,
+.toggle-group .toggle-off.btn-xs,
+.toggle-group .toggle-off:hover,
+.toggle-group .toggle-off:active,
+.toggle-group .toggle-off:active:hover,
 .toggle.btn-danger,
 .toggle.btn-danger:hover,
 .toggle.btn-danger:active,
@@ -120,7 +128,11 @@ body.list table tbody td.actions .btn-sort:hover:active {
     border-color: #9b9b9b;
 }
 
-.toggle-group .btn-success,
+.toggle-group .toggle-on,
+.toggle-group .toggle-on.btn-xs,
+.toggle-group .toggle-on:hover,
+.toggle-group .toggle-on:active,
+.toggle-group .toggle-on:active:hover,
 .toggle.btn-success
 {
     background: #42a65d;
@@ -147,24 +159,18 @@ body.list table tbody td.actions .btn-sort:hover:active {
 .btn-primary,
 .btn-primary:hover,
 .btn-primary:active,
-.btn-primary:active:hover,
 .btn-primary:focus,
-.label-primary,
-.label-primary:hover,
-.label-primary:active,
-.label-primary:focus {
+.btn-primary:active:hover,
+.label-primary {
     background-color: #273162;
 }
 
 .btn-secondary,
 .btn-secondary:hover,
 .btn-secondary:active,
-.btn-secondary:active:hover,
 .btn-secondary:focus,
-.label-secondary,
-.label-secondary:hover,
-.label-secondary:active,
-.label-secondary:focus {
+.btn-secondary:active:hover,
+.label-secondary {
     background: none;
     border: 1px dashed #d8d8d8;
     color: #717171;
@@ -174,24 +180,18 @@ body.list table tbody td.actions .btn-sort:hover:active {
 .btn-danger,
 .btn-danger:hover,
 .btn-danger:active,
-.btn-danger:active:hover,
 .btn-danger:focus,
-.label-danger,
-.label-danger:hover,
-.label-danger:active,
-.label-danger:focus {
+.btn-danger:active:hover,
+.label-danger {
     background-color: #DF3A4A;
 }
 
 .btn-info,
 .btn-info:hover,
 .btn-info:active,
-.btn-info:active:hover,
 .btn-info:focus,
-.label-info,
-.label-info:hover,
-.label-info:active,
-.label-info:focus {
+.btn-info:active:hover,
+.label-info {
     background-color: #4482FF;
     color: #fff !important;
 }
@@ -228,13 +228,20 @@ body.list table tbody td.actions .btn-sort:hover:active {
     margin-bottom: -2px;
 }
 
-/* BLOCK */
+/* BOX */
 
+.box.box-primary {
+    border: 1px solid #ebebeb;
+    box-shadow: none;
+}
+
+.box,
 .field-group .box {
     border: 1px solid #ebebeb;
     box-shadow: none;
 }
 
+.box-header.with-border,
 .field-group .box-header.with-border {
     border-bottom-color: #ebebeb;
     padding: 20px 15px 19px;
@@ -242,6 +249,7 @@ body.list table tbody td.actions .btn-sort:hover:active {
     background: transparent;
 }
 
+.box-header.with-border h3.box-title,
 .field-group .box-header.with-border h3.box-title {
     font-size: 19px;
     color: #323332;
@@ -284,7 +292,7 @@ main.flex > aside.filter-sidebar > section .filter-sidebar-close {
 }
 
 main.flex .box {
-    border-top: 0;
+    border: 0;
     box-shadow: none;
     background: transparent;
 }

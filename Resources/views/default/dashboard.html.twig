@@ -1,5 +1,8 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 
+{% block content_header %}
+{% endblock content_header %}
+
 {% block main %}
     {% for widget in widgets %}
         {{ widget.render|raw }}
