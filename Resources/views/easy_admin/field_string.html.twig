@@ -1,7 +1,7 @@
-{% if field_options.labeled|default(false) %}
+{% if field_options.labeled|default(false) and value|length > 0 %}
     <span class="label {{ (value ~ '_label')|trans({}, field_options.domain|default('messages')) }}">
 {% endif %}
     {{ value|trans({}, field_options.domain|default('messages')) }}
-{% if field_options.labeled|default(false) %}
+{% if field_options.labeled|default(false) and value|length > 0 %}
     </span>
 {% endif %}
