@@ -90,3 +90,27 @@ easy_admin:
             - { label: 'Top item', priority: 9999 }
             - { label: 'Bottom item', priority: 0 }
 ```
+
+
+## EasyADmin custom list translated item (optional label)
+
+```yaml
+easy_admin:
+    entities:
+        Entity:
+            list:
+                fields:
+                    -
+                        label: 'Example'
+                        property: 'hello'
+                        labeled: true # Optional
+                        domain: 'translation_domain'
+                        template: '@KRGEasyAdminExtension/easy_admin/field_string.html.twig'
+```
+
+The value is translated with the domain, the label is formated like (value ~ '_label')|trans(}
+
+```yaml
+hello: Hello
+hello_label: label-default
+```
