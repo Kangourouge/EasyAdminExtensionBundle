@@ -15,5 +15,4 @@ easy_admin:
             - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort' }
             - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary' }
             - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger' }
-            - { name: 'show', icon: 'info-circle', css_class: 'btn btn-info' }
             - { name: 'new', icon: 'plus', css_class: 'btn btn-primary' }

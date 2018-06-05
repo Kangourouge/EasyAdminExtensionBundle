@@ -49,3 +49,9 @@ body:not(.sidebar-collapse) .sidebar > .sidebar-menu > li:first-child a {
     background: #1d212c;
     border-radius: 3px;
 }
+
+.btn-primary.action-save,
+.btn-primary.action-save:hover {
+    background: #262b35;
+}
+

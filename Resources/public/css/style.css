@@ -124,7 +124,7 @@ body.list table tbody td.actions .btn-sort:hover:active {
 .toggle.btn-danger:active,
 .toggle.btn-danger:active:hover,
 .toggle.btn-danger:focus {
-    background-color: #b2b2b2;
+    background-color: #b2b2b2 !important;
     border-color: #9b9b9b;
 }
 
