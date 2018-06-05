@@ -159,12 +159,33 @@ body.list table tbody td.actions .btn-sort:hover:active {
     font-weight: normal;
 }
 
+.label.label-default:hover {
+    background-color: #dadada;
+}
+
 .label.label-success {
     background: #42a65d !important;
 }
 
-.label.label-default {
-    color: #565656 !important;
+.label-rounded {
+    border-radius: 50%;
+    height: 30px;
+    width: 31px;
+    line-height: 31px;
+    padding: 0;
+    text-align: center;
+}
+
+.bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+    background-color: #ffb822 !important;
+}
+
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:focus, .btn-info:active:hover, .label-info {
+    background-color: #36a3f7 !important;
+}
+
+.btn-danger, .btn-danger:hover, .btn-danger:active, .btn-danger:focus, .btn-danger:active:hover, .label-danger {
+    background-color: #DF3A4A !important;
 }
 
 .btn-primary,
@@ -188,22 +209,12 @@ body.list table tbody td.actions .btn-sort:hover:active {
     text-decoration: none;
 }
 
-.btn-danger,
-.btn-danger:hover,
-.btn-danger:active,
-.btn-danger:focus,
-.btn-danger:active:hover,
-.label-danger {
-    background-color: #DF3A4A;
-}
-
 .btn-info,
 .btn-info:hover,
 .btn-info:active,
 .btn-info:focus,
 .btn-info:active:hover,
 .label-info {
-    background-color: #4482FF;
     color: #fff !important;
 }
 
@@ -235,7 +246,13 @@ body.list table tbody td.actions .btn-sort:hover:active {
     width: 100%;
 }
 
-.nav-tabs>li {
+.select2-container--bootstrap .select2-selection {
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.nav-tabs > li {
     margin-bottom: -2px;
 }
 
@@ -267,7 +284,6 @@ body.list table tbody td.actions .btn-sort:hover:active {
     font-weight: 400;
     line-height: 1.2;
 }
-
 
 main.flex {
     display: flex;

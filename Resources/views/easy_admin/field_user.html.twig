@@ -1,0 +1,5 @@
+{% set labels = ['default', 'info', 'success', 'warning', 'danger'] %}
+
+<a href="{{ path('easyadmin') ~ '?entity=User&action=edit&id=' ~ value.id }}" title="{{ value }}" class="label label-{{ labels[value.id % labels|length] }} label-rounded">
+    {{ value.firstname ? value.firstname[:1]|upper : 'X' }}{{ value.lastname ? value.lastname[:1]|upper : 'X' }}
+</a>
