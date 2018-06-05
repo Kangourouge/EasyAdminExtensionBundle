@@ -60,21 +60,28 @@ class MenuConfigPass implements ConfigPassInterface
      */
     protected function processGroups(array $menuConfig)
     {
+        // Index menu items by groups name
         $groups = [];
         foreach ($menuConfig as $i => $itemConfig) {
             if (empty($itemConfig['children']) || !isset($itemConfig['group'])) {
                 continue;
             }
 
-            $key = array_search($itemConfig['group'], $groups);
-            if (false === $key) {
-                $groups[$i] = $itemConfig['group'];
-            } else {
-                foreach ($itemConfig['children'] as $child) { // Add similar group child to parent children
-                    $backendConfig['design']['menu'][$key]['children'][] = $child;
+            $groups[$itemConfig['group']][] = $i;
+        }
+
+        // Merge children from corresponding groups, unset useless menu items
+        foreach ($groups as $indexes) {
+            $children = [];
+            foreach ($indexes as $i) {
+                $children = array_merge($children, $menuConfig[$i]['children']);
+
+                if ($i !== $indexes[0]) {
+                    unset($menuConfig[$i]);
                 }
-                unset($menuConfig[$i]);
             }
+
+            $menuConfig[$indexes[0]]['children'] = $children;
         }
 
         return $menuConfig;
