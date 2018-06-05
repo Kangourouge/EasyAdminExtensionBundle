@@ -92,7 +92,7 @@ easy_admin:
 ```
 
 
-## EasyADmin custom list translated item (optional label)
+## EasyAdmin custom list translated item (optional label)
 
 ```yaml
 easy_admin:
@@ -114,3 +114,19 @@ The value is translated with the domain, the label is formated like (value ~ '_l
 hello: Hello
 hello_label: label-default
 ```
+
+## EasyAdmin user label list
+
+```yaml
+easy_admin:
+    entities:
+        Entity:
+            class: 'AppBundle\Entity\User'
+            list:
+                fields:
+                    -
+                        property: 'user'
+                        type: object
+                        fullname: false
+                        template: '@KRGEasyAdminExtension/easy_admin/field_user.html.twig'
+````

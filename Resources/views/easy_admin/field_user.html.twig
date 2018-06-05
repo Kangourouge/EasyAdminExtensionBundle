@@ -1,5 +1,12 @@
 {% set labels = ['default', 'info', 'success', 'warning', 'danger'] %}
+{% set link = path('easyadmin') ~ '?entity=User&action=edit&id=' ~ value.id %}
 
-<a href="{{ path('easyadmin') ~ '?entity=User&action=edit&id=' ~ value.id }}" title="{{ value }}" class="label label-{{ labels[value.id % labels|length] }} label-rounded">
+<a href="{{ link }}" title="{{ value }}" class="label label-{{ labels[value.id % labels|length] }} label-rounded">
     {{ value.firstname ? value.firstname[:1]|upper : 'X' }}{{ value.lastname ? value.lastname[:1]|upper : 'X' }}
 </a>
+
+{% spaceless %}
+    {% if field_options.fullname|default(false) %}
+        &nbsp;<a href="{{ link }}">{{ value.firstname }} {{ value.lastname }}</a>
+    {% endif %}
+{% endspaceless %}
