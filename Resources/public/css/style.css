@@ -139,14 +139,7 @@ body.list table tbody td.actions .btn-sort:hover:active {
     border-color: #348b5e;
 }
 
-.label:not([class*=label-]) {
-    background: #dadada;
-    color: #565656;
-    font-weight: normal;
-    padding: 6px 6px 5px;
-}
-
-.label.label-success {
+.toggle-group .label.label-success {
     padding: 6px 9px;
     border-radius: 3px;
     border: 1px solid #348a5e;
@@ -154,6 +147,24 @@ body.list table tbody td.actions .btn-sort:hover:active {
     font-weight: bold;
     text-transform: uppercase;
     background-color: #42a65d !important;
+}
+
+.label {
+    padding: 6px 5px 5px;
+}
+
+.label:not([class*=label-]) {
+    background: #dadada;
+    color: #565656;
+    font-weight: normal;
+}
+
+.label.label-success {
+    background: #42a65d !important;
+}
+
+.label.label-default {
+    color: #565656 !important;
 }
 
 .btn-primary,
