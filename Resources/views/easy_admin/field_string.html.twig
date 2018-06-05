@@ -1,5 +1,7 @@
-{% if field_options.trans|default(false) %}
+{% if field_options.labeled|default(false) %}
+    <span class="label {{ (value ~ '_label')|trans({}, field_options.domain|default('messages')) }}">
+{% endif %}
     {{ value|trans({}, field_options.domain|default('messages')) }}
-{% else %}
-    {{ include('@EasyAdmin/default/field_string.html.twig') }}
+{% if field_options.labeled|default(false) %}
+    </span>
 {% endif %}
