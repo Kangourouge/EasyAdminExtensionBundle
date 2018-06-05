@@ -6,7 +6,6 @@ use KRG\EasyAdminExtensionBundle\Cache\ClearCache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,19 +26,16 @@ class CacheController extends Controller
      */
     public function clearAction(Request $request)
     {
-        $form = $this->createFormBuilder()
-                     ->add('type', ChoiceType::class, [
-                        'choices'                   => array_flip(ClearCache::$types),
-                        'choice_translation_domain' => 'KRGEasyAdminExtensionBundle',
-                        'expanded'                  => true,
-                        'multiple'                  => true,
-                        'label'                     => false,
-                     ])
-                     ->add('clear', SubmitType::class, [
-                        'attr'               => ['class' => 'btn btn-danger'],
-                        'translation_domain' => 'KRGEasyAdminExtensionBundle',
-                     ])
-                     ->getForm();
+        $form = $this
+             ->createFormBuilder()
+             ->add('type', ChoiceType::class, [
+                'choices'                   => array_flip(ClearCache::$types),
+                'choice_translation_domain' => 'KRGEasyAdminExtensionBundle',
+                'expanded'                  => true,
+                'multiple'                  => true,
+                'label'                     => false,
+             ])
+             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isValid() && $form->isSubmitted()) {

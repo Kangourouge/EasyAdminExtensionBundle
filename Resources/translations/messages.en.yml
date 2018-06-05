@@ -9,3 +9,6 @@ User: User
 Action: Action
 Entity: Entity
 Date: Date
+
+menu:
+  system: System

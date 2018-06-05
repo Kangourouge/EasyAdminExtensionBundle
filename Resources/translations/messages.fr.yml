@@ -22,3 +22,6 @@ Action: Action
 Entity: Entity
 Date: Date
 Dashboard: Tableau de bord
+
+menu:
+  system: Système

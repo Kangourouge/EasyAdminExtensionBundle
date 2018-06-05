@@ -6,8 +6,27 @@
 
 {% block main %}
     {{ form_start(form) }}
-    {{ form_widget(form.type) }}
-    {{ form_widget(form.clear) }}
+    <div class="row">
+        <div class="field-group col-xs-12">
+            <div class="box box-default">
+                <div class="box-header with-border"><h3 class="box-title">Type</h3></div>
+                <div class="box-body">
+                    {{ form_widget(form.type) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 form-actions" style="width: 100%;">
+            <div class="form-group">
+                <div id="form-actions-row">
+                    <button type="submit" class="btn btn-danger action-save" onclick="return document.forms.{{ form.vars.name }}.submit();">
+                        <i class="fa fa-eraser"></i> {{ 'Clear'|trans({}, 'KRGEasyAdminExtensionBundle') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
-
