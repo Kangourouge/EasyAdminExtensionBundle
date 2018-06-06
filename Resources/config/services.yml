@@ -22,11 +22,6 @@ services:
         resource: '../../Form/Type'
         tags: ['form.type']
 
-    KRG\EasyAdminExtensionBundle\Form\Extension\EasyAdminEntityTypeExtension:
-        public: true
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Bridge\Doctrine\Form\Type\EntityType }
-
     KRG\EasyAdminExtensionBundle\Widget\:
         resource: '../../Widget'
         tags: ['krg.easyadmin.widget']
