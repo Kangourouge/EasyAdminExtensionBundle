@@ -4,7 +4,7 @@
     {% if action.menu_dropdown is not defined %}
         {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
     {% else %}
-        {% if action.menu_dropdown not in dropdowns %}
+        {% if action.menu_dropdown|trans not in dropdowns %}
             {% set dropdowns = dropdowns|merge([action.menu_dropdown]) %}
         {% endif %}
     {% endif %}
@@ -16,7 +16,7 @@
             {{ dropdown == 'true' ? '' : dropdown }} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-            {% for action in actions if (action.menu_dropdown is defined and action.menu_dropdown == dropdown) %}
+            {% for action in actions if (action.menu_dropdown is defined and action.menu_dropdown|trans == dropdown|trans) %}
                 {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
             {% endfor %}
         </ul>
