@@ -1,0 +1,24 @@
+<div class="row">
+    <section class="col-lg-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ title }}</h3>
+            </div>
+            <div class="box-body">
+                <ul class="dashboard-stats list-group-row clearfix">
+                    {% for row in data %}
+                        <li class="list-group-item col-xs-12 {{ itemClass|default('col-sm-4') }}">
+                            <span class="stats-title">
+                                {% if row.icon is defined %}
+                                    <span class="fa fa-{{ row.icon }}"></span>
+                                {% endif %}
+                                {{ row.title }}
+                            </span>
+                            <span class="stats-value">{{ row.value }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
