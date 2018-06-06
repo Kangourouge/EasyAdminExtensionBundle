@@ -12,7 +12,6 @@
                         <th scope="col">{% trans %}Action{% endtrans %}</th>
                         <th scope="col">{% trans %}Entity{% endtrans %}</th>
                         <th scope="col">{% trans %}Date{% endtrans %}</th>
-
                     </tr>
                     </thead>
                     <tbody>
@@ -27,8 +26,12 @@
                         {% set objectClass = item.objectClass|split('\\')  %}
                         <tr>
                             <td>{{ item.username }}</td>
-                            <td class="label label-{{ labelAction }}">{{ item.action|trans({'%action%': item.action}, 'messages') }}</td>
-                            <td>{{ objectClass|last|trans({'%objectClass%': objectClass|last}, 'messages') }} </td>
+                            <td>
+                                <span class="label label-{{ labelAction }}">
+                                    {{ item.action|trans({'%action%': item.action}) }}
+                                </span>
+                            </td>
+                            <td>{{ objectClass|last|trans({'%objectClass%': objectClass|last}) }} </td>
                             <td>{{ item.loggedAt }}</td>
                         </tr>
                     {% endfor %}
