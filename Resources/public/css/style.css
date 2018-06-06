@@ -332,3 +332,26 @@ main.flex .box {
 #flash-messages .alert {
     margin: 15px;
 }
+
+/**/
+
+.dashboard-stats {
+    list-style: none;
+}
+
+.dashboard-stats li {
+    border: 0;
+    padding: 0;
+}
+
+.dashboard-stats .stats-title {
+    color: #737373;
+    text-transform: uppercase;
+}
+
+.dashboard-stats .stats-value {
+    line-height: 7rem;
+    display: block;
+    font-size: 5em;
+    font-weight: 100;
+}
