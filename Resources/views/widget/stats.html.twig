@@ -6,8 +6,9 @@
             </div>
             <div class="box-body">
                 <ul class="dashboard-stats list-group-row clearfix">
+                    {% if text is defined %}<p>{{ text }}</p>{% endif %}
                     {% for row in data %}
-                        <li class="list-group-item col-xs-12 {{ itemClass|default('col-sm-4') }}">
+                        <li class="list-group-item col-xs-12 {{ row.itemClass|default('col-sm-4') }}" {% if row.style is defined %} style="{{ row.style }}"{% endif %}>
                             <span class="stats-title">
                                 {% if row.icon is defined %}
                                     <span class="fa fa-{{ row.icon }}"></span>
