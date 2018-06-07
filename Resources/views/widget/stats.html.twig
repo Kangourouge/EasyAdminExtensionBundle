@@ -3,12 +3,19 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">{{ title }}</h3>
+                {% if buttons is defined and buttons|length > 0 %}
+                    <div class="pull-right">
+                        {% for button in buttons %}
+                            <a href="{{ button.href }}" class="btn btn-xs {{ button.class|default('btn-default') }}">{{ button.text }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="box-body">
                 <ul class="dashboard-stats list-group-row clearfix">
                     {% if text is defined %}<p>{{ text }}</p>{% endif %}
                     {% for row in data %}
-                        <li class="list-group-item col-xs-12 {{ row.itemClass|default('col-sm-4') }}" {% if row.style is defined %} style="{{ row.style }}"{% endif %}>
+                        <li class="list-group-item col-xs-12 {{ row.class|default('col-sm-4') }}" {% if row.style is defined %} style="{{ row.style }}"{% endif %}>
                             <span class="stats-title">
                                 {% if row.icon is defined %}
                                     <span class="fa fa-{{ row.icon }}"></span>
