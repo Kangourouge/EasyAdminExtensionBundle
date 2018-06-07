@@ -1,24 +1,48 @@
-{% set dropdowns = [] %}
-
-{% for action in actions %}
-    {% if action.menu_dropdown is not defined %}
-        {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
-    {% else %}
-        {% if action.menu_dropdown|trans not in dropdowns %}
-            {% set dropdowns = dropdowns|merge([action.menu_dropdown]) %}
-        {% endif %}
-    {% endif %}
-{% endfor %}
-
-{% for dropdown in dropdowns %}
+{% macro dropdown(name, actions, request_parameters, translation_domain, trans_parameters, item_id) %}
+    {% set textButton = name|length > 0 %}
     <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ dropdown == 'true' ? '' : dropdown }} <span class="caret"></span>
+        <button type="button" class="btn dropdown-toggle {% if textButton %}btn-default{% else %}btn-more{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if textButton %}
+                {{ name }} <span class="caret"></span>
+            {% else %}
+                <span class="fa fa-ellipsis-v"></span>
+            {% endif %}
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-            {% for action in actions if (action.menu_dropdown is defined and action.menu_dropdown|trans == dropdown|trans) %}
-                {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
+            {% for action in actions %}
+                {% if action.menu_dropdown is defined
+                    and ((name|length > 0 and action.menu_dropdown['name'] is defined and action.menu_dropdown['name'] == name)
+                    or name|length == 0 and action.menu_dropdown['name'] is not defined) %}
+                    {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
+{% endmacro %}
+
+{% import _self as helper %}
+
+{% for action in actions if action.menu_dropdown is not defined %}
+    {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
 {% endfor %}
+
+{% set groups = [] %}
+{% set globalDropdown = false %}
+{% for action in actions %}
+    {% if action.menu_dropdown is defined and action.menu_dropdown['name'] is defined %}
+        {% set name = action.menu_dropdown['name'] %}
+        {% if name not in groups %}
+            {% set groups = groups|merge([name]) %}
+        {% endif %}
+    {% elseif action.menu_dropdown is defined and action.menu_dropdown['name'] is not defined %}
+        {% set globalDropdown = true %}
+    {% endif %}
+{% endfor %}
+
+{% for group in groups %}
+    {{ helper.dropdown(group, actions, request_parameters, translation_domain, trans_parameters, item_id) }}
+{% endfor %}
+
+{% if globalDropdown %}
+    {{ helper.dropdown('', actions, request_parameters, translation_domain, trans_parameters, item_id) }}
+{% endif %}

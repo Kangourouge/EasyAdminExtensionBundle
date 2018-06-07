@@ -108,6 +108,15 @@ body.list table tbody td.actions .dropdown-menu a:last-child {
     border-bottom: none;
 }
 
+.btn-more,
+.btn-more:hover,
+.btn-more:active,
+.btn-more:focus,
+.btn-more:hover:active {
+    background: transparent;
+    color: #5A5A5A;
+}
+
 .sortable-ghost {
     background: #e0e0e0 !important;
 }

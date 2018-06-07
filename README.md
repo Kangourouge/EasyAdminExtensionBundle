@@ -60,10 +60,10 @@ easy_admin:
             list:
                 actions:
                     - { label: 'Action', name: 'action', menu_dropdown: true } # [↓]
-                    - { label: 'Action 1.1', name: 'test', menu_dropdown: 'Group 1' } # [Group 1 ↓]
-                    - { label: 'Action 1.2', name: 'test', menu_dropdown: 'Group 1' } # [Group 1 ↓]
-                    - { label: 'Action 2.1', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
-                    - { label: 'Action 2.2', name: 'test', menu_dropdown: 'Group 2' } # [Group 2 ↓]
+                    - { label: 'Action 1.1', name: 'test', menu_dropdown: { name: 'Group 1' } # [Group 1 ↓]
+                    - { label: 'Action 1.2', name: 'test', menu_dropdown: { name: 'Group 1' } # [Group 1 ↓]
+                    - { label: 'Action 2.1', name: 'test', menu_dropdown: { name: 'Group 2' } # [Group 2 ↓]
+                    - { label: 'Action 2.2', name: 'test', menu_dropdown: { name: 'Group 2' } # [Group 2 ↓]
 ```
 
 ## EasyAdmin custom menu groups
@@ -92,7 +92,7 @@ easy_admin:
 ```
 
 
-## EasyAdmin custom list translated item (optional label)
+## EasyAdmin custom list translated item
 
 ```yaml
 easy_admin:
@@ -103,12 +103,12 @@ easy_admin:
                     -
                         label: 'Example'
                         property: 'hello'
-                        labeled: true # Optional
+                        badge: true # Optional
                         domain: 'translation_domain'
                         template: '@KRGEasyAdminExtension/easy_admin/field_string.html.twig'
 ```
 
-The value is translated with the domain, the label is formated like (value ~ '_label')|trans(}
+The value is translated with the domain, the label class is formated like (value ~ '_label')|trans
 
 ```yaml
 hello: Hello
