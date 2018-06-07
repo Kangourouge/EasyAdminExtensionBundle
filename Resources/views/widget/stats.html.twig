@@ -6,7 +6,12 @@
                 {% if buttons is defined and buttons|length > 0 %}
                     <div class="pull-right">
                         {% for button in buttons %}
-                            <a href="{{ button.href }}" class="btn btn-xs {{ button.class|default('btn-default') }}">{{ button.text }}</a>
+                            <a href="{{ button.href }}" class="btn btn-xs {{ button.class|default('btn-default') }}">
+                                {% if button.icon is defined %}
+                                    <span class="fa fa-{{ button.icon }}"></span>
+                                {% endif %}
+                                {{ button.text }}
+                            </a>
                         {% endfor %}
                     </div>
                 {% endif %}
