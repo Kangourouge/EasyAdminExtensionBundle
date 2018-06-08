@@ -10,30 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController
 {
-    /** @var array */
-    protected $dashboardWidgets;
-
-    public function __construct(array $dashboardWidgets = [])
-    {
-        $this->dashboardWidgets = $dashboardWidgets;
-    }
-
-    public function addWidget(WidgetInterface $widget)
-    {
-        $this->dashboardWidgets[] = $widget;
-    }
-
-    /**
-     * @Route("/dashboard", name="admin_dashboard")
-     */
-    public function dashboardAction()
-    {
-        return $this->render('KRGEasyAdminExtensionBundle:default:dashboard.html.twig', [
-            'config'  => $this->config,
-            'widgets' => $this->dashboardWidgets,
-        ]);
-    }
-
     /**
      * Sortable action
      */

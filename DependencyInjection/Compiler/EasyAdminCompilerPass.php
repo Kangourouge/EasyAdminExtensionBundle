@@ -2,6 +2,7 @@
 namespace KRG\EasyAdminExtensionBundle\DependencyInjection\Compiler;
 
 use KRG\EasyAdminExtensionBundle\Controller\AdminController;
+use KRG\EasyAdminExtensionBundle\Controller\DashboardController;
 use KRG\EasyAdminExtensionBundle\Twig\ToolbarExtension;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\PriorityTaggedServiceTrait;
@@ -13,7 +14,7 @@ class EasyAdminCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $definition = $container->findDefinition(AdminController::class);
+        $definition = $container->findDefinition(DashboardController::class);
         $references = $this->findAndSortTaggedServices('krg.easyadmin.widget', $container);
         foreach ($references as $reference) {
             $definition->addMethodCall('addWidget', [$reference]);
