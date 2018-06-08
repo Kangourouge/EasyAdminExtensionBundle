@@ -40,14 +40,18 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
     protected function sortAction()
     {
         $relativePosition = $this->request->query->get('relativePosition');
-        $field = 'position';
-        $getter = 'get'.ucfirst($field);
-        $setter = 'set'.ucfirst($field);
         $easyadmin = $this->request->attributes->get('easyadmin');
         $entity = $easyadmin['item'];
-        $currentPosition = $entity->$getter();
-        $newPosition = $currentPosition + $relativePosition;
-        $entity->$setter($newPosition);
+
+        if (false === method_exists($entity, 'getPosition')) {
+            throw new \Exception(sprintf('%s entity must implement getPosition method', $easyadmin['entity']['class']));
+        }
+
+        if (false === method_exists($entity, 'setPosition')) {
+            throw new \Exception(sprintf('%s entity must implement setPosition method', $easyadmin['entity']['class']));
+        }
+
+        $entity->setPosition($entity->getPosition() + $relativePosition);
         $this->em->flush();
 
         return new Response();
