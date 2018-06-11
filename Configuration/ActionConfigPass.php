@@ -25,8 +25,6 @@ class ActionConfigPass implements ConfigPassInterface
     public function process(array $backendConfig)
     {
         foreach ($backendConfig['entities'] as &$config) {
-            $config['templates']['list'] = '@KRGEasyAdminExtension/default/list.html.twig';
-
             $this->processSort($config);
         }
         unset($config);

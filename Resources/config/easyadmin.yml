@@ -1,5 +1,8 @@
 easy_admin:
     design:
+        templates:
+            list: '@KRGEasyAdminExtension/default/list.html.twig'
+            field_string: '@KRGEasyAdminExtension/default/field_string.html.twig'
         menu:
             - { label: 'Homepage', route: 'homepage', icon: 'home', target: '_blank', css_class: 'sidebar-menu-homepage', priority: 9999 }
             - { label: 'Dashboard', route: 'admin_dashboard', icon: 'dashboard', default: true, priority: 9000 }
