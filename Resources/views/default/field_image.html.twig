@@ -1,0 +1,15 @@
+{% if value %}
+    {% if field_options.imagine_filter %}
+        {% set asset = asset(value)|imagine_filter(field_options.imagine_filter) %}
+    {% else %}
+        {% set asset = asset(value) %}
+    {% endif %}
+
+    <a href="#" class="easyadmin-thumbnail" data-featherlight="#easyadmin-lightbox-{{ uuid }}" data-featherlight-close-on-click="anywhere">
+        <img src="{{ asset }}">
+    </a>
+
+    <div id="easyadmin-lightbox-{{ uuid }}" class="easyadmin-lightbox">
+        <img src="{{ asset }}">
+    </div>
+{% endif %}
