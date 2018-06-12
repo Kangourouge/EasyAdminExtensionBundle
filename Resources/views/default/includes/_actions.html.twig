@@ -1,20 +1,15 @@
-{% macro dropdown(name, actions, request_parameters, translation_domain, trans_parameters, item_id) %}
-    {% set textButton = name|length > 0 %}
+{% macro dropdown(dropdown, actions, request_parameters, translation_domain, trans_parameters, item_id) %}
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle {% if textButton %}btn-default{% else %}btn-more{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% if textButton %}
-                {{ name }} <span class="caret"></span>
+        <button type="button" class="btn dropdown-toggle {% if dropdown.css_class is defined %}{{ dropdown.css_class }}{% elseif dropdown.name|default('')|length > 0 %}btn-default{% else %}btn-more{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if dropdown.name|default('')|length > 0 %}
+                {{ dropdown.name }} <span class="caret"></span>
             {% else %}
                 <span class="fa fa-ellipsis-v"></span>
             {% endif %}
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
             {% for action in actions %}
-                {% if action.menu_dropdown is defined
-                    and ((name|length > 0 and action.menu_dropdown['name'] is defined and action.menu_dropdown['name'] == name)
-                    or name|length == 0 and action.menu_dropdown['name'] is not defined) %}
-                    {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
-                {% endif %}
+                {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
             {% endfor %}
         </ul>
     </div>
@@ -22,27 +17,14 @@
 
 {% import _self as helper %}
 
-{% for action in actions if action.menu_dropdown is not defined %}
+{% for action in actions.actions %}
     {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
 {% endfor %}
 
-{% set groups = [] %}
-{% set globalDropdown = false %}
-{% for action in actions %}
-    {% if action.menu_dropdown is defined and action.menu_dropdown['name'] is defined %}
-        {% set name = action.menu_dropdown['name'] %}
-        {% if name not in groups %}
-            {% set groups = groups|merge([name]) %}
-        {% endif %}
-    {% elseif action.menu_dropdown is defined and action.menu_dropdown['name'] is not defined %}
-        {% set globalDropdown = true %}
-    {% endif %}
+{% for key, group in actions.dropdownGroups %}
+    {{ helper.dropdown((group|first).menu_dropdown, group, request_parameters, translation_domain, trans_parameters, item_id) }}
 {% endfor %}
 
-{% for group in groups %}
-    {{ helper.dropdown(group, actions, request_parameters, translation_domain, trans_parameters, item_id) }}
-{% endfor %}
-
-{% if globalDropdown %}
-    {{ helper.dropdown('', actions, request_parameters, translation_domain, trans_parameters, item_id) }}
+{% if actions.dropdownGlobal|length > 0 %}
+    {{ helper.dropdown('', actions.dropdownGlobal, request_parameters, translation_domain, trans_parameters, item_id) }}
 {% endif %}

@@ -8,6 +8,7 @@ services:
             $cacheDir: '%kernel.cache_dir%'
             $webDir: '%kernel.root_dir%/web'
             $debug: '%krg_easyadmin_debug%'
+            $logoutUrlGenerator: '@security.logout_url_generator'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
@@ -35,6 +36,9 @@ services:
     KRG\EasyAdminExtensionBundle\Twig\:
         resource: '../../Twig/*'
         tags: [twig.extension]
+
+    easyadmin.twig.extension:
+        alias: '@KRG\EasyAdminExtensionBundle\Twig\KrgEasyAdminTwigExtension'
 
     KRG\EasyAdminExtensionBundle\Configuration\:
         resource: '../../Configuration'

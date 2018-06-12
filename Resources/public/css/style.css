@@ -76,8 +76,11 @@ body.list table tbody td.actions a i.fa {
     font-size: 12px;
 }
 
-body.list td.actions .btn.btn-default.dropdown-toggle {
+body.list td.actions .btn.dropdown-toggle {
     padding: 4px 11px;
+}
+
+body.list td.actions .btn.btn-default.dropdown-toggle {
     background: #f1f3f6;
     color: #788094;
 }

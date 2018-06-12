@@ -105,7 +105,6 @@ easy_admin:
                         property: 'hello'
                         badge: true # Optional
                         domain: 'translation_domain'
-                        template: '@KRGEasyAdminExtension/easy_admin/field_string.html.twig'
 ```
 
 The value is translated with the domain, the label class is formated like (value ~ '_label')|trans
