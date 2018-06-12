@@ -23,6 +23,10 @@ class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
     {
         $actions = parent::getActionsForItem($view, $entityName);
 
+        if ('list' !== $view) {
+            return $actions;
+        }
+
         $dropdownGroups = [];
         $dropdownGlobal = [];
         foreach ($actions as $key => $action) {
