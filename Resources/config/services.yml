@@ -33,12 +33,12 @@ services:
         tags: [{name: 'krg.easyadmin.toolbar', priority: 1000}]
         public: true
 
+    KRG\EasyAdminExtensionBundle\Twig\KrgEasyAdminTwigExtension:
+        decorates: 'easyadmin.twig.extension'
+
     KRG\EasyAdminExtensionBundle\Twig\:
         resource: '../../Twig/*'
         tags: [twig.extension]
-
-    easyadmin.twig.extension:
-        alias: '@KRG\EasyAdminExtensionBundle\Twig\KrgEasyAdminTwigExtension'
 
     KRG\EasyAdminExtensionBundle\Configuration\:
         resource: '../../Configuration'

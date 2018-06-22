@@ -17,14 +17,18 @@
 
 {% import _self as helper %}
 
-{% for action in actions.actions %}
-    {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
-{% endfor %}
+{% if actions.actions is defined %}
+    {% for action in actions.actions %}
+        {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
+    {% endfor %}
+{% endif %}
 
-{% for key, group in actions.dropdownGroups %}
-    {{ helper.dropdown((group|first).menu_dropdown, group, request_parameters, translation_domain, trans_parameters, item_id) }}
-{% endfor %}
+{% if actions.dropdownGroups is defined %}
+    {% for key, group in actions.dropdownGroups %}
+        {{ helper.dropdown((group|first).menu_dropdown, group, request_parameters, translation_domain, trans_parameters, item_id) }}
+    {% endfor %}
+{% endif %}
 
-{% if actions.dropdownGlobal|length > 0 %}
+{% if actions.dropdownGlobal is defined and actions.dropdownGlobal|length > 0 %}
     {{ helper.dropdown('', actions.dropdownGlobal, request_parameters, translation_domain, trans_parameters, item_id) }}
 {% endif %}

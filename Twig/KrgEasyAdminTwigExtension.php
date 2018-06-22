@@ -27,6 +27,18 @@ class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
             return $actions;
         }
 
+        usort($actions, function ($a, $b) {
+            if (!array_key_exists('priority', $a)) {
+                $a['priority'] = 0;
+            }
+
+            if (!array_key_exists('priority', $b)) {
+                $b['priority'] = 0;
+            }
+
+            return $a['priority'] - $b['priority'];
+        });
+
         $dropdownGroups = [];
         $dropdownGlobal = [];
         foreach ($actions as $key => $action) {
@@ -48,6 +60,7 @@ class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
         if (0 === count($actions) && 0 === count($dropdownGroups) && 0 === count($dropdownGlobal)) {
             return [];
         }
+
 
         return [
             'actions'        => $actions,
