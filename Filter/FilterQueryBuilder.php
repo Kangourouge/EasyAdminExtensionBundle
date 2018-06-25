@@ -7,6 +7,24 @@ use Doctrine\ORM\QueryBuilder;
 
 class FilterQueryBuilder
 {
+
+    public static function bindQueryBuilder(QueryBuilder $queryBuilder, array $entityConfig, array $data) {
+        $fields = $entityConfig['filter']['fields'];
+        foreach ($fields as $idx => $field) {
+            if (isset($data[sprintf('f%d', $idx)])) {
+                $_data = $data[sprintf('f%d', $idx)];
+
+                if ($_data instanceof Collection) {
+                    $_data = $_data->toArray();
+                }
+
+                if (!empty($_data) && isset($field['query_builder_callback']) && is_callable($field['query_builder_callback'])) {
+                    call_user_func($field['query_builder_callback'], $queryBuilder, $field, $_data);
+                }
+            }
+        }
+    }
+
     private static function addJoinQueryBuilder(QueryBuilder $queryBuilder, array $field) {
 
         $mapping = $field['metadata'][0];

@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use KRG\EasyAdminExtensionBundle\Form\Type\EasyAdminFilterType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,49 +48,48 @@ class FilterListener implements EventSubscriberInterface
     }
 
     public function onPostInit(GenericEvent $event) {
+
         $entityConfig = $event->getArgument('entity');
 
         if (isset($entityConfig['filter'])) {
+            $options = ['required' => false];
+
+            if ($entityConfig['filter']['form_type'] === EasyAdminFilterType::class) {
+                $options['config'] = $entityConfig;
+            }
+
             /** @var FormInterface $form */
             $this->form = $this->formFactory->createNamed(
                 $entityConfig['filter']['form_name'],
-                EasyAdminFilterType::class,
+                $entityConfig['filter']['form_type'],
                 null,
-                [ 'config' => $entityConfig, 'method' => 'GET' ]
+                $options
             );
+
+            $this->form->add('filter', SubmitType::class);
+            $this->form->add('reset', ResetType::class);
+
             $this->form->handleRequest($this->request);
         }
     }
 
     public function onPostQueryBuilder(GenericEvent $event) {
+
         /** @var array $entityConfig */
         $entityConfig = $event->getArgument('entity');
-
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $event->getArgument('query_builder');
-
         if ($this->form instanceof FormInterface) {
-            try {
-                $fields = $entityConfig['filter']['fields'];
-                if ($this->form->isValid() && $this->form->isSubmitted()) {
-                    $data = $this->form->getData();
-                    if (!empty($data)) {
-                        foreach ($fields as $idx => $field) {
-                            if (isset($data[sprintf('f%d', $idx)])) {
-                                $_data = $data[sprintf('f%d', $idx)];
-
-                                if ($_data instanceof Collection) {
-                                    $_data = $_data->toArray();
-                                }
-
-                                if (!empty($_data) && isset($field['dql_callback']) && is_callable($field['dql_callback'])) {
-                                    call_user_func($field['dql_callback'], $queryBuilder, $field, $_data);
-                                }
-                            }
-                        }
+            if ($this->form->isValid() && $this->form->isSubmitted()) {
+                $data = $this->form->getData();
+                if (!empty($data)) {
+                    $queryBuilder = call_user_func($entityConfig['filter']['query_builder_callback'], $queryBuilder, $entityConfig, $data);
+                    if (!$queryBuilder instanceof QueryBuilder) {
+                        throw new \RuntimeException('The query_builder_callback must return a QueryBuilder instance.');
                     }
+                    $event->setArgument('query_builder', $queryBuilder);
                 }
-            } catch (\Exception $exception) {}
+            }
         }
     }
 

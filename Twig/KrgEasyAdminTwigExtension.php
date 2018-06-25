@@ -61,7 +61,6 @@ class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
             return [];
         }
 
-
         return [
             'actions'        => $actions,
             'dropdownGroups' => $dropdownGroups,

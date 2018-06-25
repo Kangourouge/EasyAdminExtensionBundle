@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Guesser\MissingDoctrineOrmTypeGuesser;
 use KRG\EasyAdminExtensionBundle\Filter\FilterQueryBuilder;
+use KRG\EasyAdminExtensionBundle\Form\Type\EasyAdminFilterType;
 use KRG\EasyAdminExtensionBundle\Form\Type\RangeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,6 +46,7 @@ class FilterConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as &$config) {
             if (isset($config['filter'])) {
                 if (!isset($config['filter']['form_type'])) {
+                    $config['filter']['form_type'] = EasyAdminFilterType::class;
                     $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
                     foreach($config['filter']['fields'] as $idx => &$field) {
                         if (is_string($field)) {
@@ -78,28 +80,31 @@ class FilterConfigPass implements ConfigPassInterface
                         $field['type_options']['label'] = $field['type_options']['label'] ?? $field['property_path'];
                         $field['type_options']['required'] = false;
 
-                        if (!isset($field['dql_callback'])) {
-                            $field['dql_callback'] = [FilterQueryBuilder::class, 'addQueryBuilder'];
+                        if (!isset($field['query_builder_callback'])) {
+                            $field['query_builder_callback'] = [FilterQueryBuilder::class, 'addQueryBuilder'];
 
                             if (in_array($field['type'], [TextType::class, TextareaType::class])) {
-                                $field['dql_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderText'];
+                                $field['query_builder_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderText'];
                             }
                             else if (in_array($field['type'], [EntityType::class, ChoiceType::class])) {
-                                $field['dql_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderChoice'];
+                                $field['query_builder_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderChoice'];
                             }
                             else if (in_array($field['type'], RangeType::$types)) {
-                                $field['dql_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderRange'];
+                                $field['query_builder_callback'] = [FilterQueryBuilder::class, 'addQueryBuilderRange'];
                             }
                         }
                     }
                     unset($field);
                 }
 
+                if (!isset($config['filter']['query_builder_callback'])) {
+                    $config['filter']['query_builder_callback'] = [FilterQueryBuilder::class, 'bindQueryBuilder'];
+                }
+
                 $config['filter']['form_name'] = sprintf('filter_%s', strtolower($config['name']));
             }
         }
         unset($config);
-
         return $backendConfig;
     }
 

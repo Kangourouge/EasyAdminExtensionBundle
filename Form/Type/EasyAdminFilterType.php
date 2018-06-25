@@ -66,8 +66,6 @@ class EasyAdminFilterType extends AbstractType
 
             $builder->add($field['name'], $field['type'], $field['type_options']);
         }
-        $builder->add('filter', SubmitType::class, ['attr' => ['class' => 'btn btn-primary btn-block btn-filter']]);
-        $builder->add('reset', ResetType::class, ['attr' => ['class' => 'btn btn-block']]);
 
         $builder->addModelTransformer(new CallbackTransformer(
             function($data) { return $data; },

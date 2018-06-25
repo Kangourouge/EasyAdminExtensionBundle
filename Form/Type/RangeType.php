@@ -3,6 +3,7 @@
 namespace KRG\EasyAdminExtensionBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,6 +21,21 @@ class RangeType extends AbstractType
     {
         $builder->add('min', $options['entry_type'], array_merge($options['entry_options'], ['label' => false]))
                 ->add('max', $options['entry_type'], array_merge($options['entry_options'], ['label' => 'to']));
+
+        $builder->addModelTransformer(new CallbackTransformer(
+            function($value) {
+                if ($value === null) {
+                    return ['min' => null, 'max' => null];
+                }
+                return $value;
+            },
+            function($value) {
+                if ($value['min'] === null && $value['max'] === null) {
+                    return null;
+                }
+                return $value;
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

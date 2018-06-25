@@ -94,12 +94,24 @@
                     <div class="box-body">
                         {{ form_start(form_filter) }}
                         {{ form_errors(form_filter) }}
+                        {% form_theme form_filter 'bootstrap_3_layout.html.twig' %}
                         {% for key, value in app.request.query %}
                             {% if not (key starts with 'filter_') %}
                                 <input type="hidden" name="{{ key }}" value="{{ value }}">
                             {% endif %}
                         {% endfor %}
                         {{ form_end(form_filter) }}
+
+                        <script type="text/javascript">
+                            (function(){
+                                var form = document.forms.{{ form_filter.vars.name }};
+
+                                form.addEventListener('reset', function(event){
+                                    debugger;
+                                });
+
+                            })();
+                        </script>
                     </div>
                 </section>
             </aside>
