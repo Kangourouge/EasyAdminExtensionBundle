@@ -5,7 +5,7 @@ namespace KRG\EasyAdminExtensionBundle\Twig;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigManager;
 use EasyCorp\Bundle\EasyAdminBundle\Router\EasyAdminRouter;
 use EasyCorp\Bundle\EasyAdminBundle\Twig\EasyAdminTwigExtension;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
@@ -13,7 +13,7 @@ class KrgEasyAdminTwigExtension extends EasyAdminTwigExtension
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
-    public function __construct(ConfigManager $configManager, PropertyAccessor $propertyAccessor, EasyAdminRouter $easyAdminRouter, $debug = false, $logoutUrlGenerator, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(ConfigManager $configManager, PropertyAccessorInterface $propertyAccessor, EasyAdminRouter $easyAdminRouter, $debug = false, $logoutUrlGenerator, AuthorizationCheckerInterface $authorizationChecker)
     {
         parent::__construct($configManager, $propertyAccessor, $easyAdminRouter, $debug, $logoutUrlGenerator);
         $this->authorizationChecker = $authorizationChecker;
