@@ -3,9 +3,18 @@
 namespace KRG\EasyAdminExtensionBundle\Configuration;
 
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class MenuConfigPass implements ConfigPassInterface
 {
+    /** @var AuthorizationCheckerInterface */
+    private $authorizationChecker;
+
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
+
     public function process(array $backendConfig)
     {
         $menuConfig = $backendConfig['design']['menu'];
@@ -24,6 +33,15 @@ class MenuConfigPass implements ConfigPassInterface
             $submenuConfig = $itemConfig['children'];
             $submenuConfig = $this->processMenuIndex($submenuConfig, $i);
             $menuConfig[$i]['children'] = $submenuConfig;
+        }
+
+        try {
+            $this->checkSecurity($menuConfig);
+            $this->checkSecurityMenu($menuConfig, $backendConfig['entities']);
+        } catch (AuthenticationCredentialsNotFoundException $exception) {
+            if (php_sapi_name() !== 'cli') {
+                throw $exception;
+            }
         }
 
         $backendConfig['design']['menu'] = $menuConfig;
@@ -97,5 +115,39 @@ class MenuConfigPass implements ConfigPassInterface
         }
 
         return ($a > $b) ? -1 : 1;
+    }
+
+    private function checkSecurity(array &$config)
+    {
+        foreach ($config as $idx => &$menu) {
+            if (isset($menu['roles']) && is_array($menu['roles']) && count($menu['roles']) > 0 && !$this->authorizationChecker->isGranted($menu['roles'])) {
+                unset($config[$idx]);
+                continue;
+            }
+            if (isset($menu['children'])) {
+                $this->checkSecurity($menu['children']);
+            }
+        }
+        unset($menu);
+    }
+
+    private function checkSecurityMenu(array &$config, $entities)
+    {
+        foreach ($config as $idx => &$menu) {
+            if (isset($menu['children'])) {
+                $this->checkSecurityMenu($menu['children'], $entities);
+            }
+
+            if ($menu['type'] == "empty" && empty($menu['children'])) {
+                unset($config[$idx]);
+            }
+
+            if ($menu['type'] === "entity" && isset($menu['entity']) && isset($entities[$menu['entity']])) {
+                if (!$this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
+                    unset($config[$idx]);
+                }
+            }
+        }
+        unset($menu);
     }
 }

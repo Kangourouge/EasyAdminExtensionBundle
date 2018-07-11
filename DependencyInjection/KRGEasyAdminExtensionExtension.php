@@ -21,10 +21,6 @@ class KRGEasyAdminExtensionExtension extends Extension
             $container->setParameter('krg_easyadmin_dashboard_widgets', $config['dashboard']['widgets']);
         }
 
-        if (isset($config['debug'])) {
-            $container->setParameter('krg_easyadmin_debug', $config['debug']);
-        }
-
         $container->setParameter('krg_easyadmin_google_analytics_id', $config['google_analytics']['client_id']);
     }
 }

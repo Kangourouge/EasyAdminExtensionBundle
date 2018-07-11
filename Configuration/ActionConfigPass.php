@@ -30,9 +30,7 @@ class ActionConfigPass implements ConfigPassInterface
         unset($config);
 
         try {
-            $this->checkSecurity($backendConfig['entities']);
-            $this->checkSecurity($backendConfig['list']['actions']);
-            $this->checkSecurity($backendConfig['design']['menu']);
+            $this->checkSecurityEntity($backendConfig['entities']);
         } catch (AuthenticationCredentialsNotFoundException $exception) {
             if (php_sapi_name() !== 'cli') {
                 throw $exception;
@@ -67,17 +65,33 @@ class ActionConfigPass implements ConfigPassInterface
         return $config;
     }
 
-    private function checkSecurity(array &$config)
+    private function checkSecurityEntity(array &$config)
     {
-        foreach ($config as $idx => &$_config) {
-            if (isset($_config['roles']) && is_array($_config['roles']) && count($_config['roles']) > 0 && !$this->authorizationChecker->isGranted($_config['roles'])) {
-                unset($config[$idx]);
-                continue;
+        foreach ($config as $idx => &$entity) {
+            if (isset($entity['edit']) && isset($entity['edit']['actions'])) {
+                $this->checkSecurityAction($entity['edit']['actions'], $entity['class']);
             }
-            if (isset($_config['children'])) {
-                $this->checkSecurity($_config['children']);
+            if (isset($entity['list']) && isset($entity['list']['actions'])) {
+                $this->checkSecurityAction($entity['list']['actions'], $entity['class']);
+            }
+            if (isset($entity['show']) && isset($entity['show']['actions'])) {
+                $this->checkSecurityAction($entity['show']['actions'], $entity['class']);
             }
         }
-        unset($_config);
+        unset($entity);
+    }
+
+    private function checkSecurityAction(array &$config, $className)
+    {
+        foreach ($config as $idx => &$action) {
+            if (!$this->authorizationChecker->isGranted($action['name'], $className)) {
+                unset($config[$idx]);
+            }
+
+            if (isset($action['children'])) {
+                $this->checkSecurityAction($action['children'], $className);
+            }
+        }
+        unset($action);
     }
 }

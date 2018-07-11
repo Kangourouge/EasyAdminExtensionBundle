@@ -2,6 +2,8 @@
 
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
+use KRG\CoreBundle\Annotation\IsGranted;
+use KRG\UserBundle\Entity\UserInterface;
 use KRG\EasyAdminExtensionBundle\Widget\WidgetInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -12,7 +14,9 @@ class DashboardController extends AdminController
 
     public function addWidget(WidgetInterface $widget)
     {
-        $this->widgets[] = $widget;
+        if ($this->isGranted($this, $widget)) {
+            $this->widgets[] = $widget;
+        }
     }
 
     /**

@@ -2,8 +2,13 @@
 
 namespace KRG\EasyAdminExtensionBundle\Widget;
 
+use KRG\CoreBundle\Annotation\IsGranted;
+use KRG\UserBundle\Entity\UserInterface;
 use Symfony\Component\Templating\EngineInterface;
 
+/**
+ * @IsGranted(UserInterface::ROLE_SUPER_ADMIN)
+ */
 class GoogleAnalyticWidget implements WidgetInterface
 {
     /**

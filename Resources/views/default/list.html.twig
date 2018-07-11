@@ -80,7 +80,7 @@
 
 {% block main %}
     <main class="flex">
-        <section class="box box-info">
+        <section class="box">
             {{ parent() }}
         </section>
         {% if form_filter is defined %}
@@ -101,20 +101,22 @@
                             {% endif %}
                         {% endfor %}
                         {{ form_end(form_filter) }}
-
-                        <script type="text/javascript">
-                            (function(){
-                                var form = document.forms.{{ form_filter.vars.name }};
-
-                                form.addEventListener('reset', function(event){
-                                    debugger;
-                                });
-
-                            })();
-                        </script>
                     </div>
                 </section>
             </aside>
+            <script type="text/javascript">
+                (function(){
+
+                    var form = document.forms.{{ form_filter.vars.name }};
+
+                    form.addEventListener('reset', function(event){
+                        debugger;
+                    });
+
+                    var section
+
+                })();
+            </script>
         {% endif %}
     </main>
 {% endblock %}

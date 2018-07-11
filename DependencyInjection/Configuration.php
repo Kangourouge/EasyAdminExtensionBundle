@@ -14,12 +14,6 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('debug')->defaultFalse()->end()
-            ->end()
-        ;
-
-        $rootNode
-            ->children()
                 ->arrayNode('dashboard')
                     ->children()
                         ->arrayNode('widgets')
@@ -45,6 +39,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
+
 
         return $treeBuilder;
     }

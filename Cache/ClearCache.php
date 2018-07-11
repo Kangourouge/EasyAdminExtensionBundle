@@ -44,16 +44,12 @@ class ClearCache implements EventSubscriberInterface
     /** @var string */
     private $webDir;
 
-    /** @var bool */
-    private $debug;
-
-    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir, bool $debug)
+    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir)
     {
         $this->router = $router;
         $this->flashBag = $flashBag;
         $this->cacheDir = $cacheDir;
         $this->webDir = $webDir;
-        $this->debug = $debug;
     }
 
     public function __call($name, $arguments)
@@ -97,6 +93,8 @@ class ClearCache implements EventSubscriberInterface
             self::TYPE_KRG_DATA => sprintf('%s/krg/data', $this->cacheDir),
         ];
 
+        $message = [];
+
         $filesystem = new Filesystem();
         foreach ($types as $_type => $dir) {
             if ($type === 0 || ($type & $_type)) {
@@ -107,17 +105,18 @@ class ClearCache implements EventSubscriberInterface
                         $filesystem->remove($cacheFile);
                     }
                     $this->router->warmUp($this->cacheDir);
-                    if ($this->debug) {
-                        $this->flashBag->add('success', 'Remove routing cache');
-                    }
+                    $message[] = 'routing';
                 } else {
                     $filesystem->remove($dir);
 
-                    if ($this->debug) {
-                        $this->flashBag->add('success', sprintf('Remove cache %s', $dir));
-                    }
+                    $message[] = str_replace($this->cacheDir.'/', '', $dir);
                 }
             }
+        }
+
+
+        if ($message) {
+            $this->flashBag->add('success', 'cache cleared for: '.implode(', ', $message).'.');
         }
     }
 }

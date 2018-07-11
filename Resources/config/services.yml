@@ -7,12 +7,13 @@ services:
             $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
             $cacheDir: '%kernel.cache_dir%'
             $webDir: '%kernel.root_dir%/web'
-            $debug: '%krg_easyadmin_debug%'
             $logoutUrlGenerator: '@security.logout_url_generator'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
+        calls:
+                - [setContainer, ["@service_container"]]
         public: true
 
     KRG\EasyAdminExtensionBundle\Cache\:
@@ -50,3 +51,6 @@ services:
 
     KRG\EasyAdminExtensionBundle\Configuration\ClassMetadataConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 1000}]
+
+    KRG\EasyAdminExtensionBundle\EventListener\EasyAdminSubscriber:
+        tags: [ 'kernel.event_subscriber' ]
