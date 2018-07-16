@@ -1,6 +1,23 @@
 # EasyAdminExtensionBundle
 EasyAdmin Extension Bundle
 
+## Installation
+
+AppKernel
+```php
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = [
+            new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new KRG\EasyAdminExtensionBundle\KRGEasyAdminExtensionBundle(),
+            ...
+        ];
+    }
+}
+```
+
 ## Add admin toolbar block
 
 1. Create class
