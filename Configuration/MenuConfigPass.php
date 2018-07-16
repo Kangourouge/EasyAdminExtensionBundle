@@ -21,7 +21,6 @@ class MenuConfigPass implements ConfigPassInterface
 
         $menuConfig = $this->processPriority($menuConfig);
         $menuConfig = $this->processGroups($menuConfig);
-        $menuConfig = $this->processMenuIndex($menuConfig);
 
         foreach ($menuConfig as $i => $itemConfig) {
             $itemConfig['menu_index'] = $i;
@@ -43,6 +42,8 @@ class MenuConfigPass implements ConfigPassInterface
                 throw $exception;
             }
         }
+
+        $menuConfig = $this->processMenuIndex($menuConfig);
 
         $backendConfig['design']['menu'] = $menuConfig;
 
@@ -105,18 +106,6 @@ class MenuConfigPass implements ConfigPassInterface
         return $menuConfig;
     }
 
-    static function sortByPriority($a, $b)
-    {
-        $a = $a['priority'] ?? 0;
-        $b = $b['priority'] ?? 0;
-
-        if ($a == $b) {
-            return 0;
-        }
-
-        return ($a > $b) ? -1 : 1;
-    }
-
     private function checkSecurity(array &$config)
     {
         foreach ($config as $idx => &$menu) {
@@ -138,16 +127,29 @@ class MenuConfigPass implements ConfigPassInterface
                 $this->checkSecurityMenu($menu['children'], $entities);
             }
 
-            if ($menu['type'] == "empty" && empty($menu['children'])) {
+            if ($menu['type'] == 'empty' && empty($menu['children'])) {
                 unset($config[$idx]);
             }
 
-            if ($menu['type'] === "entity" && isset($menu['entity']) && isset($entities[$menu['entity']])) {
-                if (!$this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
+            if ($menu['type'] === 'entity' && isset($menu['entity']) && isset($entities[$menu['entity']])) {
+                if (class_exists('KRG\CoreBundle\Security\Voter\AccessVoter') // Core bundle dependency
+                    && false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
                     unset($config[$idx]);
                 }
             }
         }
         unset($menu);
+    }
+
+    static function sortByPriority($a, $b)
+    {
+        $a = $a['priority'] ?? 0;
+        $b = $b['priority'] ?? 0;
+
+        if ($a == $b) {
+            return 0;
+        }
+
+        return ($a > $b) ? -1 : 1;
     }
 }
