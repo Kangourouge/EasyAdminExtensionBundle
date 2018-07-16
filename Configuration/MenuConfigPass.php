@@ -133,8 +133,7 @@ class MenuConfigPass implements ConfigPassInterface
             }
 
             if ($menu['type'] === 'entity' && isset($menu['entity']) && isset($entities[$menu['entity']])) {
-                if (class_exists('KRG\CoreBundle\Security\Voter\AccessVoter') // Core bundle dependency
-                    && false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
+                if (false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
                     unset($config[$idx]);
                 }
             }
