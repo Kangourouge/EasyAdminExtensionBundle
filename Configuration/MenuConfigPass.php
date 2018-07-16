@@ -4,6 +4,7 @@ namespace KRG\EasyAdminExtensionBundle\Configuration;
 
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class MenuConfigPass implements ConfigPassInterface
 {
