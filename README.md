@@ -146,3 +146,12 @@ easy_admin:
                         fullname: false
                         template: '@KRGEasyAdminExtension/easy_admin/field_user.html.twig'
 ````
+
+## Custom form theme
+
+```
+easy_admin:
+    design:
+        form_theme:
+            - 'KRGEasyAdminExtensionBundle:Form:bootstrap_3_horizontal_layout.html.twig'
+```
