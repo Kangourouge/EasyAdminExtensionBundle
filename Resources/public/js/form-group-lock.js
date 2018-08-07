@@ -1,40 +1,50 @@
-(function(){
+(function () {
     "use strict";
-    let formGroupLock = document.querySelectorAll('.form-group[data-lock]');
 
-    formGroupLock.forEach(function(formGroup) {
-        let formLabel = formGroup.getElementsByTagName('label')[0];
-        let formInput = formGroup.getElementsByClassName('form-control')[0];
-        let padlockCheckbox = createCheckbox(formInput.id);
-        let padlockLabel = createLabel(padlockCheckbox);
+    setTimeout(function () {
+        main();
+    }, 100);
 
-        formInput.disabled = true;
-        formLabel.appendChild(padlockCheckbox);
-        formLabel.appendChild(padlockLabel);
+    function main() {
+        let formGroupLock = document.querySelectorAll('.form-group[data-lock]');
 
-        padlockCheckbox.addEventListener('change', function(event) {
-            let padlockCheckbox = event.currentTarget;
-            let target = padlockCheckbox.dataset.target;
+        formGroupLock.forEach(function (formGroup) {
+            let formLabel = formGroup.getElementsByTagName('label')[0];
+            let formInputs = formGroup.querySelectorAll('.form-control, input[type=checkbox]');
 
-            document.getElementById(target).disabled = padlockCheckbox.checked;
+            formInputs.forEach(function (formInput) {
+                formInput.disabled = true;
+            });
+
+            let padlockCheckbox = createCheckbox(formInputs[0].id);
+            let padlockLabel = createLabel(padlockCheckbox);
+
+            formLabel.appendChild(padlockCheckbox);
+            formLabel.appendChild(padlockLabel);
+
+            padlockCheckbox.addEventListener('change', function (event) {
+                let padlockCheckbox = event.currentTarget;
+                let status = padlockCheckbox.checked;
+
+                formInputs.forEach(function (formInput) {
+                    formInput.disabled = status;
+                });
+            });
         });
-    });
+    }
 
-    function createCheckbox(id)
-    {
+    function createCheckbox(id) {
         let checkbox = document.createElement('input');
 
         checkbox.type = 'checkbox';
         checkbox.className = 'padlock';
         checkbox.id = id + '_lock';
-        checkbox.dataset.target = id;
         checkbox.checked = true;
 
         return checkbox;
     }
 
-    function createLabel(checkbox)
-    {
+    function createLabel(checkbox) {
         let label = document.createElement('label');
 
         label.htmlFor = checkbox.id;
