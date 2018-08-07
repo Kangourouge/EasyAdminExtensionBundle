@@ -373,3 +373,25 @@ main.flex .box {
     font-size: 5em;
     font-weight: 100;
 }
+
+/**/
+
+.form-group[data-lock='true'] input[type='checkbox'].padlock {
+    display: none;
+}
+
+.form-group[data-lock='true'] input[type='checkbox'].padlock + label:before {
+    font-family: 'FontAwesome';
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #292929;
+}
+
+.form-group[data-lock='true'] input[type='checkbox'].padlock:checked + label:before {
+    content: '\f023';
+}
+
+.form-group[data-lock='true'] input[type='checkbox'].padlock:not(:checked) + label:before {
+    content: '\f13e';
+}

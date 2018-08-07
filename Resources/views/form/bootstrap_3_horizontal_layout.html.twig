@@ -1,8 +1,35 @@
 {% use '@EasyAdmin/form/bootstrap_3_horizontal_layout.html.twig' %}
 
+{% block form_row -%}
+    {% spaceless %}
+        {% set _field_type = easyadmin.field.fieldType|default('default') %}
+        <div class="form-group {% if (not compound or force_error|default(false)) and not valid %}has-error{% endif %} field-{{ block_prefixes|slice(-2)|first }}"{% if lock %} data-lock="true"{% endif %}>
+            {{ form_label(form) }}
+            <div class="{{ block('form_group_class') }}">
+                {{ form_widget(form) }}
+
+                {% if _field_type in ['datetime', 'datetime_immutable', 'date', 'date_immutable', 'time', 'time_immutable', 'birthday'] and easyadmin.field.nullable|default(false) %}
+                    <div class="nullable-control">
+                        <label>
+                            <input type="checkbox" {% if data is null %}checked="checked"{% endif %}>
+                            {{ 'label.nullable_field'|trans({}, 'EasyAdminBundle')}}
+                        </label>
+                    </div>
+                {% endif %}
+
+                {{ form_errors(form) }}
+
+                {% if easyadmin.field.help|default('') != '' %}
+                    <span class="help-block"><i class="fa fa-info-circle"></i> {{ easyadmin.field.help|trans(domain = easyadmin.entity.translation_domain)|raw }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% endspaceless %}
+{%- endblock form_row %}
+
 {% block form_label_class %}
     {% spaceless %}
-        {% if label is same as(false) and compound is same as(true)  %}
+        {% if label is same as(false) and compound is same as(true) %}
             hidden
         {% else %}
             col-sm-2
@@ -12,7 +39,7 @@
 
 {% block form_group_class %}
     {% spaceless %}
-        {% if label is same as(false) and compound is same as(true)  %}
+        {% if label is same as(false) and compound is same as(true) %}
             col-sm-12
         {% else %}
             col-sm-10

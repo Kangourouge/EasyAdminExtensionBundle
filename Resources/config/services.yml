@@ -54,3 +54,7 @@ services:
 
     KRG\EasyAdminExtensionBundle\EventListener\EasyAdminSubscriber:
         tags: [ 'kernel.event_subscriber' ]
+
+    KRG\EasyAdminExtensionBundle\Form\Extension\KrgEasyAdminExtension:
+        tags: [{ name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }]
+        public: true

@@ -154,4 +154,20 @@ easy_admin:
     design:
         form_theme:
             - 'KRGEasyAdminExtensionBundle:Form:bootstrap_3_horizontal_layout.html.twig'
+        assets:
+            js:
+                - '/bundles/krgeasyadminextension/js/form-group-lock.js'
+```
+
+## Form option lock
+
+Add a padlock after the label, click on the padlock and toggle disabled attribute.
+
+```php
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('field', TextType::class, [
+            'lock' => true
+        ];
+    }
 ```
