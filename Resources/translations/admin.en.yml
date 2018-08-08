@@ -21,3 +21,10 @@ Action: Action
 Entity: Entity
 Date: Date
 Dashboard: Tableau de bord
+
+menu:
+  homepage: Homepage
+  dashboard: Dashboard
+  cache: Cache
+  system: System
+  dump_database: Dump database

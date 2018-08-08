@@ -24,3 +24,10 @@ Action: Action
 Entity: Entity
 Date: Date
 Dashboard: Tableau de bord
+
+menu:
+  homepage: Page d'accueil
+  dashboard: Tableau de bord
+  cache: Cache
+  system: Système
+  dump_database: Exporter la base
