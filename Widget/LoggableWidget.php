@@ -3,7 +3,6 @@
 namespace KRG\EasyAdminExtensionBundle\Widget;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
 use KRG\CoreBundle\Annotation\IsGranted;
 use KRG\UserBundle\Entity\UserInterface;

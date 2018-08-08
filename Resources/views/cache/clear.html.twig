@@ -2,7 +2,7 @@
 
 {% form_theme form with easyadmin_config('design.form_theme') %}
 
-{% block content_title %}Gestion du cache{% endblock %}
+{% block content_title %}{{ 'cache.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}{% endblock %}
 
 {% block main %}
     {{ form_start(form) }}
@@ -22,7 +22,7 @@
             <div class="form-group">
                 <div id="form-actions-row">
                     <button type="submit" class="btn btn-danger action-save" onclick="return document.forms.{{ form.vars.name }}.submit();">
-                        <i class="fa fa-eraser"></i> {{ 'Clear'|trans({}, 'KRGEasyAdminExtensionBundle') }}
+                        <i class="fa fa-eraser"></i> {{ 'cache.clear'|trans({}, 'KRGEasyAdminExtensionBundle') }}
                     </button>
                 </div>
             </div>

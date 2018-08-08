@@ -7,4 +7,13 @@ KrgAll: Kangourouge / All
 KrgTwig: Kangourouge / Twig templates
 KrgIntl: Kangourouge / Translations
 KrgData: Kangourouge / Data
-Clear: Clear Cache
+
+cache:
+  title: Cache management
+  clear: Clear cache
+
+dashboard:
+  title: Dashboard
+
+filter:
+  title: Filter

@@ -3,8 +3,6 @@
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
-use KRG\EasyAdminExtensionBundle\Widget\WidgetInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 

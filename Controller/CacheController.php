@@ -3,10 +3,10 @@
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
 use KRG\EasyAdminExtensionBundle\Cache\ClearCache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/cache")

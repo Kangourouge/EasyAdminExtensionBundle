@@ -1,14 +1,6 @@
-Sessions: Sessions
-'Top Browsers (by pageview)': 'Top Browsers (by pageview)'
-'Page Tracking': 'Page Tracking'
-'Time on page': 'Time on page'
-'Top Countries (by sessions)': 'Top Countries (by sessions)'
-Visitors: Visitors
-Loggable: Loggable
-User: User
-Action: Action
-Entity: Entity
-Date: Date
-
 menu:
+  homepage: Homepage
+  dashboard: Dashboard
+  cache: Cache
   system: System
+  dump_database: Dump database

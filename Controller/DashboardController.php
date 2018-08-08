@@ -2,10 +2,8 @@
 
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
-use KRG\CoreBundle\Annotation\IsGranted;
-use KRG\UserBundle\Entity\UserInterface;
 use KRG\EasyAdminExtensionBundle\Widget\WidgetInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AdminController
 {

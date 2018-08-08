@@ -2,21 +2,17 @@
 
 namespace KRG\EasyAdminExtensionBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class WidgetController
- * @package KRG\EasyAdminExtensionBundle\Controller
- * @Route("/admin/widget/")
- */
 class WidgetController extends Controller
 {
     /**
      * @Route("/ga", name="krg_easyadmin_google_analytics")
      */
-    public function gaAction() {
+    public function gaAction()
+    {
         return new Response('Google analytics');
     }
 }

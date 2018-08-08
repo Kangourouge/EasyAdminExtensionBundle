@@ -2,7 +2,6 @@
 
 namespace KRG\EasyAdminExtensionBundle\Filter;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use KRG\EasyAdminExtensionBundle\Form\Type\EasyAdminFilterType;
