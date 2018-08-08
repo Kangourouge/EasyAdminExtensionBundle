@@ -154,9 +154,6 @@ easy_admin:
     design:
         form_theme:
             - 'KRGEasyAdminExtensionBundle:Form:bootstrap_3_horizontal_layout.html.twig'
-        assets:
-            js:
-                - '/bundles/krgeasyadminextension/js/form-group-lock.js'
 ```
 
 ## Form option lock

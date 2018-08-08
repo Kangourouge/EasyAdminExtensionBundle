@@ -8,17 +8,26 @@ class DesignConfigPass implements ConfigPassInterface
 {
     public function process(array $backendConfig)
     {
-        $backendConfig = $this->processKrgCss($backendConfig);
+        $backendConfig = self::addCssFile('/bundles/krgeasyadminextension/css/style.css', $backendConfig);
+        if ('dark' === $backendConfig['design']['color_scheme']) {
+            $backendConfig = self::addCssFile('/bundles/krgeasyadminextension/css/dark.css', $backendConfig);
+        }
+
+        $backendConfig = self::addJsFile('/bundles/krgeasyadminextension/js/form-group-lock.js', $backendConfig);
 
         return $backendConfig;
     }
 
-    private function processKrgCss(array $backendConfig)
+    static public function addCssFile($cssFile, $backendConfig)
     {
-        $backendConfig['design']['assets']['css'][] = '/bundles/krgeasyadminextension/css/style.css';
-        if ('dark' === $backendConfig['design']['color_scheme']) {
-            $backendConfig['design']['assets']['css'][] = '/bundles/krgeasyadminextension/css/dark.css';
-        }
+        $backendConfig['design']['assets']['css'][] = $cssFile;
+
+        return $backendConfig;
+    }
+
+    static public function addJsFile($jsFile, $backendConfig)
+    {
+        $backendConfig['design']['assets']['js'][] = $jsFile;
 
         return $backendConfig;
     }
