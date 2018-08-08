@@ -1,0 +1,19 @@
+{% extends '@EasyAdmin/default/menu.html.twig' %}
+{% import '@EasyAdmin/default/menu.html.twig' as helper %}
+
+{% block menu_item %}
+    <li class="{{ item.type == 'divider' ? 'header' }} {{ item.children is not empty ? 'treeview' }} {{ app.request.query.get('menuIndex')|default(-1) == loop.index0 ? 'active' }} {{ app.request.query.get('submenuIndex')|default(-1) != -1 ? 'submenu-active' }}">
+        {{ helper.render_menu_item(item, easyadmin_config('translation_domain')|default('messages')) }}
+        {% if item.children|default([]) is not empty %}
+            <ul class="treeview-menu">
+                {% for subitem in item.children %}
+                    {% block menu_subitem %}
+                        <li class="{{ subitem.type == 'divider' ? 'header' }} {{ app.request.query.get('menuIndex')|default(-1) == loop.parent.loop.index0 and app.request.query.get('submenuIndex')|default(-1) == loop.index0 ? 'active' }}">
+                            {{ helper.render_menu_item(subitem, easyadmin_config('translation_domain')|default('messages')) }}
+                        </li>
+                    {% endblock menu_subitem %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endblock menu_item %}
