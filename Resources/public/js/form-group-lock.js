@@ -10,13 +10,11 @@
 
         formGroupLock.forEach(function (formGroup) {
             let formLabel = formGroup.getElementsByTagName('label')[0];
-            let formInputs = formGroup.querySelectorAll('.form-control, input[type=checkbox]');
+            let inputs = formGroup.querySelectorAll('.form-control, input[type=checkbox]');
 
-            formInputs.forEach(function (formInput) {
-                formInput.disabled = true;
-            });
+            setDisabledOnInputs(inputs, true);
 
-            let padlockCheckbox = createCheckbox(formInputs[0].id);
+            let padlockCheckbox = createCheckbox(inputs[0].id);
             let padlockLabel = createLabel(padlockCheckbox);
 
             formLabel.appendChild(padlockCheckbox);
@@ -26,10 +24,28 @@
                 let padlockCheckbox = event.currentTarget;
                 let status = padlockCheckbox.checked;
 
-                formInputs.forEach(function (formInput) {
-                    formInput.disabled = status;
+                setDisabledOnInputs(inputs, status);
+            });
+        });
+
+        // Reset disabled on all fields before submit
+        for (let i = 0; i < document.forms.length; i++) {
+            document.forms[i].addEventListener('submit', function () {
+                let formGroupLock = document.querySelectorAll('.form-group[data-lock]');
+
+                formGroupLock.forEach(function (formGroup) {
+                    let inputs = formGroup.querySelectorAll('.form-control, input[type=checkbox]');
+
+                    setDisabledOnInputs(inputs, false);
                 });
             });
+        }
+    }
+
+    function setDisabledOnInputs(inputs, status)
+    {
+        inputs.forEach(function (input) {
+            input.disabled = status;
         });
     }
 
