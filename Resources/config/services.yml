@@ -6,6 +6,7 @@ services:
         bind:
             $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
             $cacheDir: '%kernel.cache_dir%'
+            $env: '%kernel.environment%'
             $webDir: '%kernel.root_dir%/web'
             $logoutUrlGenerator: '@security.logout_url_generator'
 
@@ -18,7 +19,7 @@ services:
 
     KRG\EasyAdminExtensionBundle\Cache\:
         resource: '../../Cache'
-        tags: ['kernek.event_suscriber']
+        tags: ['kernel.event_suscriber']
 
     KRG\EasyAdminExtensionBundle\Form\Type\:
         resource: '../../Form/Type'
@@ -39,7 +40,7 @@ services:
 
     KRG\EasyAdminExtensionBundle\Twig\:
         resource: '../../Twig/*'
-        tags: [twig.extension]
+        tags: ['twig.extension']
 
     KRG\EasyAdminExtensionBundle\Configuration\:
         resource: '../../Configuration'
@@ -56,5 +57,5 @@ services:
         tags: [ 'kernel.event_subscriber' ]
 
     KRG\EasyAdminExtensionBundle\Form\Extension\KrgEasyAdminExtension:
-        tags: [{ name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }]
+        tags: [{ name: 'form.type_extension', extended_type: 'Symfony\Component\Form\Extension\Core\Type\FormType' }]
         public: true

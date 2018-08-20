@@ -44,12 +44,16 @@ class ClearCache implements EventSubscriberInterface
     /** @var string */
     private $webDir;
 
-    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir)
+    /** @var string */
+    private $env;
+
+    public function __construct(RouterInterface $router, FlashBagInterface $flashBag, string $cacheDir, string $webDir, string $env)
     {
         $this->router = $router;
         $this->flashBag = $flashBag;
         $this->cacheDir = $cacheDir;
         $this->webDir = $webDir;
+        $this->env = $env;
     }
 
     public function __call($name, $arguments)
@@ -115,8 +119,8 @@ class ClearCache implements EventSubscriberInterface
         }
 
 
-        if ($message) {
-            $this->flashBag->add('success', 'cache cleared for: '.implode(', ', $message).'.');
+        if ($this->env === 'dev' && $message) {
+            $this->flashBag->add('success', 'Cache cleared for: '.implode(', ', $message).'.');
         }
     }
 }
