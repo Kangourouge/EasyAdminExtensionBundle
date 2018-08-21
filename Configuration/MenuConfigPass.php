@@ -20,8 +20,18 @@ class MenuConfigPass implements ConfigPassInterface
     {
         $menuConfig = $backendConfig['design']['menu'];
 
+        try {
+            $this->checkSecurity($menuConfig);
+            $this->checkSecurityMenu($menuConfig, $backendConfig['entities']);
+        } catch (AuthenticationCredentialsNotFoundException $exception) {
+            if (php_sapi_name() !== 'cli') {
+                throw $exception;
+            }
+        }
+
         $menuConfig = $this->processPriority($menuConfig);
         $menuConfig = $this->processGroups($menuConfig);
+        $menuConfig = array_values($menuConfig);
 
         foreach ($menuConfig as $i => $itemConfig) {
             $itemConfig['menu_index'] = $i;
@@ -33,15 +43,6 @@ class MenuConfigPass implements ConfigPassInterface
             $submenuConfig = $itemConfig['children'];
             $submenuConfig = $this->processMenuIndex($submenuConfig, $i);
             $menuConfig[$i]['children'] = $submenuConfig;
-        }
-
-        try {
-            $this->checkSecurity($menuConfig);
-            $this->checkSecurityMenu($menuConfig, $backendConfig['entities']);
-        } catch (AuthenticationCredentialsNotFoundException $exception) {
-            if (php_sapi_name() !== 'cli') {
-                throw $exception;
-            }
         }
 
         $menuConfig = $this->processMenuIndex($menuConfig);
