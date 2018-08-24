@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class ToolbarExtension extends \Twig_Extension
@@ -40,7 +41,13 @@ class ToolbarExtension extends \Twig_Extension
 
     public function getToolbar(\Twig_Environment $environment)
     {
-        if (!$this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_ADMIN') && !$this->authorizationChecker->isGranted('ROLE_PREVIOUS_ADMIN')) {
+        try {
+            if (!$this->authorizationChecker->isGranted('ROLE_SUPER_ADMIN')
+                && !$this->authorizationChecker->isGranted('ROLE_ADMIN')
+                && !$this->authorizationChecker->isGranted('ROLE_PREVIOUS_ADMIN')) {
+                return null;
+            }
+        } catch (AuthenticationCredentialsNotFoundException $exception) {
             return null;
         }
 

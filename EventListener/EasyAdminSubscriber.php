@@ -23,11 +23,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            EasyAdminEvents::PRE_NEW => ['isGranted'],
-            EasyAdminEvents::PRE_LIST => ['isGranted'],
+            EasyAdminEvents::PRE_NEW    => ['isGranted'],
+            EasyAdminEvents::PRE_LIST   => ['isGranted'],
             EasyAdminEvents::PRE_SEARCH => ['isGranted'],
-            EasyAdminEvents::PRE_SHOW => ['isGranted'],
-            EasyAdminEvents::PRE_EDIT => ['isGranted'],
+            EasyAdminEvents::PRE_SHOW   => ['isGranted'],
+            EasyAdminEvents::PRE_EDIT   => ['isGranted'],
             EasyAdminEvents::PRE_DELETE => ['isGranted'],
         ];
     }
