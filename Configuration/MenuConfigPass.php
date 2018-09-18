@@ -101,8 +101,6 @@ class MenuConfigPass implements ConfigPassInterface
 
     private function checkSecurity(array &$config)
     {
-        dump($config);
-
         foreach ($config as $idx => &$menu) {
             if (isset($menu['roles']) && is_array($menu['roles']) && count($menu['roles']) > 0 && !$this->authorizationChecker->isGranted($menu['roles'])) {
                 unset($config[$idx]);

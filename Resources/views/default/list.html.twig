@@ -77,8 +77,9 @@
     {% endfor %}
 {% endblock table_body %}
 
+
 {% block main %}
-    <main class="flex">
+    <main class="flex {% if form_filter is defined %}table-responsive{% endif %}">
         <section class="box">
             {{ parent() }}
         </section>

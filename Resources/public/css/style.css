@@ -395,3 +395,7 @@ main.flex .box {
 .form-group[data-lock='true'] input[type='checkbox'].padlock:not(:checked) + label:before {
     content: '\f13e';
 }
+
+main.flex .form-group .checkbox {
+    padding-left: 20px;
+}
