@@ -24,7 +24,7 @@ class ActionConfigPass implements ConfigPassInterface
 
     public function process(array $backendConfig)
     {
-        foreach ($backendConfig['entities'] as &$config) {
+        foreach ($backendConfig['entities'] as $entity => &$config) {
             $this->processSort($config);
         }
         unset($config);

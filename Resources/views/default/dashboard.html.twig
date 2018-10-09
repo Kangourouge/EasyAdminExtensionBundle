@@ -1,6 +1,6 @@
-{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% extends config.design.templates.layout %}
 
-{% block content_title %}{{ 'dashboard.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}{% endblock %}
+{% block content_title %}<i class="fa fa-dashboard"></i> {{ 'dashboard.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}{% endblock %}
 
 {% block main %}
     {% for widget in widgets %}

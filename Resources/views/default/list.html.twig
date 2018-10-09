@@ -77,9 +77,8 @@
     {% endfor %}
 {% endblock table_body %}
 
-
 {% block main %}
-    <main class="flex {% if form_filter is defined %}table-responsive{% endif %}">
+    <main class="flex">
         <section class="box">
             {{ parent() }}
         </section>
@@ -107,3 +106,10 @@
         {% endif %}
     </main>
 {% endblock %}
+
+{% block content_title %}
+    {% if _entity_config.icon is defined %}
+        <i class="fa {{ _entity_config.icon }}"></i>
+    {% endif %}
+    {{ parent() }}
+{% endblock content_title %}

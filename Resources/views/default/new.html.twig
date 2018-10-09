@@ -1,0 +1,8 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block content_title %}
+    {% if _entity_config.icon is defined %}
+        <i class="fa {{ _entity_config.icon }}"></i>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

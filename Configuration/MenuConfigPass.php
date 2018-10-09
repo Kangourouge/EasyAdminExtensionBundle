@@ -5,132 +5,125 @@ namespace KRG\EasyAdminExtensionBundle\Configuration;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class MenuConfigPass implements ConfigPassInterface
 {
     /** @var AuthorizationCheckerInterface */
     private $authorizationChecker;
 
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    /** @var TranslatorInterface */
+    private $translator;
+
+    /**
+     * MenuConfigPass constructor.
+     *
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, TranslatorInterface $translator)
     {
         $this->authorizationChecker = $authorizationChecker;
+        $this->translator = $translator;
     }
 
     public function process(array $backendConfig)
     {
-        $menuConfig = $backendConfig['design']['menu'];
-
-        $menuConfig = $this->processPriority($menuConfig);
-        $menuConfig = $this->processGroups($menuConfig);
-        $menuConfig = array_values($menuConfig);
-
-        foreach ($menuConfig as $i => $itemConfig) {
-            $itemConfig['menu_index'] = $i;
-
-            if (empty($itemConfig['children'])) {
-                continue;
-            }
-
-            $submenuConfig = $itemConfig['children'];
-            $submenuConfig = $this->processMenuIndex($submenuConfig, $i);
-            $menuConfig[$i]['children'] = $submenuConfig;
-        }
-
-        $menuConfig = $this->processMenuIndex($menuConfig);
-
-        $backendConfig['design']['menu'] = $menuConfig;
+        $this->processGroup($backendConfig['design']['menu'], $backendConfig['entities']);
+        $this->processMenu($backendConfig['design']['menu'], $backendConfig['entities']);
+        $this->processPriority($backendConfig['design']['menu'], $backendConfig['entities']);
+        $this->processMenuIndex($backendConfig['design']['menu']);
 
         return $backendConfig;
     }
 
-    /**
-     * Reorder menu_index and submenu_index
-     */
-    protected function processMenuIndex(array $menuConfig, $parentItemIndex = -1)
+    protected function processMenu(array &$menu, array &$entities)
     {
-        foreach ($menuConfig as $i => $itemConfig) {
-            $itemConfig['menu_index'] = ($parentItemIndex === -1) ? $i : $parentItemIndex;
-            $itemConfig['submenu_index'] = ($parentItemIndex === -1) ? -1 : $i;
-            $menuConfig[$i] = $itemConfig;
-        }
+        foreach ($menu as $idx => &$_menu) {
 
-        return $menuConfig;
+            $this->processIcons($_menu, $entities);
+            $this->processSecurity($_menu, $entities);
+
+            if (isset($_menu['children'])) {
+                $this->processPriority($_menu['children'], $entities);
+                $this->processMenu($_menu['children'], $entities);
+            }
+
+            $this->processEmpty($menu, $entities);
+        }
+        unset($_menu);
+    }
+
+    protected function processIcons(array &$menu, array &$entities)
+    {
+        if (isset($menu['entity']) && isset($menu['icon']) && isset($entities[$menu['entity']])) {
+            $entityConfig = &$entities[$menu['entity']];
+            $entityConfig['icon'] = $menu['icon'];
+
+            unset($entityConfig);
+        }
     }
 
     /**
      * Sort menu by priority
      */
-    protected function processPriority(array $menuConfig)
+    protected function processPriority(array &$menu)
     {
-        usort($menuConfig, [$this, 'sortByPriority']);
-
-        return $menuConfig;
+        usort($menu, [$this, 'sortByPriority']);
     }
 
     /**
      * Merge menu groups
      */
-    protected function processGroups(array $menuConfig)
+    protected function processGroup(array &$menu, array &$entities)
     {
-        // Index menu items by groups name
         $groups = [];
-        foreach ($menuConfig as $i => $itemConfig) {
-            if (empty($itemConfig['children']) || !isset($itemConfig['group'])) {
-                continue;
-            }
-
-            $groups[$itemConfig['group']][] = $i;
-        }
-
-        // Merge children from corresponding groups, unset useless menu items
-        foreach ($groups as $indexes) {
-            $children = [];
-            foreach ($indexes as $i) {
-                $children = array_merge($children, $menuConfig[$i]['children']);
-
-                if ($i !== $indexes[0]) {
-                    unset($menuConfig[$i]);
-                }
-            }
-
-            $menuConfig[$indexes[0]]['children'] = $children;
-        }
-
-        return $menuConfig;
-    }
-
-    private function checkSecurity(array &$config)
-    {
-        foreach ($config as $idx => &$menu) {
-            if (isset($menu['roles']) && is_array($menu['roles']) && count($menu['roles']) > 0 && !$this->authorizationChecker->isGranted($menu['roles'])) {
-                unset($config[$idx]);
-                continue;
-            }
-            if (isset($menu['children'])) {
-                $this->checkSecurity($menu['children']);
-            }
-        }
-        unset($menu);
-    }
-
-    private function checkSecurityMenu(array &$config, $entities)
-    {
-        foreach ($config as $idx => &$menu) {
-            if (isset($menu['children'])) {
-                $this->checkSecurityMenu($menu['children'], $entities);
-            }
-
-            if ($menu['type'] == 'empty' && empty($menu['children'])) {
-                unset($config[$idx]);
-            }
-
-            if ($menu['type'] === 'entity' && isset($menu['entity']) && isset($entities[$menu['entity']])) {
-                if (false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
-                    unset($config[$idx]);
+        foreach($menu as $idx => &$_menu) {
+            if (isset($_menu['children']) && count($_menu['children']) > 0) {
+                $key = $_menu['label'];
+                if (!isset($groups[$_menu['label']])) {
+                    $groups[$key] = &$_menu;
+                } else {
+                    $groups[$key]['children'] = array_merge($groups[$key]['children'], $_menu['children']);
+                    $groups[$key]['priority'] = max($groups[$key]['priority'], $_menu['priority']);
+                    unset($menu[$idx]);
                 }
             }
         }
-        unset($menu);
+        unset($_menu);
+    }
+
+
+    /**
+     * Merge menu groups
+     */
+    protected function processMenuIndex(array &$menu, int $parentIndex = null)
+    {
+        $groups = [];
+        foreach($menu as $idx => &$_menu) {
+            $_menu['menu_index'] = $parentIndex !== null ? $parentIndex : $idx;
+            $_menu['submenu_index'] = $parentIndex !== null ? $idx : -1;
+            if (isset($_menu['children']) && count($_menu['children']) > 0) {
+                $this->processMenuIndex($_menu['children'], $idx);
+            }
+        }
+        unset($_menu);
+    }
+
+    private function processSecurity(array &$menu, array &$entities)
+    {
+        if (isset($menu['type']) && $menu['type'] === 'entity' && isset($menu['entity']) && isset($entities[$menu['entity']])) {
+            if (false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
+                unset($menu);
+            }
+        }
+    }
+
+    private function processEmpty(array &$menu, array &$entities)
+    {
+        if (isset($menu['type']) && $menu['type'] === 'empty' && isset($menu['children']) && count($menu['children']) === 0) {
+            unset($config[$idx]);
+        }
     }
 
     static function sortByPriority($a, $b)
