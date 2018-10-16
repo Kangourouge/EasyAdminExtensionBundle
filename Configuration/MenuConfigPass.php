@@ -113,8 +113,12 @@ class MenuConfigPass implements ConfigPassInterface
     private function processSecurity(array &$menu, array &$entities)
     {
         if (isset($menu['type']) && $menu['type'] === 'entity' && isset($menu['entity']) && isset($entities[$menu['entity']])) {
-            if (false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
-                unset($menu);
+            try {
+                if (false === $this->authorizationChecker->isGranted('R', $entities[$menu['entity']]['class'])) {
+                    unset($menu);
+                }
+            } catch(AuthenticationCredentialsNotFoundException $exception) {
+                
             }
         }
     }
