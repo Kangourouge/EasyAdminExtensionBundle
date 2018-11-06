@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EasyAdminFilterType extends AbstractType
@@ -32,9 +34,9 @@ class EasyAdminFilterType extends AbstractType
             else if (in_array($field['type'], [EntityType::class, ChoiceType::class])) {
                 $field['type_options']['multiple'] = true;
                 $field['type_options']['attr'] = [
+                    'class' => 'form-control select2-hidden-accessible',
                     'placeholder' => 'Select',
                     'data-widget' => 'select2',
-                    'class' => 'form-control select2-hidden-accessible',
                     'aria-hidden' => 'true'
                 ];
             }
@@ -65,10 +67,13 @@ class EasyAdminFilterType extends AbstractType
             $builder->add($field['name'], $field['type'], $field['type_options']);
         }
 
-        $builder->addModelTransformer(new CallbackTransformer(
-            function($data) { return $data; },
-            function($data) { return array_filter($data); }
-        ));
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
+    }
+
+    public function onPreSubmit(FormEvent $event)
+    {
+        $data = $event->getData();
+        $event->setData(!isset($data['reset']) ? array_filter($data) : []);
     }
 
     public function configureOptions(OptionsResolver $resolver)

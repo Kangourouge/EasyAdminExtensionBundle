@@ -8,7 +8,6 @@ services:
             $cacheDir: '%kernel.cache_dir%'
             $env: '%kernel.environment%'
             $webDir: '%kernel.root_dir%/web'
-            $logoutUrlGenerator: '@security.logout_url_generator'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
@@ -34,9 +33,6 @@ services:
         resource: '../../Toolbar'
         tags: [{name: 'krg.easyadmin.toolbar', priority: 1000}]
         public: true
-
-    KRG\EasyAdminExtensionBundle\Twig\KrgEasyAdminTwigExtension:
-        decorates: 'easyadmin.twig.extension'
 
     KRG\EasyAdminExtensionBundle\Twig\:
         resource: '../../Twig/*'

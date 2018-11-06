@@ -2,6 +2,7 @@
 
 namespace KRG\EasyAdminExtensionBundle\Filter;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
 
@@ -89,16 +90,14 @@ class FilterQueryBuilder
             $queryBuilder->andWhere(sprintf('%s.%s BETWEEN :%s_min AND :%s_max', $mapping['entityAlias'], $mapping['fieldName'], $field['name'], $field['name']));
             $queryBuilder->setParameter(sprintf('%s_min', $field['name']), $data['min']);
             $queryBuilder->setParameter(sprintf('%s_max', $field['name']), $data['max']);
-        } else {
-            if ($data['min']) {
-                $queryBuilder->andWhere(sprintf('%s.%s > :%s_min', $mapping['entityAlias'], $mapping['fieldName'], $field['name']));
-                $queryBuilder->setParameter(sprintf('%s_min', $field['name']), $data['min']);
-            } else {
-                if ($data['max']) {
-                    $queryBuilder->andWhere(sprintf('%s.%s < :%s_max', $mapping['entityAlias'], $mapping['fieldName'], $field['name']));
-                    $queryBuilder->setParameter(sprintf('%s_max', $field['name']), $data['max']);
-                }
-            }
+        }
+        elseif ($data['min']) {
+            $queryBuilder->andWhere(sprintf('%s.%s > :%s_min', $mapping['entityAlias'], $mapping['fieldName'], $field['name']));
+            $queryBuilder->setParameter(sprintf('%s_min', $field['name']), $data['min']);
+        }
+        elseif ($data['max']) {
+            $queryBuilder->andWhere(sprintf('%s.%s < :%s_max', $mapping['entityAlias'], $mapping['fieldName'], $field['name']));
+            $queryBuilder->setParameter(sprintf('%s_max', $field['name']), $data['max']);
         }
     }
 }

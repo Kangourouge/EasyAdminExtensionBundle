@@ -91,6 +91,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
     {
         if (    ($actionName === 'list' || $actionName === 'search')
             &&  ($filterForm = $this->get(FilterListener::class)->getForm()) instanceof FormInterface) {
+            $parameters['form_filter_submitted'] = $filterForm->isValid() && $filterForm->isSubmitted();
             $parameters['form_filter'] = $filterForm->createView();
         }
         return parent::renderTemplate($actionName, $templatePath, $parameters);

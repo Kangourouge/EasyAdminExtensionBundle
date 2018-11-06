@@ -14,16 +14,12 @@ body.list table tbody {
 
 body.list table tbody td {
     font-size: 14px;
-    color: #4c4c4c;
-    border-top: 1px solid #e9e9e9;
     padding: 11px 15px;
     white-space: nowrap;
 }
 
 body.list .table-responsive table thead th {
-    color: #788195;
     font-size: 13px;
-    background-color: #f1f3f6;
     border-bottom: 0;
 }
 
@@ -39,11 +35,11 @@ body.list .table-responsive table thead th.sorted,
 body.list .table-responsive table thead tr th:first-child.sorted,
 body.list .table-responsive table thead th.sorted a {
     border: 0;
-    background: #e4e6ea;
+    background: #c9c9c9;
 }
 
 body.list .table-responsive table tbody td.sorted {
-    border-color: #e9e9e9;
+    border-color: #f9f9f9;
 }
 
 body.list .table-responsive table thead th a,
@@ -338,7 +334,6 @@ main.flex > aside.filter-sidebar > section .filter-sidebar-close {
 }
 
 main.flex .box {
-    border: 0;
     box-shadow: none;
     background: transparent;
 }

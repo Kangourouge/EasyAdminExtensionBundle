@@ -51,7 +51,7 @@ class FilterListener implements EventSubscriberInterface
         $entityConfig = $event->getArgument('entity');
 
         if (isset($entityConfig['filter'])) {
-            $options = ['required' => false];
+            $options = ['required' => false, 'method' => 'GET'];
 
             if ($entityConfig['filter']['form_type'] === EasyAdminFilterType::class) {
                 $options['config'] = $entityConfig;
@@ -65,8 +65,8 @@ class FilterListener implements EventSubscriberInterface
                 $options
             );
 
+            $this->form->add('reset', SubmitType::class);
             $this->form->add('filter', SubmitType::class);
-            $this->form->add('reset', ResetType::class);
 
             $this->form->handleRequest($this->request);
         }
@@ -83,9 +83,6 @@ class FilterListener implements EventSubscriberInterface
                 $data = $this->form->getData();
                 if (!empty($data)) {
                     $queryBuilder = call_user_func($entityConfig['filter']['query_builder_callback'], $queryBuilder, $entityConfig, $data);
-                    if (!$queryBuilder instanceof QueryBuilder) {
-                        throw new \RuntimeException('The query_builder_callback must return a QueryBuilder instance.');
-                    }
                     $event->setArgument('query_builder', $queryBuilder);
                 }
             }

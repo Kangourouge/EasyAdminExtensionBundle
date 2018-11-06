@@ -28,62 +28,35 @@
     {{ include('@EasyAdmin/default/includes/_select2_widget.html.twig') }}
 {% endblock %}
 
-{% block new_action %}
-    {{ parent() }}
-
-    {% if form_filter is defined %}
-        <div class="button-action">
-            <button class="btn btn-default" data-target="#{{ form_filter.vars.id }}_filter" data-toggle="collapse" aria-expanded="false">
-                <i class="fa fa-filter"></i> {{ 'filter.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}
-            </button>
-        </div>
-    {% endif %}
-{% endblock %}
-
-{% block table_body %}
-    {% for item in paginator.currentPageResults %}
-        {% set _item_id = '' ~ attribute(item, _entity_config.primary_key_field_name) %}
-        <tr data-id="{{ _item_id }}" {% if item.lvl is defined %}data-lvl="{{ item.lvl }}"{% endif %}>
-            {% for field, metadata in fields %}
-                {% set isSortingField = metadata.property == app.request.get('sortField') %}
-                {% set _column_label =  (metadata.label ?: field|humanize)|trans(_trans_parameters)  %}
-
-                <td data-label="{{ _column_label }}" class="{{ isSortingField ? 'sorted' }} {{ metadata.dataType|lower }} {{ metadata.css_class }}">
-                    {{ easyadmin_render_field_for_list_view(_entity_config.name, item, metadata) }}
-                </td>
-            {% endfor %}
-
-            {% if _list_item_actions|length > 0 %}
-                {% set _column_label =  'list.row_actions'|trans(_trans_parameters, 'EasyAdminBundle') %}
-                <td data-label="{{ _column_label }}" class="actions">
-                    {% block item_actions %}
-                        {{ include('@KRGEasyAdminExtension/default/includes/_actions.html.twig', {
-                            actions: _list_item_actions,
-                            request_parameters: _request_parameters,
-                            translation_domain: _entity_config.translation_domain,
-                            trans_parameters: _trans_parameters,
-                            item_id: _item_id
-                        }, with_context = false) }}
-                    {% endblock item_actions %}
-                </td>
-            {% endif %}
-        </tr>
-    {% else %}
-        <tr>
-            <td class="no-results" colspan="{{ _list_item_actions|length > 0 ? fields|length + 1 : fields|length }}">
-                {{ 'search.no_results'|trans(_trans_parameters, 'EasyAdminBundle') }}
-            </td>
-        </tr>
-    {% endfor %}
-{% endblock table_body %}
+{% block item_actions %}
+    {{ include('@KRGEasyAdminExtension/default/includes/_actions.html.twig', {
+        actions: _list_item_actions,
+        max_actions: _entity_config.list.max_actions,
+        request_parameters: _request_parameters,
+        translation_domain: _entity_config.translation_domain,
+        trans_parameters: _trans_parameters,
+        item_id: _item_id
+    }, with_context = false) }}
+{% endblock item_actions %}
 
 {% block main %}
     <main class="flex">
-        <section class="box">
+        <section class="box mb-40">
             {{ parent() }}
         </section>
         {% if form_filter is defined %}
-            <aside id="{{ form_filter.vars.id }}_filter" class="filter-sidebar collapse">
+            <script type="text/javascript">
+                (function () {
+                    var th = document.querySelector('table > thead > tr > th:last-child');
+                    if (th) {
+                        th.innerHTML +=
+                            '<button class="btn btn-xs btn-filter text-right" title="{{ 'filter.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}" data-target="#{{ form_filter.vars.id }}_filter" data-toggle="collapse" aria-expanded="{% if form_filter_submitted %}true{% else %}false{% endif %}">' +
+                            '    <i class="fa fa-filter"></i>' +
+                            '</button>';
+                    }
+                })();
+            </script>
+            <aside id="{{ form_filter.vars.id }}_filter" class="filter-sidebar collapse {% if form_filter_submitted %}in{% endif %}" aria-expanded="{% if form_filter_submitted %}true{% else %}false{% endif %}">
                 <section class="box box-warning sidebar">
                     <header class="btn-header with-border">
                         <h4>
@@ -91,15 +64,17 @@
                         </h4>
                     </header>
                     <div class="box-body">
-                        {{ form_start(form_filter) }}
-                        {{ form_errors(form_filter) }}
-                        {% form_theme form_filter 'bootstrap_3_layout.html.twig' %}
-                        {% for key, value in app.request.query %}
-                            {% if not (key starts with 'filter_') %}
-                                <input type="hidden" name="{{ key }}" value="{{ value }}">
-                            {% endif %}
-                        {% endfor %}
-                        {{ form_end(form_filter) }}
+                        <div class="form-filter">
+                            {{ form_start(form_filter) }}
+                            {{ form_errors(form_filter) }}
+                            {% form_theme form_filter 'bootstrap_3_layout.html.twig' %}
+                            {% for key, value in app.request.query %}
+                                {% if not (key starts with 'filter_') %}
+                                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                                {% endif %}
+                            {% endfor %}
+                            {{ form_end(form_filter) }}
+                        </div>
                     </div>
                 </section>
             </aside>

@@ -45,14 +45,15 @@ class ActionConfigPass implements ConfigPassInterface
         // Auto configurated sortable action depending on SortableInterface implementation
         $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
 
-        if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
+        $isSortable = $classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class);
+
+        $maxActions = $config['list']['max_actions'] ?? 2;
+        if ($isSortable) {
             foreach ($config['list']['fields'] as $name => $field) {
                 $config['list']['fields'][$name]['sortable'] = false;
             }
-        }
-
-        if ($classMetadata->getReflectionClass()->implementsInterface(SortableInterface::class)) {
             $config['list']['sort'] = ["field" => "position", "direction" => "ASC"];
+            $maxActions++;
         } else {
             foreach ($config['list']['actions'] as $idx => &$action) {
                 if ($action['name'] === 'sort') {
@@ -61,6 +62,10 @@ class ActionConfigPass implements ConfigPassInterface
             }
             unset($action);
         }
+
+        $config['list']['max_actions'] = $maxActions;
+
+        usort($config['list']['actions'], 'KRG\EasyAdminExtensionBundle\Configuration\MenuConfigPass::sortByPriority');
 
         return $config;
     }

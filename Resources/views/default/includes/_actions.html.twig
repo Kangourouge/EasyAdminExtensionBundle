@@ -1,34 +1,20 @@
-{% macro dropdown(dropdown, actions, request_parameters, translation_domain, trans_parameters, item_id) %}
+{% for action in actions %}
+    {% if loop.index < max_actions + 1 %}
+        {{ include('@KRGEasyAdminExtension/default/includes/_action.html.twig') }}
+    {% endif %}
+{% endfor %}
+
+{% if actions|length > max_actions %}
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle {% if dropdown.css_class is defined %}{{ dropdown.css_class }}{% elseif dropdown.name|default('')|length > 0 %}btn-default{% else %}btn-more{% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% if dropdown.name|default('')|length > 0 %}
-                {{ dropdown.name }} <span class="caret"></span>
-            {% else %}
-                <span class="fa fa-ellipsis-v"></span>
-            {% endif %}
+        <button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-ellipsis-v"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
             {% for action in actions %}
-                {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
+                {% if loop.index > max_actions %}
+                    {{ include('@KRGEasyAdminExtension/default/includes/_action.html.twig') }}
+                {% endif %}
             {% endfor %}
         </ul>
     </div>
-{% endmacro %}
-
-{% import _self as helper %}
-
-{% if actions.actions is defined %}
-    {% for action in actions.actions %}
-        {{ include('@KRGEasyAdminExtension/default/includes/_action_button.html.twig') }}
-    {% endfor %}
-{% endif %}
-
-{% if actions.dropdownGroups is defined %}
-    {% for key, group in actions.dropdownGroups %}
-        {{ helper.dropdown((group|first).menu_dropdown, group, request_parameters, translation_domain, trans_parameters, item_id) }}
-    {% endfor %}
-{% endif %}
-
-{% if actions.dropdownGlobal is defined and actions.dropdownGlobal|length > 0 %}
-    {{ helper.dropdown('', actions.dropdownGlobal, request_parameters, translation_domain, trans_parameters, item_id) }}
 {% endif %}
