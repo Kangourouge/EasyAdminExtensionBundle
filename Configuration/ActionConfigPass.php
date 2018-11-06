@@ -65,7 +65,7 @@ class ActionConfigPass implements ConfigPassInterface
 
         $config['list']['max_actions'] = $maxActions;
 
-        usort($config['list']['actions'], 'KRG\EasyAdminExtensionBundle\Configuration\MenuConfigPass::sortByPriority');
+        uasort($config['list']['actions'], 'KRG\EasyAdminExtensionBundle\Configuration\MenuConfigPass::sortByPriority');
 
         return $config;
     }
