@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Guesser\MissingDoctrineOrmTypeGuesser;
 use KRG\EasyAdminExtensionBundle\Filter\FilterQueryBuilder;
-use KRG\EasyAdminExtensionBundle\Form\Type\EasyAdminFilterType;
+use KRG\EasyAdminExtensionBundle\Form\Type\FilterType;
 use KRG\EasyAdminExtensionBundle\Form\Type\RangeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -46,7 +46,7 @@ class FilterConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as &$config) {
             if (isset($config['filter'])) {
                 if (!isset($config['filter']['form_type'])) {
-                    $config['filter']['form_type'] = EasyAdminFilterType::class;
+                    $config['filter']['form_type'] = FilterType::class;
                     $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
                     foreach($config['filter']['fields'] as $idx => &$field) {
                         if (is_string($field)) {

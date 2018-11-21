@@ -49,6 +49,9 @@ services:
     KRG\EasyAdminExtensionBundle\Configuration\ClassMetadataConfigPass:
         tags: [{name: 'easyadmin.config_pass', priority: 1000}]
 
+    KRG\EasyAdminExtensionBundle\Configuration\SelectionConfigPass:
+        tags: [{name: 'easyadmin.config_pass', priority: 1001}]
+
     KRG\EasyAdminExtensionBundle\EventListener\EasyAdminSubscriber:
         tags: [ 'kernel.event_subscriber' ]
 

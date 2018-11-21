@@ -39,6 +39,27 @@
     }, with_context = false) }}
 {% endblock item_actions %}
 
+{% block table_body %}
+    {% if selection_form is defined and selection_form is not null %}
+        {{ form_start(selection_form) }}
+        {{ parent() }}
+        {% if paginator.currentPageResults|length > 0 %}
+            <tr>
+                <td class="no-results" colspan="{{ _list_item_actions|length > 0 ? fields|length + 1 : fields|length }}">
+                    <div class="form form-selection form-inline">
+                        {% form_theme selection_form '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
+                        {{ form_rest(selection_form) }}
+                        {{ form_end(selection_form) }}
+                    </div>
+                </td>
+            </tr>
+        {% endif %}
+        {{ form_end(selection_form) }}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock table_body %}
+
 {% block main %}
     <main class="flex">
         <section class="box mb-40">

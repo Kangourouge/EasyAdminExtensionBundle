@@ -4,7 +4,7 @@ namespace KRG\EasyAdminExtensionBundle\Filter;
 
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
-use KRG\EasyAdminExtensionBundle\Form\Type\EasyAdminFilterType;
+use KRG\EasyAdminExtensionBundle\Form\Type\FilterType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -53,7 +53,7 @@ class FilterListener implements EventSubscriberInterface
         if (isset($entityConfig['filter'])) {
             $options = ['required' => false, 'method' => 'GET'];
 
-            if ($entityConfig['filter']['form_type'] === EasyAdminFilterType::class) {
+            if ($entityConfig['filter']['form_type'] === FilterType::class) {
                 $options['config'] = $entityConfig;
             }
 
@@ -61,7 +61,7 @@ class FilterListener implements EventSubscriberInterface
             $this->form = $this->formFactory->createNamed(
                 $entityConfig['filter']['form_name'],
                 $entityConfig['filter']['form_type'],
-                null,
+                [],
                 $options
             );
 
@@ -73,20 +73,23 @@ class FilterListener implements EventSubscriberInterface
     }
 
     public function onPostQueryBuilder(GenericEvent $event) {
-
         /** @var array $entityConfig */
         $entityConfig = $event->getArgument('entity');
+
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $event->getArgument('query_builder');
         if ($this->form instanceof FormInterface) {
+            $data = $this->form->getData();
             if ($this->form->isValid() && $this->form->isSubmitted()) {
                 $data = $this->form->getData();
-                if (!empty($data)) {
-                    $queryBuilder = call_user_func($entityConfig['filter']['query_builder_callback'], $queryBuilder, $entityConfig, $data);
-                    $event->setArgument('query_builder', $queryBuilder);
-                }
+            }
+
+            if (!empty($data)) {
+                $queryBuilder = call_user_func($entityConfig['filter']['query_builder_callback'], $queryBuilder, $entityConfig, $data);
+                $event->setArgument('query_builder', $queryBuilder);
             }
         }
+
     }
 
     /**

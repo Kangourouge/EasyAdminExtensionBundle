@@ -1,0 +1,3 @@
+{% if field_options.form is defined and field_options.form.entities.children[value] is defined %}
+    {{ form_widget(field_options.form.entities.children[value]) }}
+{% endif %}

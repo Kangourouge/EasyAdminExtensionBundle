@@ -19,7 +19,7 @@ class RangeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('min', $options['entry_type'], array_merge($options['entry_options'], ['label' => false]))
+        $builder->add('min', $options['entry_type'], array_merge($options['entry_options'], ['label' => 'from']))
                 ->add('max', $options['entry_type'], array_merge($options['entry_options'], ['label' => 'to']));
 
         $builder->addModelTransformer(new CallbackTransformer(
