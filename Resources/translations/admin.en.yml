@@ -1,30 +1,26 @@
-Sessions: Sessions
+Sessions: 'Sessions'
 'Top Browsers (by pageview)': 'Top Browsers (by pageview)'
 'Page Tracking': 'Page Tracking'
 'Time on page': 'Time on page'
 'Top Countries (by sessions)': 'Top Countries (by sessions)'
-Visitors: Visitors
-Loggable: Loggable
-User: User
+Visitors: 'Visitors'
+Loggable: 'Loggable'
+User: 'User'
 
 action:
-  new: Create
-  edit: Edit
-  delete: Delete
-  search: Search
-  save: Save
+  new: 'Create'
+  edit: 'Edit'
+  delete: 'Delete'
+  search: 'Search'
+  save: 'Save'
   list: 'Back to list'
-  show: Show
-  clone: Clone
+  show: 'Show'
+  clone: 'Clone'
 
-Action: Action
-Entity: Entity
-Date: Date
-Dashboard: Tableau de bord
+Action: 'Action'
+Entity: 'Entity'
+Date: 'Date'
 
 menu:
-  homepage: Homepage
-  dashboard: Dashboard
-  cache: Cache
-  system: System
-  dump_database: Dump database
+  system: 'System'
+  dump_database: 'Dump database'

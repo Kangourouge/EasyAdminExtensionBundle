@@ -6,6 +6,7 @@
 
 body.list table {
     border: 0;
+    margin-bottom: 0;
 }
 
 body.list table tbody {
@@ -16,6 +17,10 @@ body.list table tbody td {
     font-size: 14px;
     padding: 11px 15px;
     white-space: nowrap;
+}
+
+body.list .table-responsive {
+    overflow-x: initial;
 }
 
 body.list .table-responsive table thead th {
@@ -96,6 +101,7 @@ body.list table tbody td.actions .dropdown-menu a {
     padding: 12px;
     border-bottom: 1px solid #fefefe;
     color: #333;
+    text-align: left;
 }
 
 body.list table tbody td.actions .dropdown-menu a:hover {
