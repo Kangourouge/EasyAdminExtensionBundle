@@ -20,7 +20,7 @@ easy_admin:
           - { label: 'Cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
   list:
     actions:
-      - { name: 'new', icon: 'plus', css_class: 'btn btn-primary',  priority: 1040 }
-      - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort', type: 'button', priority: 1030 }
-      - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary',  priority: 1020 }
+      - { name: 'new', icon: 'plus', css_class: 'btn btn-primary', priority: 1040 }
+      - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort', priority: 1030 }
+      - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary', priority: 1020 }
       - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger', priority: 1010 }
