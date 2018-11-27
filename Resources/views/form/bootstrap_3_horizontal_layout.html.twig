@@ -29,7 +29,7 @@
 
 {% block form_label_class %}
     {% spaceless %}
-        {% if label is same as(false) and compound is same as(true) %}
+        {% if label is same as(false) %}
             hidden
         {% else %}
             col-sm-2
@@ -39,7 +39,7 @@
 
 {% block form_group_class %}
     {% spaceless %}
-        {% if label is same as(false) and compound is same as(true) %}
+        {% if label is same as(false) %}
             col-sm-12
         {% else %}
             col-sm-10

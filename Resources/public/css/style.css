@@ -294,7 +294,6 @@ body.list table tbody td.actions .btn-sort:hover:active {
 .field-group .box-header.with-border {
     border-bottom-color: #ebebeb;
     padding: 20px 15px 19px;
-    margin-bottom: 10px;
     background: transparent;
 }
 
@@ -304,6 +303,10 @@ body.list table tbody td.actions .btn-sort:hover:active {
     color: #323332;
     font-weight: 400;
     line-height: 1.2;
+}
+
+.box-header.with-border a.collapsed i {
+    color: #5d5d5d;
 }
 
 main.flex {
