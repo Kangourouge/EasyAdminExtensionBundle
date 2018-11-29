@@ -39,6 +39,18 @@
     }, with_context = false) }}
 {% endblock item_actions %}
 
+
+{% block global_actions %}
+    {{ parent() }}
+    {% if _entity_config.import is defined %}
+        <div class="button-action">
+            <a class="btn btn-info" href="{{ path('easyadmin', _request_parameters|merge({ action: 'import' })) }}">
+                <i class="fa fa-import"></i> {{ 'action.import'|trans(_trans_parameters) }}
+            </a>
+        </div>
+    {% endif %}
+{% endblock global_actions %}
+
 {% block table_body %}
     {% if selection_form is defined and selection_form is not null %}
         {{ form_start(selection_form) }}

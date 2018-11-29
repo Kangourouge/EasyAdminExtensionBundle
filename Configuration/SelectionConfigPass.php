@@ -16,6 +16,10 @@ class SelectionConfigPass implements ConfigPassInterface
 
             $config['selection']['actions'] = $config['selection']['actions'] ?? [];
 
+            if (isset($config['export'])) {
+                $config['selection']['actions']['export'] = 'export';
+            }
+
             foreach($config['selection']['actions'] as &$action) {
                 if (is_string($action)) {
                     $action = ['name' => $action];

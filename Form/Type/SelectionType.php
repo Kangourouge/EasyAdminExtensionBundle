@@ -36,10 +36,6 @@ class SelectionType extends AbstractType
                 ->add('submit', SubmitType::class);
         }
 
-        if ($options['allow_import']) {
-            $builder->add('import', SubmitType::class);
-        }
-
         if ($options['allow_export']) {
             $builder->add('export', SubmitType::class);
         }

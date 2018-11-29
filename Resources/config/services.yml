@@ -7,13 +7,23 @@ services:
             $googleAnalyticsId: '%krg_easyadmin_google_analytics_id%'
             $cacheDir: '%kernel.cache_dir%'
             $env: '%kernel.environment%'
-            $webDir: '%kernel.root_dir%/web'
+            $webDir: '%kernel.root_dir%/../web'
 
     KRG\EasyAdminExtensionBundle\Controller\:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
         calls:
                 - [setContainer, ["@service_container"]]
+        public: true
+
+
+    KRG\EasyAdminExtensionBundle\IO\:
+        resource: '../../IO/*Export.php'
+        public: true
+
+    KRG\EasyAdminExtensionBundle\Model\:
+        resource: '../../Model/*'
+        tags: ['krg.model']
         public: true
 
     KRG\EasyAdminExtensionBundle\Cache\:

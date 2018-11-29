@@ -5,7 +5,7 @@
 {% block main %}
     {% for widget in widgets %}
         {{ widget.render|raw }}
-    {% else %}
-        <div class="well well-lg">Welcome {{ app.user }}</div>
     {% endfor %}
 {% endblock %}
+
+

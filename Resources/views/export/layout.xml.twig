@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+    <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+        <Author>{{ setting.Author }}</Author>
+        <Company>{{ setting.Company }}</Company>
+    </DocumentProperties>
+    <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+        <AllowPNG/>
+        {% for idx, color in setting.Colors %}
+            <Color>
+                <Index>{{ idx }}</Index>
+                <RGB>{{ color }}</RGB>
+            </Color>
+        {% endfor %}
+        <PixelsPerInch>96</PixelsPerInch>
+    </OfficeDocumentSettings>
+    <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+        <WindowHeight>{{ setting.WindowHeight }}</WindowHeight>
+        <WindowWidth>{{ setting.WindowWidth }}</WindowWidth>
+        <WindowTopX>{{ setting.WindowTopX }}</WindowTopX>
+        <WindowTopY>{{ setting.WindowTopY }}</WindowTopY>
+        <ProtectStructure>{{ setting.ProtectStructure }}</ProtectStructure>
+        <ProtectWindows>{{ setting.ProtectWindows }}</ProtectWindows>
+        <DisplayInkNotes>{{ setting.DisplayInkNotes }}</DisplayInkNotes>
+    </ExcelWorkbook>
+    <Styles>
+        <Style ss:ID="Default" ss:Name="Normal">
+            <Alignment ss:Vertical="Bottom"/>
+            <Borders/>
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="12" ss:Color="{{ setting.Color }}"/>
+            <Interior/>
+            <NumberFormat/>
+            <Protection/>
+        </Style>
+        <Style ss:ID="H1">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="24"/>
+        </Style>
+        <Style ss:ID="H2">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="22"/>
+        </Style>
+        <Style ss:ID="H3">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="20"/>
+        </Style>
+        <Style ss:ID="H4">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="18"/>
+        </Style>
+        <Style ss:ID="H5">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="16"/>
+        </Style>
+        <Style ss:ID="P">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="12"/>
+        </Style>
+        <Style ss:ID="EM">
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="10"/>
+        </Style>
+
+        <Style ss:ID="THead">
+            <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+            <Borders>
+                <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+            </Borders>
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="12" ss:Color="{{ setting.THeadColor }}" ss:Bold="1"/>
+            <Interior ss:Color="{{ setting.THeadBackgroundColor }}" ss:Pattern="Solid"/>
+        </Style>
+
+        <Style ss:ID="TBody">
+            <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+            <Borders>
+                <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+                <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+            </Borders>
+            <Font ss:FontName="{{ setting.FontName }}" x:Family="{{ setting.Family }}" ss:Size="12" ss:Color="{{ setting.TBodyColor }}"/>
+            <Interior ss:Color="{{ setting.TBodyBackgroundColor }}" ss:Pattern="Solid"/>
+        </Style>
+    </Styles>
+
+    {% for sheet in sheets %}
+        <Worksheet ss:Name="{{ sheet.title }}">
+            <Table ss:ExpandedColumnCount="{{ sheet.fields|length }}" ss:ExpandedRowCount="{{ 4 + sheet.rows|length }}" x:FullColumns="1" x:FullRows="1">
+
+                {% for field in sheet.fields %}
+                    <Column ss:AutoFitWidth="0" ss:Width="{{ field.options.Width|default('90') }}"/>
+                {% endfor %}
+
+                <Row ss:AutoFitHeight="1">
+                    <Cell ss:StyleID="H1" ss:Index="0" ss:Height="{{ setting.ImageHeight }}">
+                        <ss:Data ss:Type="Image">{{ setting.Logo }}</ss:Data>
+                    </Cell>
+                </Row>
+
+                <Row ss:AutoFitHeight="1">
+                    <Cell ss:StyleID="H1" ss:Index="2">
+                        <Data ss:Type="String"></Data>
+                    </Cell>
+                </Row>
+
+                <Row ss:AutoFitHeight="0" ss:Height="{{ setting.RowHeight }}">
+                    <Cell>
+                        <Data ss:Type="String"></Data>
+                    </Cell>
+                    {% for field in sheet.fields %}
+                        <Cell ss:StyleID="TBody">
+                            <Data ss:Type="String">{{ field.label|trans }}</Data>
+                        </Cell>
+                    {% endfor %}
+                </Row>
+
+                {% for row in sheet.rows %}
+                    <Row ss:AutoFitHeight="0" ss:Height="{{ setting.RowHeight }}">
+                        <Cell>
+                            <Data ss:Type="String"></Data>
+                        </Cell>
+                        {% for value in row %}
+                            <Cell ss:StyleID="TBody">
+                                <Data ss:Type="String">{{ value }}</Data>
+                            </Cell>
+                        {% endfor %}
+                    </Row>
+                {% endfor %}
+            </Table>
+        </Worksheet>
+    {% endfor %}
+</Workbook>

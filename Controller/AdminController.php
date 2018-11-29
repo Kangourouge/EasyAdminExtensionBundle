@@ -4,8 +4,15 @@ namespace KRG\EasyAdminExtensionBundle\Controller;
 
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use KRG\CoreBundle\Model\ModelFactory;
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
 use KRG\EasyAdminExtensionBundle\Form\Type\SelectionType;
+use KRG\EasyAdminExtensionBundle\IO\CsvExport;
+use KRG\EasyAdminExtensionBundle\IO\ExcelExport;
+use KRG\EasyAdminExtensionBundle\IO\Export;
+use KRG\EasyAdminExtensionBundle\IO\ExportInterface;
+use KRG\EasyAdminExtensionBundle\IO\XlsExport;
+use KRG\EasyAdminExtensionBundle\Model\ExportModel;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -116,7 +123,6 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                 $actions = array_column($this->entity['selection']['actions'], null, 'name');
 
                 if (count($actions) > 0) {
-
                     $selectionForm = $this->formFactory->create(
                         SelectionType::class, null, [
                         'actions'      => $actions,
@@ -131,13 +137,12 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                         $data = $selectionForm->getData();
 
                         try {
-                            foreach (['submit', 'export', 'import'] as $button) {
+                            foreach (['submit', 'export'] as $button) {
                                 if ($selectionForm->has($button) && $selectionForm->get($button)->isClicked()) {
                                     switch ($button) {
                                         case 'submit':
                                             if (count($data['entities']) > 0 && $data['action'] !== null) {
                                                 $action = $actions[$data['action']];
-
                                                 return call_user_func_array([$this, $action['method']], [$data['entities']]);
                                             }
                                             break;
@@ -149,15 +154,24 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                                                     ->setParameter('selection', $data['entities'])
                                                     ->getQuery();
                                             }
-                                            break;
 
-                                        case 'import':
-                                            break;
+                                            $query->setMaxResults(null);
+                                            $query->setFirstResult(null);
+
+                                            $model = $this->get(ModelFactory::class)->create(ExportModel::class, [
+                                                'iterator' => $query->iterate(),
+                                                'sheets' => $this->entity['export']['sheets']
+                                            ]);
+
+                                            /** @var ExportInterface $exporter */
+                                            $export = $this->get(CsvExport::class);
+
+                                            $filename = sprintf('export_%s_%s', $this->entity['name'], date('Y-m-d\TH:i'));
+                                            return $export->render($filename, $model);
                                     }
                                 }
                             }
-                        } catch (\Exception $exception) {
-                        }
+                        } catch (\Exception $exception) {}
                     }
 
                     $parameters['selection_form'] = $selectionForm->createView();

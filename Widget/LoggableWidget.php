@@ -28,14 +28,13 @@ class LoggableWidget implements WidgetInterface
     public function render()
     {
         $maxResults = 20;
-        $data = $this->entityManager
-            ->getRepository(LogEntry::class)
-            ->createQueryBuilder('l')
-            ->select('l.username', 'l.action', 'l.loggedAt', 'l.objectClass')
-            ->setMaxResults($maxResults)
-            ->orderBy('l.loggedAt', 'DESC')
-            ->getQuery()
-            ->getScalarResult();
+        $data = $this->entityManager->getRepository(LogEntry::class)
+                                    ->createQueryBuilder('l')
+                                    ->select('l.username', 'l.action', 'l.loggedAt', 'l.objectClass')
+                                    ->setMaxResults($maxResults)
+                                    ->orderBy('l.loggedAt', 'DESC')
+                                    ->getQuery()
+                                    ->getScalarResult();
 
         return $this->templating->render('KRGEasyAdminExtensionBundle:widget:loggable.html.twig', [
             'data'       => $data,

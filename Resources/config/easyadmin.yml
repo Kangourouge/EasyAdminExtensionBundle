@@ -10,17 +10,17 @@ easy_admin:
       field_text: '@KRGEasyAdminExtension/default/field_string.html.twig'
       field_image: '@KRGEasyAdminExtension/default/field_image.html.twig'
     menu:
-      - { label: 'Homepage', route: 'homepage', icon: 'home', target: '_blank', css_class: 'sidebar-menu-homepage', priority: 9999 }
-      - { label: 'Dashboard', route: 'admin_dashboard', icon: 'dashboard', default: true, priority: 9000 }
+      - { label: 'homepage', route: 'homepage', icon: 'home', target: '_blank', css_class: 'sidebar-menu-homepage', priority: 9999 }
+      - { label: 'dashboard', route: 'admin_dashboard', icon: 'dashboard', default: true, priority: 9000 }
       -
         label: 'System'
         priority: 0
         roles: ['ROLE_SUPER_ADMIN']
         children:
-          - { label: 'Cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
+          - { label: 'cache', route: 'krg_easyadmin_cache_clear', icon: 'server' }
   list:
     actions:
-      - { name: 'new', icon: 'plus', css_class: 'btn btn-primary', priority: 1040 }
-      - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort', priority: 1030 }
-      - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary', priority: 1020 }
+      - { name: 'new', icon: 'plus', css_class: 'btn btn-primary',  priority: 1040 }
+      - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort', type: 'button', priority: 1030 }
+      - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary',  priority: 1020 }
       - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger', priority: 1010 }
