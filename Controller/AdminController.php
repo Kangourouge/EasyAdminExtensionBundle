@@ -166,7 +166,8 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                                             /** @var ExportInterface $exporter */
                                             $export = $this->get(CsvExport::class);
 
-                                            $filename = sprintf('export_%s_%s', $this->entity['name'], date('Y-m-d\TH:i'));
+                                            $filename = sprintf('%s/export_%s_%s', sys_get_temp_dir(), $this->entity['name'], date('Y-m-d\TH:i'));
+
                                             return $export->render($filename, $model);
                                     }
                                 }
