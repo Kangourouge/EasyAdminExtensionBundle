@@ -20,7 +20,6 @@ action:
 Action: Action
 Entity: Entity
 Date: Date
-Dashboard: Tableau de bord
 
 menu:
   homepage: Homepage

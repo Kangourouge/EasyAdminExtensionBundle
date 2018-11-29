@@ -6,10 +6,15 @@
 
 body.list table {
     border: 0;
+    margin-bottom: 0;
 }
 
 body.list table tbody {
     border: 0;
+}
+
+body.list .table-responsive {
+    overflow-x: initial;
 }
 
 body.list table tbody td {
@@ -96,6 +101,7 @@ body.list table tbody td.actions .dropdown-menu a {
     padding: 12px;
     border-bottom: 1px solid #fefefe;
     color: #333;
+    text-align: left;
 }
 
 body.list table tbody td.actions .dropdown-menu a:hover {
@@ -288,7 +294,6 @@ body.list table tbody td.actions .btn-sort:hover:active {
 .field-group .box-header.with-border {
     border-bottom-color: #ebebeb;
     padding: 20px 15px 19px;
-    margin-bottom: 10px;
     background: transparent;
 }
 
@@ -302,6 +307,10 @@ body.list table tbody td.actions .btn-sort:hover:active {
 
 main.flex {
     display: flex;
+}
+
+.box-header.with-border a.collapsed i {
+    color: #5d5d5d;
 }
 
 main.flex > section {
