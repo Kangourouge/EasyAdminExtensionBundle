@@ -4,6 +4,7 @@ namespace KRG\EasyAdminExtensionBundle\Configuration;
 
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
+use KRG\DoctrineExtensionBundle\Entity\Clonable\ClonableInterface;
 use KRG\DoctrineExtensionBundle\Entity\Sortable\SortableInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
@@ -25,6 +26,7 @@ class ActionConfigPass implements ConfigPassInterface
     public function process(array $backendConfig)
     {
         foreach ($backendConfig['entities'] as $entity => &$config) {
+            $this->processClone($config);
             $this->processSort($config);
         }
         unset($config);
@@ -38,6 +40,25 @@ class ActionConfigPass implements ConfigPassInterface
         }
 
         return $backendConfig;
+    }
+
+    private function processClone(&$config)
+    {
+        // Auto configurated clonable action depending on SortableInterface implementation
+        $classMetadata = $this->entityManager->getMetadataFactory()->getMetadataFor($config['class']);
+
+        $isClonable = $classMetadata->getReflectionClass()->implementsInterface(ClonableInterface::class);
+
+        if (!$isClonable) {
+            foreach ($config['list']['actions'] as $idx => &$action) {
+                if ($action['name'] === 'clone') {
+                    unset($config['list']['actions'][$idx]);
+                }
+            }
+            unset($action);
+        }
+
+        return $config;
     }
 
     private function processSort(&$config)

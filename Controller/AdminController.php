@@ -82,6 +82,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                 'action' => 'edit',
                 'id'     => $clone->getId(),
                 'entity' => $this->request->query->get('entity'),
+                'clone_origin_id' => $entity->getId()
             ]
         );
     }
