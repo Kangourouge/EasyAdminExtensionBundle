@@ -2,7 +2,6 @@
 
 namespace KRG\EasyAdminExtensionBundle\Filter;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\ORM\QueryBuilder;
 

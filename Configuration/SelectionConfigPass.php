@@ -2,11 +2,7 @@
 
 namespace KRG\EasyAdminExtensionBundle\Configuration;
 
-use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use KRG\DoctrineExtensionBundle\Entity\Sortable\SortableInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class SelectionConfigPass implements ConfigPassInterface
 {
@@ -14,22 +10,20 @@ class SelectionConfigPass implements ConfigPassInterface
     {
         foreach ($backendConfig['entities'] as $entity => &$config) {
 
-            $config['selection']['actions'] = $config['selection']['actions'] ?? [];
+            if (isset($config['selection'])) {
+                $config['selection']['actions'] = $config['selection']['actions'] ?? [];
 
-            if (isset($config['export'])) {
-                $config['selection']['actions']['export'] = 'export';
-            }
-
-            foreach($config['selection']['actions'] as &$action) {
-                if (is_string($action)) {
-                    $action = ['name' => $action];
+                foreach($config['selection']['actions'] as &$action) {
+                    if (is_string($action)) {
+                        $action = ['name' => $action];
+                    }
+                    $action['method'] = $action['method'] ?? sprintf('%sSelectionAction', $action['name']);
+                    $action['label'] = $action['label'] ?? sprintf('action.%s', $action['name']);
                 }
-                $action['method'] = $action['method'] ?? sprintf('%sSelectionAction', $action['name']);
-                $action['label'] = $action['label'] ?? $action['name'];
+                unset($action);
             }
-            unset($action);
 
-            if (count($config['selection']['actions']) > 0) {
+            if (isset($config['selection']) || isset($config['export'])) {
                 $config['list']['fields'] = array_merge(
                     ['id' => [
                         'property'   => 'id',

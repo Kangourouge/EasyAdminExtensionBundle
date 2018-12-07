@@ -1,7 +1,6 @@
 <?php
 namespace KRG\EasyAdminExtensionBundle\DependencyInjection\Compiler;
 
-use KRG\EasyAdminExtensionBundle\Controller\AdminController;
 use KRG\EasyAdminExtensionBundle\Controller\DashboardController;
 use KRG\EasyAdminExtensionBundle\Twig\ToolbarExtension;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

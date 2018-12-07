@@ -16,16 +16,6 @@ services:
                 - [setContainer, ["@service_container"]]
         public: true
 
-
-    KRG\EasyAdminExtensionBundle\IO\:
-        resource: '../../IO/*Export.php'
-        public: true
-
-    KRG\EasyAdminExtensionBundle\Model\:
-        resource: '../../Model/*'
-        tags: ['krg.model']
-        public: true
-
     KRG\EasyAdminExtensionBundle\Cache\:
         resource: '../../Cache'
         tags: ['kernel.event_suscriber']

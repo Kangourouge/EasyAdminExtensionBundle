@@ -16,6 +16,26 @@ action:
   list: 'Back to list'
   show: Show
   clone: Clone
+  import: Import
+  export: Export
+  execute: Apply to the selection
+
+form:
+  selection:
+    action: Action to execute
+    format: Output format
+    sheet: Spreadsheet
+
+export:
+  csv: Text CSV (.csv)
+  xls: Microsoft Excel (.xls)
+
+import:
+  requirement:
+    title: Requirements
+    text: The CSV file must be formatted as below :
+    asterisk: Required field
+    download: Download CSV file prototype
 
 Action: Action
 Entity: Entity

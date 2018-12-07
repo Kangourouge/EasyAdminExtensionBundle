@@ -20,33 +20,63 @@ class SelectionType extends AbstractType
             'multiple'     => true,
         ]);
 
-        if (count($options['actions']) > 0) {
-
-            $actions = array_map(function(array $action){ return $action['label']; }, $options['actions']);
-
+        if (count($options['execute_actions']) > 0) {
             $builder
                 ->add(
                     'action', ChoiceType::class, [
                         'required'    => false,
                         'label'       => false,
-                        'placeholder' => 'Select an action',
-                        'choices'     => $actions
+                        'placeholder' => 'form.selection.action',
+                        'choices'     => array_column($options['execute_actions'], 'name', 'label'),
+                        'choice_translation_domain' => 'admin'
                     ]
                 )
-                ->add('submit', SubmitType::class);
+                ->add('execute', SubmitType::class, [
+                    'label' => 'action.execute',
+                    'attr' => ['class' => 'btn-primary']
+                ]);
         }
 
-        if ($options['allow_export']) {
-            $builder->add('export', SubmitType::class);
+        if (count($options['export_formats']) > 0) {
+            $sheets = array_merge([/* 'All' => null */], array_flip(array_column($options['export_sheets'],'label')));
+            $builder
+                ->add(
+                    'format', ChoiceType::class, [
+                        'label'         => false,
+                        'required'      => false,
+                        'placeholder'   => 'form.selection.format',
+                        'choices'       => array_column($options['export_formats'], 'name', 'label'),
+                        'choice_translation_domain' => 'admin'
+                    ]
+                )
+                ->add(
+                    'sheet', ChoiceType::class, [
+                        'label'         => false,
+                        'required'      => false,
+                        'placeholder'   => 'form.selection.sheet',
+                        'choices'       => $sheets,
+                        'choice_translation_domain' => 'admin'
+                    ]
+                )
+                ->add('export', SubmitType::class, [
+                    'label' => 'action.export',
+                    'attr' => ['class' => 'btn-info']
+                ]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(['actions', 'entities', 'allow_import', 'allow_export']);
-        $resolver->setAllowedTypes('actions', 'array');
+        $resolver->setDefault('translation_domain', 'admin');
+        $resolver->setRequired(['entities', 'execute_actions', 'export_formats', 'export_sheets']);
         $resolver->setAllowedTypes('entities', ['array', \ArrayIterator::class]);
-        $resolver->setAllowedTypes('allow_import', 'boolean');
-        $resolver->setAllowedTypes('allow_export', 'boolean');
+        $resolver->setAllowedTypes('execute_actions', 'array');
+        $resolver->setAllowedTypes('export_formats', 'array');
+        $resolver->setAllowedTypes('export_sheets', 'array');
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'selection';
     }
 }

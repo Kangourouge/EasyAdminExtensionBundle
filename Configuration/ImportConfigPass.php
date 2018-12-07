@@ -6,14 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Guesser\MissingDoctrineOrmTypeGuesser;
-use KRG\EasyAdminExtensionBundle\Filter\FilterQueryBuilder;
-use KRG\EasyAdminExtensionBundle\Form\Type\FilterType;
-use KRG\EasyAdminExtensionBundle\Form\Type\ImportCollectionType;
-use KRG\EasyAdminExtensionBundle\Form\Type\RangeType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use KRG\CoreBundle\Serializer\ImportNormalizer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 
@@ -47,6 +40,7 @@ class ImportConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as &$config) {
             if (isset($config['import'])) {
                 $config['import']['form_name'] = sprintf('import_%s', strtolower($config['name']));
+                $config['import']['normalizer'] = ImportNormalizer::class;
             }
         }
         unset($config);

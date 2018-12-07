@@ -4,21 +4,18 @@ namespace KRG\EasyAdminExtensionBundle\Controller;
 
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
+use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
+use KRG\CoreBundle\Export\ExcelExport;
+use KRG\CoreBundle\Export\Export;
+use KRG\CoreBundle\Export\ExportInterface;
+use KRG\CoreBundle\Form\Type\ImportFileType;
+use KRG\CoreBundle\Model\ExportModel;
 use KRG\CoreBundle\Model\ModelFactory;
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
 use KRG\EasyAdminExtensionBundle\Form\Type\SelectionType;
-use KRG\EasyAdminExtensionBundle\IO\CsvExport;
-use KRG\EasyAdminExtensionBundle\IO\ExcelExport;
-use KRG\EasyAdminExtensionBundle\IO\Export;
-use KRG\EasyAdminExtensionBundle\IO\ExportInterface;
-use KRG\EasyAdminExtensionBundle\IO\XlsExport;
-use KRG\EasyAdminExtensionBundle\Model\ExportModel;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController
@@ -89,6 +86,44 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
         );
     }
 
+    protected function importAction()
+    {
+        $form = $this->createForm(
+            ImportFileType::class, null, [
+            'class'      => $this->entity['class'],
+            'entry_type' => $this->entity['import']['entry_type'],
+            'normalizer' => $this->get($this->entity['import']['normalizer']),
+        ])
+            ->add('submit', SubmitType::class);
+
+        $form->handleRequest($this->request);
+
+        if ($form->isValid() && $form->get('submit')->isClicked()) {
+            $entities = $form->getData();
+
+            if (count($entities) > 0) {
+                $entityManager = $this->getDoctrine()->getManager();
+                foreach ($entities as $entity) {
+                    $entityManager->persist($entity);
+                }
+                $entityManager->flush();
+
+                return $this->redirectToRoute(
+                    'easyadmin', [
+                        'action' => 'list',
+                        'entity' => $this->request->query->get('entity'),
+                    ]
+                );
+            }
+        }
+
+        $parameters = [
+            'form' => $form->createView()
+        ];
+
+        return $this->executeDynamicMethod('render<EntityName>Template', ['import', '@KRGEasyAdminExtension/default/import.html.twig', $parameters]);
+    }
+
     protected function createNewForm($entity, array $entityProperties)
     {
         if (isset($this->entity['new']['form_type'])) {
@@ -119,35 +154,42 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
             }
 
             $parameters['selection_form'] = null;
-            if ($parameters['paginator']->getNbResults() > 0) {
-                $actions = array_column($this->entity['selection']['actions'], null, 'name');
+            $hasSelection = isset($this->entity['selection']) || isset($this->entity['export']);
+            if ($parameters['paginator']->getNbResults() > 0 && $hasSelection) {
 
-                if (count($actions) > 0) {
-                    $selectionForm = $this->formFactory->create(
-                        SelectionType::class, null, [
-                        'actions'      => $actions,
-                        'entities'     => $parameters['paginator']->getIterator(),
-                        'allow_import' => isset($this->entity['import']),
-                        'allow_export' => isset($this->entity['export']),
-                    ]
-                    );
+                $selectionForm = $this->formFactory->create(
+                    SelectionType::class, null, [
+                    'entities'        => $parameters['paginator']->getIterator(),
+                    'execute_actions' => $this->entity['selection']['actions'] ?? [],
+                    'export_formats'  => $this->entity['export']['formats'] ?? [],
+                    'export_sheets'   => $this->entity['export']['sheets'] ?? [],
+                ]);
 
-                    $selectionForm->handleRequest($this->request);
-                    if ($selectionForm->isValid() && $selectionForm->isSubmitted()) {
-                        $data = $selectionForm->getData();
+                $parameters['selection_form'] = $selectionForm->createView();
+                $parameters['fields']['id']['form'] = $parameters['selection_form'];
 
-                        try {
-                            foreach (['submit', 'export'] as $button) {
-                                if ($selectionForm->has($button) && $selectionForm->get($button)->isClicked()) {
-                                    switch ($button) {
-                                        case 'submit':
-                                            if (count($data['entities']) > 0 && $data['action'] !== null) {
-                                                $action = $actions[$data['action']];
-                                                return call_user_func_array([$this, $action['method']], [$data['entities']]);
-                                            }
-                                            break;
+                $selectionForm->handleRequest($this->request);
+                if ($selectionForm->isValid() && $selectionForm->isSubmitted()) {
+                    $data = $selectionForm->getData();
 
-                                        case 'export':
+                    try {
+                        foreach (['execute', 'export'] as $button) {
+                            if ($selectionForm->has($button) && $selectionForm->get($button)->isClicked()) {
+                                switch ($button) {
+                                    case 'execute':
+                                        $actions = array_column($this->entity['selection']['actions'], null, 'name');
+                                        if (count($data['entities']) > 0 && $data['action'] !== null && isset($actions[$data['action']])) {
+                                            $action = $actions[$data['action']];
+
+                                            return call_user_func_array([$this, $action['method']], [$data['entities']]);
+                                        }
+                                        break;
+
+                                    case 'export':
+
+                                        $formats = array_column($this->entity['export']['formats'], null, 'name');
+
+                                        if ($data['format'] !== null && isset($formats[$data['format']])) {
                                             $query = $parameters['paginator']->getAdapter()->getQuery();
                                             if (count($data['entities']) > 0) {
                                                 $query = $this->createListQueryBuilder($this->entity['class'], 'ASC', null, 'entity.id in (:selection)')
@@ -158,25 +200,39 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                                             $query->setMaxResults(null);
                                             $query->setFirstResult(null);
 
-                                            $model = $this->get(ModelFactory::class)->create(ExportModel::class, [
-                                                'iterator' => $query->iterate(),
-                                                'sheets' => $this->entity['export']['sheets']
-                                            ]);
+                                            $sheets = $this->entity['export']['sheets'];
+                                            if ($data['sheet']) {
+                                                $sheets = [$this->entity['export']['sheets'][$data['sheet']]];
+                                            }
+                                            $model = $this->get(ModelFactory::class)
+                                                ->create(
+                                                    ExportModel::class, [
+                                                    'iterator' => $query->iterate(),
+                                                    'sheets'   => $sheets,
+                                                ]);
+
+                                            $format = $formats[$data['format']];
 
                                             /** @var ExportInterface $exporter */
-                                            $export = $this->get(CsvExport::class);
+                                            $export = $this->get($format['service']);
 
-                                            $filename = sprintf('%s/export_%s_%s', sys_get_temp_dir(), $this->entity['name'], date('Y-m-d\TH:i'));
+                                            $name = preg_replace(
+                                                ['/%name%/', '/%date%/', '/%time%/', '/%extension%/'],
+                                                [$this->entity['name'], date('Y-m-d'), date('H\hi'), $format['extension']],
+                                                $format['filename']
+                                            );
 
-                                            return $export->render($filename, $model);
-                                    }
+                                            $filename = sprintf('%s/%s', sys_get_temp_dir(), $name);
+
+                                            return $export->render($filename, $model, $format['options']);
+                                        }
                                 }
                             }
-                        } catch (\Exception $exception) {}
+                        }
+                    } catch (\Exception $exception) {
+                        /** @todo add flash message */
+                        $this->addFlash('error', $exception->getMessage());
                     }
-
-                    $parameters['selection_form'] = $selectionForm->createView();
-                    $parameters['fields']['id']['form'] = $parameters['selection_form'];
                 }
             }
         }

@@ -7,7 +7,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use KRG\EasyAdminExtensionBundle\Form\Type\FilterType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;

@@ -17,8 +17,21 @@ action:
   search: 'Rechercher'
   save: 'Sauvegarder'
   list: 'Retour à la liste'
-  show: 'Afficher'
-  clone: 'Cloner'
+  show: Afficher
+  clone: Cloner
+  import: Importer
+  export: Exporter
+  execute: Executer
+
+form:
+  selection:
+    action: Action à exécuter
+    format: Format de sortie
+    sheet: Feuille
+
+export:
+  csv: Texte CSV (separé par des virgules) (.csv)
+  xls: Microsoft Excel (.xls)
 
 Action: 'Action'
 Entity: 'Entity'
@@ -26,6 +39,13 @@ Date: 'Date'
 Dashboard: 'Tableau de bord'
 Homepage: 'Retour au site'
 Cache: 'Cache'
+
+import:
+  requirement:
+    title: Pré-requis
+    text: Le Fichier CSV doit être au format suivant :
+    asterisk: Champ requis
+    download: Télécharger le fichier CSV prototype
 
 menu:
   homepage: 'Page d''accueil'

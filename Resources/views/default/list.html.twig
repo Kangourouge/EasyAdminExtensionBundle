@@ -45,7 +45,7 @@
     {% if _entity_config.import is defined %}
         <div class="button-action">
             <a class="btn btn-info" href="{{ path('easyadmin', _request_parameters|merge({ action: 'import' })) }}">
-                <i class="fa fa-import"></i> {{ 'action.import'|trans(_trans_parameters) }}
+                <i class="fa fa-download fa-import"></i> {{ 'action.import'|trans(_trans_parameters, 'admin') }}
             </a>
         </div>
     {% endif %}
@@ -59,9 +59,7 @@
             <tr>
                 <td class="no-results" colspan="{{ _list_item_actions|length > 0 ? fields|length + 1 : fields|length }}">
                     <div class="form form-selection form-inline">
-                        {% form_theme selection_form '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
                         {{ form_rest(selection_form) }}
-                        {{ form_end(selection_form) }}
                     </div>
                 </td>
             </tr>

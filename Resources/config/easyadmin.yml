@@ -24,3 +24,4 @@ easy_admin:
       - { name: 'sort', icon: 'arrows-v', label: '', css_class: 'btn-sort', priority: 1030 }
       - { name: 'edit', icon: 'edit', css_class: 'btn btn-primary', priority: 1020 }
       - { name: 'delete', icon: 'trash', css_class: 'btn btn-danger', priority: 1010 }
+      - { name: 'clone', icon: 'clone', css_class: 'btn btn-default', priority: 1000 }
