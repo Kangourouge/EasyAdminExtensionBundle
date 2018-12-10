@@ -25,6 +25,10 @@ form:
     action: Action to execute
     format: Output format
     sheet: Spreadsheet
+  file_import:
+    confirm: Would you like to confirm this import ?
+    submit: Submit
+    upload: Upload
 
 export:
   csv: Text CSV (.csv)

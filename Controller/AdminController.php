@@ -8,7 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
 use KRG\CoreBundle\Export\ExcelExport;
 use KRG\CoreBundle\Export\Export;
 use KRG\CoreBundle\Export\ExportInterface;
-use KRG\CoreBundle\Form\Type\ImportFileType;
+use KRG\CoreBundle\Form\Type\ImportType;
 use KRG\CoreBundle\Model\ExportModel;
 use KRG\CoreBundle\Model\ModelFactory;
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
@@ -89,22 +89,23 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
 
     protected function importAction()
     {
-        $form = $this->createForm(
-            ImportFileType::class, null, [
-            'class'      => $this->entity['class'],
-            'entry_type' => $this->entity['import']['entry_type'],
-            'normalizer' => $this->get($this->entity['import']['normalizer']),
-        ])
+        $uniqid = $this->request->get('import_file', uniqid(sprintf('krg_import_csv_%s_', $this->entity['name'])));
+
+        $form = $this->createForm(ImportType::class, $uniqid, [
+                'class'      => $this->entity['class'],
+                'entry_type' => $this->entity['import']['entry_type'],
+                'normalizer' => $this->get($this->entity['import']['normalizer'])
+            ])
             ->add('submit', SubmitType::class);
 
         $form->handleRequest($this->request);
 
-        if ($form->isValid() && $form->get('submit')->isClicked()) {
-            $entities = $form->getData();
+        if ($form->isValid()) {
+            $data = $form->getData();
 
-            if (count($entities) > 0) {
+            if (count($data['entities']) > 0 && $data['confirm']) {
                 $entityManager = $this->getDoctrine()->getManager();
-                foreach ($entities as $entity) {
+                foreach ($data['entities'] as $entity) {
                     $entityManager->persist($entity);
                 }
                 $entityManager->flush();
@@ -116,6 +117,12 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                     ]
                 );
             }
+
+            return $this->redirectToRoute('easyadmin', [
+                'action' => 'import',
+                'entity' => $this->request->query->get('entity'),
+                'import_file' => $uniqid
+            ]);
         }
 
         $parameters = [

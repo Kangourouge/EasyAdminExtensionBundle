@@ -76,8 +76,6 @@ class XlsExport implements ExportInterface
                 $text = $comment->getText()->getPlainText();
                 if (preg_match('/^krg:image;([0-9]+);([0-9]+);(.+);$/', $text, $match)) {
                     $cell = $worksheet->getCellByColumnAndRow((int) $match[1], (int) $match[2], false);
-                    dump($match, $comment, $cell, $worksheet->getCell('B2', false));
-                    die(__METHOD__);
                     if ($cell !== null) {
                         $drawing = new Drawing();
                         $drawing->setPath($this->webDir . $match[3]);

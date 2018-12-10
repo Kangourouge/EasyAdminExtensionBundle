@@ -28,6 +28,10 @@ form:
     action: Action à exécuter
     format: Format de sortie
     sheet: Feuille
+  file_import:
+    confirm: Voulez-vous confirmer cet import ?
+    submit: Valider
+    upload: Importer
 
 export:
   csv: Texte CSV (separé par des virgules) (.csv)

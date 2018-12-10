@@ -1,14 +1,4 @@
-{% extends '@EasyAdmin/default/list.html.twig' %}
-
-{% block main %}
-    {{ form_errors(form) }}
-
-    {% for message in form.vars.messages %}
-        <p class="text text-info">{{ message }}</p>
-    {% endfor %}
-
-    {{ form(form) }}
-
+{% block import_file_widget %}
     <div class="panel panel-info panel-import">
         <div class="panel-heading">
             {{ "import.requirement.title"|trans({}, 'admin') }}
@@ -19,7 +9,7 @@
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        {% for column in form.vars.columns %}
+                        {% for column in file_form.vars.columns %}
                             <td>{{ column.label }}{% if column.required %}*{% endif %}</td>
                         {% endfor %}
                     </tr>
@@ -27,9 +17,13 @@
                 </table>
             </div>
             <p class="text-warning">* {{ "import.requirement.asterisk"|trans({}, 'admin') }}</p>
-            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,"# {{ form.vars.column_labels|join('","') }}"'>
+            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,"# {{ file_form.vars.column_labels|join('","') }}"'>
                 <i class="fa fa-download"></i> {{ "import.requirement.download"|trans({}, 'admin') }}
             </a>
         </div>
     </div>
-{% endblock %}
+    {{ block('file_widget') }}
+{% endblock import_file_widget %}
+
+{% block import_collection_widget %}
+{% endblock import_collection_widget %}
