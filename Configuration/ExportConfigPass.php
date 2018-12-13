@@ -73,14 +73,17 @@ class ExportConfigPass implements ConfigPassInterface
 
                 foreach($config['export']['sheets'] as $idx => &$sheet) {
                     $sheet['label'] = $sheet['label'] ?? sprintf('%s export %d', $config['name'], $idx);
-                    foreach($sheet['fields'] as &$field) {
-                        if (is_string($field)) {
-                            $field = ['property_path' => $field];
-                            $field['label'] = $field['label'] ?? $field['property_path'];
-                            $field['options'] = $field['options'] ?? [];
+                    $sheet['options'] = $sheet['options'] ?? [];
+                    if (isset($sheet['options']['fields'])) {
+                        foreach($sheet['options']['fields'] as &$field) {
+                            if (is_string($field)) {
+                                $field = ['property_path' => $field];
+                                $field['label'] = $field['label'] ?? $field['property_path'];
+                                $field['options'] = $field['options'] ?? [];
+                            }
                         }
+                        unset($field);
                     }
-                    unset($field);
                 }
                 unset($sheet);
 
@@ -91,7 +94,9 @@ class ExportConfigPass implements ConfigPassInterface
 
                     $config['export']['sheets'][] = [
                         'label' => 'Export/Import',
-                        'fields' => $model['columns']
+                        'options' => [
+                            'fields' => $model['columns']
+                        ]
                     ];
                 }
             }

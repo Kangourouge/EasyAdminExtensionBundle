@@ -13,6 +13,10 @@ body.list table tbody {
     border: 0;
 }
 
+body.list .table-responsive {
+    overflow-x: initial;
+}
+
 body.list table tbody td {
     font-size: 14px;
     padding: 11px 15px;

@@ -209,14 +209,14 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                                             $query->setFirstResult(null);
 
                                             $sheets = $this->entity['export']['sheets'];
-                                            if ($data['sheet']) {
+                                            if ($data['sheet'] !== null) {
                                                 $sheets = [$this->entity['export']['sheets'][$data['sheet']]];
                                             }
                                             $model = $this->get(ModelFactory::class)
                                                 ->create(
                                                     ExportModel::class, [
-                                                    'iterator' => $query->iterate(),
-                                                    'sheets'   => $sheets,
+                                                    'query'     => $query,
+                                                    'sheets'    => $sheets,
                                                 ]);
 
                                             $format = $formats[$data['format']];

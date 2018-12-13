@@ -38,7 +38,7 @@ class SelectionType extends AbstractType
         }
 
         if (count($options['export_formats']) > 0) {
-            $sheets = array_merge([/* 'All' => null */], array_flip(array_column($options['export_sheets'],'label')));
+            $sheets = array_merge(['All' => null], array_flip(array_column($options['export_sheets'],'label')));
             $builder
                 ->add(
                     'format', ChoiceType::class, [
