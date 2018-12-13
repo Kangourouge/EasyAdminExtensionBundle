@@ -101,10 +101,13 @@ class FilterConfigPass implements ConfigPassInterface
                     $config['filter']['query_builder_callback'] = [FilterQueryBuilder::class, 'bindQueryBuilder'];
                 }
 
-                $config['filter']['form_name'] = sprintf('filter_%s', strtolower($config['name']));
+                $hash = hash('crc32b', json_encode($config['filter']));
+
+                $config['filter']['form_name'] = sprintf('filter_%s_%s', strtolower($config['name']), $hash);
             }
         }
         unset($config);
+
         return $backendConfig;
     }
 

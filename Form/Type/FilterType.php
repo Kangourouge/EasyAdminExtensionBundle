@@ -82,7 +82,7 @@ class FilterType extends AbstractType
      */
     public function getSessionKey(array $config)
     {
-        return sprintf('EasyAdmin/Filter/%s%s', $this->getBlockPrefix(), $config['name']);
+        return sprintf('easy_admin_%s', $config['filter']['form_name']);
     }
 
     /**

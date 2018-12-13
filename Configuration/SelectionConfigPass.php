@@ -17,8 +17,8 @@ class SelectionConfigPass implements ConfigPassInterface
                     if (is_string($action)) {
                         $action = ['name' => $action];
                     }
-                    $action['method'] = $action['method'] ?? sprintf('%sSelectionAction', $action['name']);
                     $action['label'] = $action['label'] ?? sprintf('action.%s', $action['name']);
+                    $action['paramters'] = $action['paramters'] ?? [];
                 }
                 unset($action);
             }

@@ -38,7 +38,7 @@ class SelectionType extends AbstractType
         }
 
         if (count($options['export_formats']) > 0) {
-            $sheets = array_merge(['All' => null], array_flip(array_column($options['export_sheets'],'label')));
+            $sheets = array_merge(array_flip(array_column($options['export_sheets'],'label')));
             $builder
                 ->add(
                     'format', ChoiceType::class, [
@@ -53,14 +53,14 @@ class SelectionType extends AbstractType
                     'sheet', ChoiceType::class, [
                         'label'         => false,
                         'required'      => false,
-                        'placeholder'   => 'form.selection.sheet',
+                        'placeholder'   => 'All',
                         'choices'       => $sheets,
                         'choice_translation_domain' => 'admin'
                     ]
                 )
                 ->add('export', SubmitType::class, [
                     'label' => 'action.export',
-                    'attr' => ['class' => 'btn-info']
+                    'attr' => ['class' => 'btn-info btn-export']
                 ]);
         }
     }

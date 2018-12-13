@@ -11,6 +11,7 @@ use KRG\CoreBundle\Export\ExportInterface;
 use KRG\CoreBundle\Form\Type\ImportType;
 use KRG\CoreBundle\Model\ExportModel;
 use KRG\CoreBundle\Model\ModelFactory;
+use KRG\EasyAdminExtensionBundle\Events;
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
 use KRG\EasyAdminExtensionBundle\Form\Type\SelectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -189,7 +190,12 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                                         if (count($data['entities']) > 0 && $data['action'] !== null && isset($actions[$data['action']])) {
                                             $action = $actions[$data['action']];
 
-                                            return call_user_func_array([$this, $action['method']], [$data['entities']]);
+                                            $method = sprintf('%sSelectionAction', $action['name']);
+                                            if (!method_exists($this, $method)) {
+                                                $method = 'dispatchSelectionEventAction';
+                                            }
+
+                                            return call_user_func_array([$this, $method], [$data['entities'], $action]);
                                         }
                                         break;
 
@@ -248,7 +254,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
         return parent::renderTemplate($actionName, $templatePath, $parameters);
     }
 
-    public function deleteSelectionAction(array $entities)
+    public function deleteSelectionAction(array $entities,  array $action)
     {
         $this->dispatch(EasyAdminEvents::PRE_DELETE);
 
@@ -267,6 +273,17 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
         }
 
         $this->dispatch(EasyAdminEvents::POST_DELETE);
+
+        return $this->redirectToReferrer();
+    }
+
+    public function dispatchSelectionEventAction(array $entities, array $action)
+    {
+
+        $this->dispatch(Events::SELECTION, array(
+            'action' => $action,
+            'entities' => $entities
+        ));
 
         return $this->redirectToReferrer();
     }
