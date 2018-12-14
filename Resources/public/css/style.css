@@ -20,7 +20,6 @@ body.list .table-responsive {
 body.list table tbody td {
     font-size: 14px;
     padding: 11px 15px;
-    white-space: nowrap;
 }
 
 body.list .table-responsive table thead th {
