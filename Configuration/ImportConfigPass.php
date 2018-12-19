@@ -40,7 +40,7 @@ class ImportConfigPass implements ConfigPassInterface
         foreach ($backendConfig['entities'] as &$config) {
             if (isset($config['import'])) {
                 $config['import']['form_name'] = sprintf('import_%s', strtolower($config['name']));
-                $config['import']['normalizer'] = ImportNormalizer::class;
+                $config['import']['normalizer'] = $config['import']['normalizer'] ?? ImportNormalizer::class;
             }
         }
         unset($config);
