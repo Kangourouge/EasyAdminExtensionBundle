@@ -10,7 +10,9 @@ class FilterQueryBuilder
 
     public static function bindQueryBuilder(QueryBuilder $queryBuilder, array $entityConfig, array $data)
     {
+
         $fields = $entityConfig['filter']['fields'];
+
         foreach ($fields as $idx => $field) {
             $_data = array_key_exists($idx, $data) ? $data[$idx] : null;
             if ($_data !== null && (!is_string($_data) || strlen($_data) > 0) && (!is_array($_data) || count($_data) > 0)) {
@@ -27,10 +29,11 @@ class FilterQueryBuilder
 
         $previousAlias = $queryBuilder->getRootAliases()[0];
         if (count($field['metadata']) > 1) {
-            foreach (array_reverse($field['metadata']) as $_mapping) {
+            foreach ($field['metadata'] as $_mapping) {
                 if (isset($_mapping['targetEntity'])) {
                     $queryBuilder->innerJoin(sprintf('%s.%s', $previousAlias, $_mapping['fieldName']), $_mapping['entityAlias']);
                     $previousAlias = $_mapping['entityAlias'];
+                    $mapping = $_mapping;
                 }
             }
         }

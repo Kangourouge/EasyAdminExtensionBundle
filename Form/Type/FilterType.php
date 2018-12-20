@@ -2,6 +2,7 @@
 
 namespace KRG\EasyAdminExtensionBundle\Form\Type;
 
+use Doctrine\ORM\EntityManagerInterface;
 use KRG\DoctrineExtensionBundle\Form\DataTransformer\FilterDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,6 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterType extends AbstractType
 {
+    /** @var EntityManagerInterface */
+    private $entityManager;
+
     /** @var RequestStack */
     private $request;
 
@@ -27,11 +31,13 @@ class FilterType extends AbstractType
     /**
      * FilterType constructor.
      *
-     * @param RequestStack $requestStack
+     * @param EntityManagerInterface $entityManager
+     * @param RequestStack $request
      * @param SessionInterface $session
      */
-    public function __construct(RequestStack $requestStack, SessionInterface $session)
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack, SessionInterface $session)
     {
+        $this->entityManager = $entityManager;
         $this->request = $requestStack->getCurrentRequest();
         $this->session = $session;
     }
@@ -72,7 +78,7 @@ class FilterType extends AbstractType
             $builder->add($idx, $field['type'], $field['type_options']);
         }
 
-        $builder->addModelTransformer(new FilterDataTransformer($config['filter']['fields']));
+        $builder->addModelTransformer(new FilterDataTransformer($this->entityManager, $config['filter']['fields']));
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
         $builder->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'onPreSubmit']);
     }
