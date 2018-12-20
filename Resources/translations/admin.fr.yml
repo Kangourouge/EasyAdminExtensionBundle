@@ -9,6 +9,7 @@ Sessions: 'Sessions'
 'Top Countries (by sessions)': 'Top Pays (par sessions)'
 Visitors: 'Visiteurs'
 Loggable: 'Journal des actions'
+Link: Lien
 
 action:
   new: 'Créer'
@@ -38,7 +39,7 @@ export:
   xls: Microsoft Excel (.xls)
 
 Action: 'Action'
-Entity: 'Entity'
+Entity: 'Entité'
 Date: 'Date'
 Dashboard: 'Tableau de bord'
 Homepage: 'Retour au site'

@@ -30,16 +30,24 @@ class LoggableWidget implements WidgetInterface
         $maxResults = 20;
         $data = $this->entityManager
             ->getRepository(LogEntry::class)
-            ->createQueryBuilder('l')
-            ->select('l.username', 'l.action', 'l.loggedAt', 'l.objectClass')
+            ->createQueryBuilder('log_entry')
+            ->select('log_entry.username', 'log_entry.action', 'log_entry.loggedAt', 'log_entry.objectClass', 'log_entry.objectId')
             ->setMaxResults($maxResults)
-            ->orderBy('l.loggedAt', 'DESC')
+            ->orderBy('log_entry.loggedAt', 'DESC')
             ->getQuery()
             ->getScalarResult();
 
+        $dataRemoved = [];
+        foreach ($data as $entry) {
+            if ($entry['action'] === 'remove') {
+                $dataRemoved[$entry['objectClass']][] = $entry['objectId'];
+            }
+        }
+
         return $this->templating->render('KRGEasyAdminExtensionBundle:widget:loggable.html.twig', [
-            'data'       => $data,
-            'maxResults' => $maxResults,
+            'data'        => $data,
+            'dataRemoved' => $dataRemoved,
+            'maxResults'  => $maxResults,
         ]);
     }
 }
