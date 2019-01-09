@@ -23,6 +23,7 @@ action:
   import: Importer
   export: Exporter
   execute: Executer
+  cancel: Annuler
 
 form:
   selection:

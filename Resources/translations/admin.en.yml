@@ -19,6 +19,7 @@ action:
   import: Import
   export: Export
   execute: Apply to the selection
+  cancel: Cancel
 
 form:
   selection:
