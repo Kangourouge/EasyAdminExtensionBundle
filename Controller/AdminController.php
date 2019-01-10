@@ -21,24 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController
 {
-    /** @var FormFactoryInterface */
-    protected $formFactory;
-
-    /** @var FilterListener */
-    protected $filterListener;
-
-    /**
-     * AdminController constructor.
-     *
-     * @param FormFactoryInterface $formFactory
-     * @param FilterListener $filterListener
-     */
-    public function __construct(FormFactoryInterface $formFactory, FilterListener $filterListener)
-    {
-        $this->formFactory = $formFactory;
-        $this->filterListener = $filterListener;
-    }
-
     /**
      * Sortable action
      */
@@ -157,7 +139,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
     protected function renderTemplate($actionName, $templatePath, array $parameters = array())
     {
         if ($actionName === 'list' || $actionName === 'search') {
-            if (($filterForm = $this->filterListener->getForm()) instanceof FormInterface) {
+            if (($filterForm = $this->get(FilterListener::class)->getForm()) instanceof FormInterface) {
                 $parameters['form_filter_submitted'] = $filterForm->isValid() && $filterForm->isSubmitted();
                 $parameters['form_filter'] = $filterForm->createView();
             }
@@ -166,7 +148,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
             $hasSelection = isset($this->entity['selection']) || isset($this->entity['export']);
             if ($parameters['paginator']->getNbResults() > 0 && $hasSelection) {
 
-                $selectionForm = $this->formFactory->create(
+                $selectionForm = $this->get(FormFactoryInterface::class)->create(
                     SelectionType::class, null, [
                     'entities'        => $parameters['paginator']->getIterator(),
                     'execute_actions' => $this->entity['selection']['actions'] ?? [],
