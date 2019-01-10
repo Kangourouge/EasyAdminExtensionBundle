@@ -67,6 +67,8 @@ class FilterListener implements EventSubscriberInterface
             $this->form->add('reset', SubmitType::class);
             $this->form->add('filter', SubmitType::class);
 
+            $this->request->query->set('page', 1);
+
             $this->form->handleRequest($this->request);
         }
     }
