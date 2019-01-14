@@ -17,7 +17,7 @@
                 </table>
             </div>
             <p class="text-warning">* {{ "import.requirement.asterisk"|trans({}, 'admin') }}</p>
-            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,"# {{ file_form.vars.column_labels|join('","') }}"'>
+            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,{{ file_form.vars.csv_prototype }}'>
                 <i class="fa fa-download"></i> {{ "import.requirement.download"|trans({}, 'admin') }}
             </a>
         </div>
