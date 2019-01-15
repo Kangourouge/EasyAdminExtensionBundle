@@ -5,8 +5,6 @@ namespace KRG\EasyAdminExtensionBundle\Controller;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use EasyCorp\Bundle\EasyAdminBundle\Exception\EntityRemoveException;
-use KRG\CoreBundle\Export\ExcelExport;
-use KRG\CoreBundle\Export\Export;
 use KRG\CoreBundle\Export\ExportInterface;
 use KRG\CoreBundle\Form\Type\ImportType;
 use KRG\CoreBundle\Model\ExportModel;
@@ -15,7 +13,6 @@ use KRG\EasyAdminExtensionBundle\Events;
 use KRG\EasyAdminExtensionBundle\Filter\FilterListener;
 use KRG\EasyAdminExtensionBundle\Form\Type\SelectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
 
