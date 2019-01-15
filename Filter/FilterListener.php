@@ -10,14 +10,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class FilterListener implements EventSubscriberInterface
 {
-    /** @var null|Request  */
-    private $request;
-
     /** @var FormFactoryInterface */
     private $formFactory;
 
@@ -27,26 +22,24 @@ class FilterListener implements EventSubscriberInterface
     /**
      * FilterListener constructor.
      *
-     * @param RequestStack $requestStack
      * @param FormFactoryInterface $formFactory
      */
-    public function __construct(RequestStack $requestStack, FormFactoryInterface $formFactory)
+    public function __construct(FormFactoryInterface $formFactory)
     {
-        $this->request = $requestStack->getCurrentRequest();
         $this->formFactory = $formFactory;
     }
 
     public static function getSubscribedEvents()
     {
         return [
-            EasyAdminEvents::POST_INITIALIZE => 'onPostInit',
-            EasyAdminEvents::POST_LIST_QUERY_BUILDER => 'onPostQueryBuilder',
+            EasyAdminEvents::POST_INITIALIZE           => 'onPostInit',
+            EasyAdminEvents::POST_LIST_QUERY_BUILDER   => 'onPostQueryBuilder',
             EasyAdminEvents::POST_SEARCH_QUERY_BUILDER => 'onPostQueryBuilder',
         ];
     }
 
-    public function onPostInit(GenericEvent $event) {
-
+    public function onPostInit(GenericEvent $event)
+    {
         $entityConfig = $event->getArgument('entity');
 
         if (isset($entityConfig['filter'])) {
@@ -67,13 +60,12 @@ class FilterListener implements EventSubscriberInterface
             $this->form->add('reset', SubmitType::class);
             $this->form->add('filter', SubmitType::class);
 
-            $this->request->query->set('page', 1);
-
-            $this->form->handleRequest($this->request);
+            $this->form->handleRequest($event->getArgument('request'));
         }
     }
 
-    public function onPostQueryBuilder(GenericEvent $event) {
+    public function onPostQueryBuilder(GenericEvent $event)
+    {
         /** @var array $entityConfig */
         $entityConfig = $event->getArgument('entity');
 
@@ -90,7 +82,6 @@ class FilterListener implements EventSubscriberInterface
                 $event->setArgument('query_builder', $queryBuilder);
             }
         }
-
     }
 
     /**
