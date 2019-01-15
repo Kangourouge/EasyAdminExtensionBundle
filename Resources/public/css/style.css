@@ -398,3 +398,17 @@ main.flex .box {
 .form-group[data-lock='true'] input[type='checkbox'].padlock:not(:checked) + label:before {
     content: '\f13e';
 }
+
+/** Pagination */
+
+body.list .pagination > li > a.current {
+    background: #dadada;
+}
+
+body.list .pagination > li > a.current:hover {
+    color: inherit;
+}
+
+.list-pagination {
+    padding: 15px;
+}
