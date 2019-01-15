@@ -148,7 +148,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
             $hasSelection = isset($this->entity['selection']) || isset($this->entity['export']);
             if ($parameters['paginator']->getNbResults() > 0 && $hasSelection) {
 
-                $selectionForm = $this->get(FormFactoryInterface::class)->create(
+                $selectionForm = $this->get('form.factory')->create(
                     SelectionType::class, null, [
                     'entities'        => $parameters['paginator']->getIterator(),
                     'execute_actions' => $this->entity['selection']['actions'] ?? [],
