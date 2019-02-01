@@ -25,16 +25,18 @@ class SelectionConfigPass implements ConfigPassInterface
 
             if (isset($config['selection']) || isset($config['export'])) {
                 $config['list']['fields'] = array_merge(
-                    ['id' => [
-                        'property'   => 'id',
-                        'label'      => '',
+                    [[
+                        'property'  => '#',
+                        'label'      => '<div class="checkbox"><label><input type="checkbox" id="selection_check_all"></label></div>',
                         'type'       => 'selection',
                         'css_filter' => 'w-50',
+                        'sortable'  => false,
                         'template'   => '@KRGEasyAdminExtension/default/field_form.html.twig',
                     ]],
                     $config['list']['fields']
                 );
             }
+
         }
         unset($config);
 

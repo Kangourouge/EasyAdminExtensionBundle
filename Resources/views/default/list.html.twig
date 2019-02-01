@@ -65,6 +65,18 @@
             </tr>
         {% endif %}
         {{ form_end(selection_form) }}
+
+        <script type="text/javascript">
+            (function(){
+                var element = document.getElementById('selection_check_all');
+                element.addEventListener('change', function(event){
+                    var checkboxes = document.querySelectorAll('input[type="checkbox"][name="{{ selection_form.entities.vars.full_name }}[]"]');
+                    Array.prototype.forEach.call(checkboxes, function(checkbox) {
+                        checkbox.checked = element.checked;
+                    });
+                });
+            })();
+        </script>
     {% else %}
         {{ parent() }}
     {% endif %}

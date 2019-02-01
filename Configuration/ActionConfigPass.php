@@ -25,9 +25,14 @@ class ActionConfigPass implements ConfigPassInterface
 
     public function process(array $backendConfig)
     {
+
         foreach ($backendConfig['entities'] as $entity => &$config) {
             $this->processClone($config);
             $this->processSort($config);
+            if (isset($config['list']['fields']['#'])) {
+                $config['list']['fields']['#']['property'] = 'id';
+                $config['list']['fields']['#']['fieldName'] = 'id';
+            }
         }
         unset($config);
 

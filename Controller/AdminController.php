@@ -154,7 +154,7 @@ class AdminController extends \EasyCorp\Bundle\EasyAdminBundle\Controller\AdminC
                 ]);
 
                 $parameters['selection_form'] = $selectionForm->createView();
-                $parameters['fields']['id']['form'] = $parameters['selection_form'];
+                $parameters['fields']['#']['form'] = $parameters['selection_form'];
 
                 $selectionForm->handleRequest($this->request);
                 if ($selectionForm->isValid() && $selectionForm->isSubmitted()) {

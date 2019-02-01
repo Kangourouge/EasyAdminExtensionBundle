@@ -15,7 +15,7 @@ class SelectionType extends AbstractType
         $builder->add('entities', ChoiceType::class, [
             'choices'      => $options['entities'],
             'choice_name'  => function ($entity) { return $entity->getId(); },
-            'choice_label' => function ($entity) { return $entity->getId(); },
+            'choice_label' => false,
             'expanded'     => true,
             'multiple'     => true,
         ]);
