@@ -3,8 +3,10 @@
 {% block main %}
     {{ form_errors(form) }}
 
-    {% for message in form.vars.messages %}
-        <p class="text text-info">{{ message }}</p>
+    {% for tag, messages in form.vars.messages %}
+        {% for message in messages %}
+            <p class="text text-{{ tag }}">{{ message }}</p>
+        {% endfor %}
     {% endfor %}
 
     {{ form(form) }}
