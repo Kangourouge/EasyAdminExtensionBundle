@@ -58,10 +58,7 @@ class FilterType extends AbstractType
             else if (in_array($field['type'], [EntityType::class, ChoiceType::class])) {
                 $field['type_options']['multiple'] = true;
                 $field['type_options']['attr'] = [
-                    'class' => 'form-control select2-hidden-accessible',
-                    'placeholder' => 'Select',
-                    'data-widget' => 'select2',
-                    'aria-hidden' => 'true'
+                    'placeholder' => 'Select'
                 ];
             }
             else if (in_array($field['type'], RangeType::$types)) {

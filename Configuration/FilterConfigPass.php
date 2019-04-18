@@ -5,7 +5,6 @@ namespace KRG\EasyAdminExtensionBundle\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use EasyCorp\Bundle\EasyAdminBundle\Configuration\ConfigPassInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Form\Guesser\MissingDoctrineOrmTypeGuesser;
 use KRG\EasyAdminExtensionBundle\Filter\FilterQueryBuilder;
 use KRG\EasyAdminExtensionBundle\Form\Type\FilterType;
 use KRG\EasyAdminExtensionBundle\Form\Type\RangeType;
@@ -14,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeGuesserChain;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 
 class FilterConfigPass implements ConfigPassInterface
@@ -32,9 +32,9 @@ class FilterConfigPass implements ConfigPassInterface
      *
      * @param EntityManagerInterface $entityManager
      * @param FormFactoryInterface $formFactory
-     * @param MissingDoctrineOrmTypeGuesser $typeGuesser
+     * @param FormTypeGuesserChain $typeGuesser
      */
-    public function __construct(EntityManagerInterface $entityManager, FormFactoryInterface $formFactory, MissingDoctrineOrmTypeGuesser $typeGuesser)
+    public function __construct(EntityManagerInterface $entityManager, FormFactoryInterface $formFactory, FormTypeGuesserChain $typeGuesser)
     {
         $this->entityManager = $entityManager;
         $this->formFactory = $formFactory;
