@@ -1,29 +1,129 @@
-{% block import_file_widget %}
-    <div class="panel panel-info panel-import">
-        <div class="panel-heading">
-            {{ "import.requirement.title"|trans({}, 'admin') }}
-        </div>
-        <div class="panel-body">
-            <p>{{ "import.requirement.text"|trans({}, 'admin') }}</p>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        {% for column in file_form.vars.columns %}
-                            <td>{{ column.label }}{% if column.required %}*{% endif %}</td>
-                        {% endfor %}
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="text-warning">* {{ "import.requirement.asterisk"|trans({}, 'admin') }}</p>
-            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,{{ file_form.vars.csv_prototype }}'>
-                <i class="fa fa-download"></i> {{ "import.requirement.download"|trans({}, 'admin') }}
-            </a>
-        </div>
-    </div>
-    {{ block('file_widget') }}
-{% endblock import_file_widget %}
+{% extends 'bootstrap_4_layout.html.twig' %}
 
-{% block import_collection_widget %}
-{% endblock import_collection_widget %}
+{% block _import_widget %}
+    {% for tag, messages in form.vars.kangourouge.import_messages %}
+        {% for message in messages %}
+            <p class="text text-{{ tag }}">{{ message }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    {% if form.entities|length > 0 %}
+        {{ form_widget(form.entities) }}
+        {{ form_widget(form.confirm) }}
+    {% else %}
+        {{ form_label(form.file) }}
+
+        <div class="form-group">
+            <label id="{{ form.file.vars.id }}_label" class="btn btn-info btn-import">
+                <i class="fa fa-folder-open"></i>
+                {{ "form.import.upload"|trans }}
+                <div style="display: none">
+                    {{ form_widget(form.file) }}
+                </div>
+            </label>
+            <span class="text text-info"></span>
+        </div>
+
+        <div class="panel panel-info panel-import">
+            <div class="panel-heading">
+                {{ "import.requirement.title"|trans({}, 'admin') }}
+            </div>
+            <div class="panel-body">
+                <p>{{ "import.requirement.text"|trans({'%delimiter%': form.vars.kangourouge.import_requirements.delimiter}, 'admin') }}</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            {% for column in form.vars.kangourouge.import_columns %}
+                                <td>{{ column.label }}{% if column.required %}*{% endif %}</td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-warning">* {{ "import.requirement.asterisk"|trans({}, 'admin') }}</p>
+                <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,{{ form.vars.kangourouge.import_csv_header }}'>
+                    <i class="fa fa-download"></i> {{ "import.requirement.download"|trans({}, 'admin') }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div class="form-group">
+        <button type="button" class="btn btn-default btn-lg" onclick="window.history.back()">{{ "form.import.cancel"|trans }}</button>
+        {{ form_widget(form.submit, {attr:{class: 'btn btn-primary btn-lg'}}) }}
+    </div>
+
+    <div style="display: none">
+        {{ form_rest(form) }}
+    </div>
+
+
+    {% if form.entities|length > 0 %}
+        <script>
+            (function(){
+                var input = document.getElementById('{{ form.confirm.vars.id }}');
+                var button = document.getElementById('{{ form.submit.vars.id }}');
+
+                function onChange(event) {
+                    button.disabled = !input.checked;
+                }
+
+                input.addEventListener('change', onChange);
+
+                onChange();
+            })();
+        </script>
+    {% else %}
+        <script>
+            (function(){
+                var input = document.getElementById('{{ form.file.vars.id }}');
+                var button = document.getElementById('{{ form.submit.vars.id }}');
+                var label = document.getElementById('{{ form.file.vars.id }}_label');
+                var text = label.nextElementSibling;
+
+                function onChange(event) {
+                    if (input.files.length === 1) {
+                        button.disabled = false;
+                        label.classList.add('btn-success');
+                        label.classList.remove('btn-info');
+                        text.innerHTML = input.files.item(0).name;
+                    } else {
+                        button.disabled = true;
+                        label.classList.add('btn-info');
+                        label.classList.remove('btn-success');
+                        text.innerHTML = '';
+                    }
+                }
+
+                input.addEventListener('change', onChange);
+
+                onChange();
+            })();
+        </script>
+    {% endif %}
+
+{% endblock _import_widget %}
+
+{% block _import_entities_widget %}
+    {% set attr = attr|merge({class: attr.class|default('') ~ ' form-collection'}) %}
+    {{ block('form_widget') }}
+{% endblock _import_entities_widget %}
+
+{% block _import_entities_entry_widget %}
+    <div class="form-collection-inline">
+        {% if form.vars.kangourouge.import_extra_fields is defined %}
+            {% for label, value in form.vars.kangourouge.import_extra_fields %}
+                <div class="form-group">
+                    <label class="form-control-label required">{{ label|trans }}</label>
+                    <p>{{ value }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% set attr = attr|merge({class: attr.class|default('') ~ ' form-collection-inline'}) %}
+
+        {{ block('form_widget') }}
+    </div>
+{% endblock _import_entities_entry_widget %}

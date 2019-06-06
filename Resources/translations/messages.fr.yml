@@ -1,0 +1,8 @@
+form:
+  import:
+    file: Fichier CSV
+    confirm: Voulez-vous confirmer cet import ?
+    submit: Valider
+    import: Importer le fichier CSV
+    upload: Charger le fichier CSV
+    cancel: Annuler

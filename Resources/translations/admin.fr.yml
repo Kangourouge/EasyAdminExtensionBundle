@@ -30,10 +30,6 @@ form:
     action: Action à exécuter
     format: Format de sortie
     sheet: Feuille
-  file_import:
-    confirm: Voulez-vous confirmer cet import ?
-    submit: Valider
-    upload: Importer
 
 export:
   csv: Texte CSV (separé par des virgules) (.csv)
@@ -49,7 +45,7 @@ Cache: 'Cache'
 import:
   requirement:
     title: Pré-requis
-    text: Le Fichier CSV doit être au format suivant :
+    text: Le Fichier CSV doit être au format suivant (séparateur = %delimiter%) :
     asterisk: Champ requis
     download: Télécharger le fichier CSV prototype
 

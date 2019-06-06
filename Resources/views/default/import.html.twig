@@ -1,37 +1,6 @@
 {% extends '@EasyAdmin/default/list.html.twig' %}
 
 {% block main %}
-    {{ form_errors(form) }}
-
-    {% for tag, messages in form.vars.messages %}
-        {% for message in messages %}
-            <p class="text text-{{ tag }}">{{ message }}</p>
-        {% endfor %}
-    {% endfor %}
-
+    {% form_theme form 'KRGEasyAdminExtensionBundle:form:import_widget.html.twig' %}
     {{ form(form) }}
-
-    <div class="panel panel-info panel-import">
-        <div class="panel-heading">
-            {{ "import.requirement.title"|trans({}, 'admin') }}
-        </div>
-        <div class="panel-body">
-            <p>{{ "import.requirement.text"|trans({}, 'admin') }}</p>
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        {% for column in form.vars.columns %}
-                            <td>{{ column.label }}{% if column.required %}*{% endif %}</td>
-                        {% endfor %}
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="text-warning">* {{ "import.requirement.asterisk"|trans({}, 'admin') }}</p>
-            <a class="btn btn-default" download="prototype.csv" href='data:application/csv;charset=utf-8,{{ form.vars.csv_prototype }}'>
-                <i class="fa fa-download"></i> {{ "import.requirement.download"|trans({}, 'admin') }}
-            </a>
-        </div>
-    </div>
 {% endblock %}

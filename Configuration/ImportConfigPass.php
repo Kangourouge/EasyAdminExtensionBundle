@@ -53,6 +53,7 @@ class ImportConfigPass implements ConfigPassInterface
         if (count($propertyPath) === 0) {
             return [];
         }
+        
         $fieldName = array_shift($propertyPath);
 
         if ($classMetadata->hasField($fieldName)) {

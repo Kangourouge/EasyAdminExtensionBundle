@@ -26,10 +26,10 @@ form:
     action: Action to execute
     format: Output format
     sheet: Spreadsheet
-  file_import:
+  import:
     confirm: Would you like to confirm this import ?
-    submit: Submit
-    upload: Upload
+    submit: Save
+    upload: Upload CSV File
 
 export:
   csv: Text CSV (.csv)
@@ -38,7 +38,7 @@ export:
 import:
   requirement:
     title: Requirements
-    text: The CSV file must be formatted as below :
+    text: The CSV file must be formatted as below (delimiter = "%delimiter%") :
     asterisk: Required field
     download: Download CSV file prototype
 
