@@ -5,6 +5,7 @@
 {% block content_title %}{{ 'cache.title'|trans({}, 'KRGEasyAdminExtensionBundle') }}{% endblock %}
 
 {% block main %}
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
     {{ form_start(form) }}
     <div class="row">
         <div class="field-group col-xs-12">
